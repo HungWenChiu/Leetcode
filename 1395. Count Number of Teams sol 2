@@ -1,0 +1,40 @@
+/*soulution 2*/
+/* 假設現在是第j個士兵，則他左邊比他ranking小的有i個人,右邊比他大的有k個人
+   則只要找到i跟k有幾個人最後的組合就有i*k個，另一個方向亦然
+   time complexity = O(n^2)
+*/
+class Solution {
+public:
+    int numTeams(vector<int>& rating) {
+        
+        int result = 0;
+        int lmore = 0,lless = 0;
+        int rmore = 0, rless = 0;
+        
+        for(int j = 1; j < rating.size()-1; j++)
+        {
+            for(int i = 0; i < j; i++)
+            {
+                if(rating[i] < rating[j])
+                    lmore++;
+                else if(rating[i] > rating[j])
+                    lless++;
+            }
+            for(int k = j + 1; k < rating.size(); k++)
+            {
+                if(rating[j] < rating[k])
+                    rmore++;
+                else if(rating[j] > rating[k])
+                    rless++;
+            }
+            
+            result += (lmore*rmore) + (lless*rless); 
+            lmore = 0;
+            rmore = 0;
+            lless = 0;
+            rless = 0;
+        }
+        
+        return result;
+    }
+};
