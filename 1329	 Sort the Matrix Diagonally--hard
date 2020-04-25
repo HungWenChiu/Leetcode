@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+        
+        priority_queue<int, vector<int>, greater<int> > pq;
+        
+        for(int i = 0; i < mat.size(); i++)
+        {
+           for(int j = 0; j < mat[0].size() && i+j < mat.size(); j++)
+           {
+               pq.push(mat[i+j][j]);
+           }
+            
+           for(int j = 0; j < mat[0].size() && i+j < mat.size(); j++)
+           {
+               mat[i+j][j] = pq.top();
+               pq.pop();
+           }
+        }
+        
+        for(int j = 1; j < mat[0].size(); j++)
+        {
+           for(int i = 0; i < mat.size() && (i+j) < mat[0].size(); i++)
+           {
+               pq.push(mat[i][j+i]);
+           }
+            
+           for(int i = 0; i < mat.size() && (i+j) < mat[0].size(); i++)
+           {
+                mat[i][j+i] = pq.top();
+                pq.pop();
+           }
+        }
+        
+
+        return mat;
+        
+    }
+};
