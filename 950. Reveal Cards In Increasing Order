@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+    //想法：先不管要塞得值是多少，先把index做排序
+    //EX: 123456照規則排序後->135264，如此可以知道排序過後的第二個位置原本是在第三個位置
+    //之後把值也做排序對應到index，可以知道排序後的第二個數原本的位置應該是在第三個位置，依此類推
+        
+        vector<int> result(deck.size());
+        vector<int> tmp(deck.size()); //先把index排序塞到tmp
+        queue<int> index; 
+        bool putback = false;
+        
+        for(auto i = 0; i < deck.size(); i++) //index initialize
+            tmp[i] = i;
+        
+        while(!tmp.empty()) //follow the rule and put consequence to the index queue
+        {
+            if(putback == false)
+            {
+                index.push(tmp.front()); //第一個要翻牌
+                tmp.erase(tmp.begin());
+                putback = true; // 下一個移到最後面
+            }
+            else
+            {
+                tmp.push_back(tmp.front()); //把最前面的放到最後面
+                tmp.erase(tmp.begin());
+                putback = false;
+            }
+        }// index排列完成，可以知道排列後的index原來是在哪個位置
+        //EX: 123456照規則排序後->135264，如此可以知道排序過後的第二個位置原本是在第三個位置
+        
+        sort(deck.begin(),deck.end()); // sort value
+        
+        //最後把排列過後的value對應到queue的index，就可以知道每個value最初應該在哪個位置 EX: index 1 3 2 4表示第二個數原本是在第三個位置
+        for(auto i = deck.begin(); i < deck.end(); i++)
+        {
+            result[index.front()] = *i;
+            index.pop();
+        }    
+        
+        return result;
+    }
+};
