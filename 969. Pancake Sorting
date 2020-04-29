@@ -1,0 +1,41 @@
+// move from the last number to the first one
+// check if the number is not the correct one EX: [12453], A[4] != 5
+// then find the correct number from 0~4
+// we will find A[3] == 5, so we reverse the numbers from 0~3, we get [54213], and add i + 1 = 4 to result
+// 5 will be swapped to the first element(from A[0] to A[4]), add 4 + 1 = 5 to result
+// then we swap again from 0~4(the correct position of 5), we get [31245]
+// finally we will make sure that five will be the last element.
+// and then we shift to the A[3] and check A[3] and so on.
+
+// ***notice that reverse function which needs to includ<algorithm> and reverse includes itr->begin() 
+// but not includes itr->end() ***
+// EX: reverse(A.begin(), A.begin()+2) will reverse A[0](begin), A[1] but not A[2](end)!!!!
+// time complexity is O(n^2)
+
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& A) {
+ 
+        vector<int> result;
+        
+        for(int i = A.size()-1; i >= 0; i--)
+        {
+            if(A[i] != i+1)
+            {
+                for(int j = 0; j < i; j++)
+                {
+                    if(A[j] == i+1)
+                    {
+                        reverse(A.begin(), A.begin() + j+1);
+                        result.push_back(j + 1);
+                        reverse(A.begin(), A.begin() + i + 1);
+                        result.push_back( i + 1);
+                        
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+};
