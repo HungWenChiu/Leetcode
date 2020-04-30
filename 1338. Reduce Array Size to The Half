@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+    // count the number of each number and store it EX: there are four 3, three 5, two 2, and one 7.
+    // remove the most number and compute the sum of number of the last numbers and so on.
+    //method:
+    // 1. sort arr from small to large EX: [5 8 8 4 3 5 3 3] -> [3 3 3 4 5 5 8 8].
+    // 2. count the number of each number by for loop from 1~size-1 and if i != i-1, it means that they are different number,
+    //    so we have to count the new one. 
+    // 3. store the number of each number into vector. EX:[3 1 2 2] three 3, one 4, two 5, two 8 and so on.
+    // 4. sort this vector storing the # of each number. EX:[3 1 2 2] -> [1 2 2 3]
+    // 5. remove from the max number to the min and check if total sum >= arr.size()/2.
+    // 6. ever time removing the number, result++. 
+    
+        
+        int result = 0;
+        vector<int> cnt;
+        int tmp = 1;
+        int maxnum = 0;
+        
+        sort(arr.begin(), arr.end());
+        
+        for(auto i = 1; i < arr.size(); i++)
+        {
+            if(arr[i] != arr[i-1])
+            {
+                cnt.push_back(tmp);
+                tmp = 1;
+            }
+            else
+            {
+                tmp++;
+            }
+        }
+        
+        cnt.push_back(tmp);
+        
+        sort(cnt.begin(), cnt.end());
+        
+        for(auto i = cnt.size()-1; i >= 0; i--)
+        {
+            if((maxnum + cnt[i]) < (arr.size()/2))
+            {
+                result++;
+                maxnum += cnt[i];
+            }
+            else
+            {
+                result++;
+                break;
+            }
+        }
+        return result;    
+        
+    }
+};
