@@ -1,0 +1,61 @@
+// 分開解：(先解food item index), 再解table value
+// 1. use set.insert to store "foodItem"(orders[n][2]), items in set are unique, so       //    inserttion will not insert the duplicate items and sort them.
+// 2. create unordered_map index value "fi_idx" that correspond to the food items, 
+//    EX: map<Beef Burrito, 1>, map<Ceviche, 2>, map<Fried Chicken, 3>
+// 3. create food value table: map<tableNum, vector<items' value>>
+//    EX: map<3, [0,2,1,0]> map<5, [0,1,0,1]>
+// 4. set food value table to vector<string, string> result!!
+class Solution {
+public:
+    vector<vector<string>> displayTable(vector<vector<string>>& orders) {
+        
+        set<string> fi; // set of food item name
+        for(const auto& i : orders)
+            fi.insert(i[2]);
+        
+        unordered_map<string, int> fi_idx; // set food item name to corresponding index value
+        int idx = 1;
+        for(const auto& i : fi)
+        {
+            fi_idx[i] = idx;
+            idx++;
+        } // EX: [Beef Burrito, 1]
+        
+        map<int, vector<int>> food_table; // "3" -> 0, 2, 1, 0 create food value table
+        
+        for(int i = 0; i < orders.size(); i++)
+        {
+           if(!food_table.count(stoi(orders[i][1])))
+           {
+               vector<int> tmp(fi.size() + 1, 0); // food table[0] is tableNum, so we need to create size() +1 to store tableNum and fooditem value 
+               tmp[fi_idx[orders[i][2]]]++; // if oreder this dish, value pluses 1
+               food_table[stoi(orders[i][1])] = tmp;// final array: 0,0,2,1,0 array[0]是tableNum, 留空值
+           }
+           else // tableNum exists in the vector
+           {
+               vector<int>& tmp = food_table[stoi(orders[i][1])]; //order[i][1]是tablenum
+               tmp[fi_idx[orders[i][2]]]++; //fooditem對應的index, tmp[index]++
+           }
+        }
+        
+        vector<vector<string>> result(food_table.size() + 1); //create result
+        
+        result[0].push_back("Table"); // 1st row is foodname
+        for(auto itr = fi.begin(); itr != fi.end(); itr++)
+            result[0].push_back(*itr);// 1st: Table,Beef Burrito,Ceviche,Fried Chicken,Water
+        
+        idx = 1;
+        for(auto itr = food_table.begin(); itr != food_table.end(); itr++)
+        { 
+            result[idx].push_back(to_string(itr->first)); //itr->first: map key
+            vector<int>& value = itr->second; // itr->second: map value which is a vector
+            for(auto vitr = value.begin() + 1; vitr != value.end(); vitr++)
+                result[idx].push_back(to_string(*vitr));// push each int vector in to result
+            idx++; // nex row
+        }
+        
+        // sort(result.begin() + 1, result.end()); do not sort again, because I use map instead of undered_map, map will sort their key while inserting new key.
+        // ****Key must be "interger" so that map is able to sort the key.
+        return result;
+    }
+};
