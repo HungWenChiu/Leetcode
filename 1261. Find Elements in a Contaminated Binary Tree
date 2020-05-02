@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// method: create 2 functions and use recurision
+// setleaf: set all leaf
+// searchleaf: search target 
+class FindElements {
+
+private:
+   TreeNode* curptr; 
+
+public:
+    FindElements(TreeNode* root) { 
+        curptr = root;
+        setleaf(root, 0);
+        
+    }
+    
+    bool find(int target) {
+        return searchleaf(curptr, target);
+    }
+    
+    void setleaf(TreeNode* leaf, int val)
+    {
+        leaf->val = val;
+        
+        if(leaf->left == NULL && leaf->right == NULL)
+            return;
+        else
+        {
+            if(leaf->left != NULL)
+                setleaf(leaf->left, (2*val + 1));
+            if(leaf->right != NULL)
+                setleaf(leaf->right, (2*val + 2));
+        }
+        
+        return;
+    }
+    
+    bool searchleaf(TreeNode* leaf, int target)
+    {
+        if(leaf->val == target)
+            return true;
+        
+        if(leaf->left != NULL)
+            if(searchleaf(leaf->left, target))
+                return true;
+        
+        if(leaf->right != NULL)
+            if(searchleaf(leaf->right, target))
+                return true;
+        
+        return false;
+    }
+};
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * FindElements* obj = new FindElements(root);
+ * bool param_1 = obj->find(target);
+ */
