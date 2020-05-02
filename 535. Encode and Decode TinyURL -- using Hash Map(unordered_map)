@@ -1,24 +1,30 @@
+// using unorder map as hash map
+// long2short<longURL, shortURL>  short2long<shortURL, longURL>
+// random generate 6 char shortURL according to longURL
+// save this shortURL into long2short<longURL, shortURL>
+// and store corresponding <shortURL, longURL> in short2long
+
 class Solution {
 public:
 
     // Encodes a URL to a shortened URL.
     string encode(string longUrl) {
         
-        if(long2short.count(longUrl))
-            return long2short[longUrl];
+        if(long2short.count(longUrl)) //find if we have the same longURL in the long2short map
+            return long2short[longUrl]; //if yes, we dont need to generate the new one.
         
         srand(time(NULL));
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 6; i++) // generate the random 6 characters as a new shortURL.
             encodeurl.push_back(rand() % 62);
         
         int idx = 0;
-        while(short2long.count(encodeurl))
-        {
+        while(short2long.count(encodeurl)) // find this new shortURL is duplicate in the map or not,  
+        {                                  // if yes, need to generate another one until it is the unique one.
             encodeurl[idx] = rand() % 62;
             idx = (idx + 1) % 6;
         }
         
-        string tmp = "http://tinyurl.com/" + encodeurl;
+        string tmp = "http://tinyurl.com/" + encodeurl; //new shortURL store in hash map
         long2short[longUrl] = tmp;
         short2long[tmp] = longUrl;
         
@@ -27,11 +33,11 @@ public:
 
     // Decodes a shortened URL to its original URL.
     string decode(string shortUrl) {
-        return short2long[shortUrl];
+        return short2long[shortUrl]; // find key and return the value.
     }
     
 private:
     unordered_map<string, string> short2long, long2short;
     string encodeurl;
-    string key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+    string key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"; // key set, 6 char key including A-Z a-z 0-9
 };
