@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        
+        if(long2short.count(longUrl))
+            return long2short[longUrl];
+        
+        srand(time(NULL));
+        for(int i = 0; i < 6; i++)
+            encodeurl.push_back(rand() % 62);
+        
+        int idx = 0;
+        while(short2long.count(encodeurl))
+        {
+            encodeurl[idx] = rand() % 62;
+            idx = (idx + 1) % 6;
+        }
+        
+        string tmp = "http://tinyurl.com/" + encodeurl;
+        long2short[longUrl] = tmp;
+        short2long[tmp] = longUrl;
+        
+        return tmp;
+    }
+
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        return short2long[shortUrl];
+    }
+    
+private:
+    unordered_map<string, string> short2long, long2short;
+    string encodeurl;
+    string key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890";
+};
