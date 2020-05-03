@@ -1,0 +1,37 @@
+//想法：如果只有用for loop 兩個array輪尋time complexity O(n^2)
+//所以我打算使用Hash Map的方式，先把S裡面每個char有幾個寄到map裡面
+//在J去尋找Map裡面有沒有contain，有的話把index加上去，最後return result
+
+
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        
+        int result;
+        unordered_map<char, int> own; // my own stone: "stone name", "number"
+        
+        for(int i = 0; i < S.size(); i++) //create hash map: "stone name", "stone num I have"
+        {
+            if(own.count(S[i]))
+                own[S[i]]++;
+            else
+                own[S[i]] = 1;
+        }
+        
+        result = 0;
+        int J_idx = 0;
+        while(!own.empty() && J_idx < J.size())
+        {
+            if(own.count(J[J_idx]))
+            {
+                result += own[J[J_idx]];
+                own.erase(J[J_idx]);
+            }   
+            J_idx++;
+        }
+        
+        
+        return result;
+        
+    }
+};
