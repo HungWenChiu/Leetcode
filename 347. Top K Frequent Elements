@@ -1,0 +1,28 @@
+// 1. use map(number, frequency in the array)
+// 2. output the numbers that the frequency matchs the input
+// use unordered_map and priority queue
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        
+        vector<int> result;
+        priority_queue<pair<int, int>> pq; // pq<freq, num>
+        unordered_map<int, int> mapnums; // <num, freq>
+
+        
+        for(int i = 0; i < nums.size(); i++)
+            mapnums[nums[i]]++;
+        
+        for(auto itr = mapnums.begin(); itr != mapnums.end(); itr++)
+            pq.push(make_pair(itr->second, itr->first));
+        
+        for(int i = 0; i < k; i++)
+        {
+            result.push_back(pq.top().second);
+            pq.pop();
+        }
+        
+        return result;
+        
+    }
+};
