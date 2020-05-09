@@ -1,0 +1,37 @@
+// use map to cal the number of each char, ex: map<e, 2> map<a, 3> and so on
+// use priority queue to sort the map by key ex: map<e, 2> is transfered to pair<2, e> in    the queue, so the queue will sort by the first element in the pair  
+// priority queue store from the largest one to the smallest one.
+// get the top of queue( queue.top()) and pop the queue queue.
+
+
+class Solution {
+public:
+    string frequencySort(string s) {
+        
+        string result;
+        map<char, int> mapnum;
+        priority_queue<pair<int, char>> pq;
+        
+// 1.create hash map (character and its num in the string)        
+        for(auto i = 0; i < s.size(); i++) 
+        {
+            if(mapnum.count(s[i]))
+                mapnum[s[i]]++;
+            else
+                mapnum[s[i]] = 1;
+        }
+// 2.store map to priority queue<pair(num, char)>, pri-queue will sort by the first element in the pair(less) 
+        for(auto i = mapnum.begin(); i != mapnum.end(); i++) 
+            pq.push(make_pair(i->second, i->first));
+
+// pop pri-queue
+        while(!pq.empty())
+        {
+            pair<int, char> tmp = pq.top();
+            for(int i = 0; i < tmp.first; i++) // store the number of char, Ex: there are 2 e in the string, store e in the result twice. 
+                result += tmp.second;
+            pq.pop();
+        }
+        return result;
+    }
+};
