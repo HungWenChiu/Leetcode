@@ -1,0 +1,40 @@
+// refer to https://www.cnblogs.com/seyjs/p/11026157.html
+// see the row as a string "10010111"
+// 需要把它做column flipping to 11111111 or 00000000
+// 所以必須要知道有多少row 跟他一樣10010111或是相反01101000經過轉換之後才會變成11111111 or 00000000
+// 1. use map to store number of each patern, EX: get 2 if 10110011 appears two times in the matrx.
+// Map< vector<int>, int>: row pattern & its number
+// 2. check each row and find the map whether there is the same pattern or not.
+// EX: get the numbers of 110011 and 001100 and sum = num(110011) + num(001100)
+// 3. get the max of all pattern -> result
+
+class Solution {
+public:
+    int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
+        
+        int result = 0;
+        map<vector<int>, int> rowmap;
+        
+        for(int i = 0; i < matrix.size(); i++)
+        {
+            if(!rowmap.count(matrix[i]))
+                rowmap[matrix[i]] = 1;
+            else
+                rowmap[matrix[i]]++;
+        }
+        
+        for(int i = 0; i < matrix.size(); i++)
+        {
+            vector<int> tmp(matrix[i].size());
+            for(int j = 0; j < matrix[i].size(); j++)
+                tmp[j] = ((matrix[i][j] == 1) ? 0 : 1);
+               
+            if(rowmap.count(tmp))
+                result = max(result, rowmap[matrix[i]] + rowmap[tmp]);
+            else
+                result = max(result, rowmap[matrix[i]]);
+        }
+        return result;
+        
+    }
+};
