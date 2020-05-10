@@ -1,0 +1,30 @@
+// 想法： 取最大subset, value一定要從大排到小 -> priority queue <value, label>
+// 取label < use_limit -> 每次在算的時候: unordered_map<label, repeat count>
+class Solution {
+public:
+    int largestValsFromLabels(vector<int>& values, vector<int>& labels, int num_wanted, int use_limit) {
+        
+        int result = 0;
+        priority_queue<pair<int, int>> pq; //priority queue <value, label> by using pair
+        unordered_map<int, int> lbcnt; // used to count the number of each label that appears when we pop the queue
+        
+        for(auto i = 0; i < values.size(); i++)
+            pq.push(make_pair(values[i], labels[i]));  // make the pair value and label and also sort from large num to small num
+        
+        while(num_wanted > 0 && !pq.empty()) // check the element in the pq
+        {
+            if(lbcnt[pq.top().second] < use_limit) // check if the number of the label that appears is less than use_limit, using hash map
+            {
+                result += pq.top().first; // sum of the value
+                lbcnt[pq.top().second]++;// add 1 to the label count hash map
+                pq.pop(); // pop the value
+                num_wanted--;
+            }
+            else // if the number of times of the label appeared is greater or equal to use_limit
+                pq.pop(); // pop up and do not add this value to the sum
+        }
+        
+        return result;
+        
+    }
+};
