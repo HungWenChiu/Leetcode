@@ -1,0 +1,38 @@
+// use istringstream needed to includ <sstream> 是C的std input(遇到空格分開)
+// use unordered_map<string, vector<string>> : <content, vector of "path/filename" that have the same content>
+// if map[content].size() > 1, input the all vector to the result
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> hashmap; // content, vector<filename>
+        
+        
+        
+        for(string path: paths)
+        {
+            istringstream is(path);
+            string dir = "", tmp = "", fname = "", content = "";
+            
+            is >> tmp;
+            dir = tmp;
+            
+            while(is >> tmp)
+            {
+                int start = tmp.find_first_of("("); // start from 0
+                int end = tmp.find_first_of(")");
+                fname = dir + "/" + tmp.substr(0, start);
+                content = tmp.substr(start + 1, end - start - 1);
+                hashmap[content].push_back(fname);
+            }
+        }
+        
+        for(auto a: hashmap)
+        {
+            if(a.second.size() > 1)
+                result.push_back(a.second);
+        }
+        return result;
+    }
+};
