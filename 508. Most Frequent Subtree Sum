@@ -1,0 +1,71 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// 1. calculate subtree's sum by using recursive function: getsum
+// 2. store each sum and its frequency in to map<num, frequency>
+// 3. iterate map and transfer each pair to pair<frequency, num> from pair<num, frequency>
+// 4. put each pair to priority_queue pq which will sort the first element in the pair from large to small
+// 5. output the first(the largest) element in the queue and put first pair.second to result
+
+class Solution {
+    
+private:
+    unordered_map<int, int> mp; // <num, frequency> record number and it frequency
+    
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        
+        vector<int> result;
+        priority_queue<pair<int, int>> pq; // pair<fequency, number>
+        
+        if(root == nullptr)
+            return result;
+        
+        getsum(root);
+        
+        for(auto a: mp)
+            pq.push(make_pair(a.second, a.first));
+        
+        int maxnum = 0;
+        while(!pq.empty())
+        {
+            if(pq.top().first >= maxnum)
+            {
+                maxnum = pq.top().first;
+                result.push_back(pq.top().second);
+                pq.pop();
+            }
+            else
+                break;
+        }
+        
+        return result;
+    }
+    
+    int getsum(TreeNode* node)
+    {
+        int sum = 0;
+        // if(node->left == nullptr && node->right == nullptr)
+        // {
+        //     mp[node->val]++;
+        //     return node->val;
+        // }    
+        if(node->left != nullptr)
+            sum = sum + getsum(node->left);
+        if(node->right != nullptr)
+            sum = sum + getsum(node->right);
+        
+        sum = sum + node->val;
+        mp[sum]++;
+        return sum;
+    }
+};
