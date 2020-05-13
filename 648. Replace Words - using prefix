@@ -1,0 +1,50 @@
+// For each word in the sentence, we'll look at successive prefixes and see if we saw them before.
+
+// Algorithm:
+// Store all the roots in a Set structure. Then for each word, look at successive prefixes of that word. 
+// If you find a prefix that is a root, replace the word with that prefix. Otherwise, 
+// the prefix will just be the word itself, and we should add that to the final sentence answer.
+// 對每個word，一個字母接著一個字母去找 set
+
+class Solution {
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        
+        string result = "";
+        istringstream is(sentence); // use isstringstream to saprate words from space char " "
+        string tmp;
+        bool find_dict = false;
+        set<string> dict_set;
+        string prefix = "";
+        
+        for(auto i = dict.begin(); i != dict.end(); i++)
+            dict_set.insert(*i);
+        
+        while(is >> tmp)
+        {
+            for(int i = 0; i < tmp.size(); i++)
+            {
+                prefix += tmp[i];
+                if(dict_set.count(prefix))
+                {
+                    result = result + prefix + " ";
+                    find_dict = true;
+                    break;
+                }
+                
+            }
+            
+            if(find_dict == false)
+                result = result + tmp + " ";
+            else
+                find_dict = false;
+            
+            prefix = "";
+        }
+        
+        result.resize(result.size() - 1);
+        
+        return result;
+        
+    }
+};
