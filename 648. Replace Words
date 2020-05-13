@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        
+        string result = "";
+        istringstream is(sentence); // use isstringstream to saprate words from space char " "
+        string tmp;
+        bool find_dict = false;
+        sort(dict.begin(), dict.end()); // for the case: ["catt","cat","bat","rat"]
+                                        //               "the cattle was rattled by the battery"
+                                        // output: "the cat was rat by the bat"
+                                        // rather than: "the catt was rat by the bat"
+        
+        while(is >> tmp) // assign each word to tmp between space
+        {
+            for(int i = 0; i < dict.size(); i++)
+            {
+                if(tmp.find(dict[i]) == 0)
+                // if(tmp.find(dict[i]) != std::string::npos) // use string.find to find whether the tmp contain the word in the dic or not **(!= string::npos) 
+                {
+                    result = result + dict[i] + " "; // if yes, replace the word by those in the dict
+                    find_dict = true;
+                    break;
+                }   
+            }
+            if(find_dict == false)
+                result = result + tmp + " ";// use the original word
+            else // find the word
+                find_dict = false;
+        }
+        
+        result.resize(result.size() - 1); //*****need to trim the last " ", so resize it to the size - 1
+        return result;
+        
+    }
+};
