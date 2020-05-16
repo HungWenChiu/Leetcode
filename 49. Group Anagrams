@@ -1,0 +1,24 @@
+// sort each word according to their char, ex: eat, ate, tea -> sort: aet
+// using map<string, vector<string>> to store the same sorted catagory. Ex: "aet": [eat, ate, tea]
+// output each map value, get the solution 
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> mp;
+        
+        for(int i = 0; i < strs.size(); i++)
+        {
+            string tmp = strs[i];
+            sort(tmp.begin(), tmp.end(), [](char &a, char &b){return a < b;});
+            mp[tmp].push_back(strs[i]);
+        }
+        
+        for(auto i: mp)
+            result.push_back(i.second);
+        
+        return result;
+    }
+};
