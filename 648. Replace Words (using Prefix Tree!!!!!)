@@ -1,0 +1,72 @@
+// use trie(prefix tree)
+
+class PrefixTree {
+  
+    public:
+        PrefixTree *child[26];
+        bool isword;
+        
+        PrefixTree(){
+            isword = false;
+            for(auto &i : child)
+                i = NULL;
+        }
+};
+
+class Solution {
+public:
+    
+    void insert(PrefixTree *node, string word)
+    {
+        for(char c: word)
+        {
+            if(!node->child[c - 'a'])
+                 node->child[c - 'a'] = new PrefixTree();
+            node = node->child[c - 'a'];
+        }
+
+        node->isword = true;
+    }
+    
+    void find(PrefixTree *node, string word, string &result)
+    {
+        string tmp = "";
+        for(char c: word)
+        {
+            if(!node->child[c - 'a'])
+            {
+                result += word;
+                return;
+            }    
+            else
+            {   
+                tmp += c;
+                node = node->child[c - 'a'];
+                if(node->isword)
+                    break;
+            }
+        }
+        result += tmp;
+        return;
+    }
+    
+    string replaceWords(vector<string>& dict, string sentence) {
+        
+        string result = "";
+        istringstream is(sentence);
+        string tmp;
+        PrefixTree trie;
+        
+        for(auto i: dict)
+            insert(&trie, i);
+        
+        while(is >> tmp)
+        {
+            find(&trie, tmp, result);
+            result += " ";
+        }
+            
+        result.pop_back();        
+        return result;
+    }
+};
