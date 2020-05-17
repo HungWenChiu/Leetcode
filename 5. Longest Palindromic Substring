@@ -1,0 +1,43 @@
+// 1.check each char and expand from its center to its right and left side.
+// 2.check if the substring is panlindromic substring or not
+// 3.notice that we need to check the odd number or even number
+
+class Solution {
+public:
+    
+    pair<int, int> getmaxlen(string s, int l, int r) // left position and right position can be the same: ex: <-a->, -<aa->
+    {
+        while(l >= 0 && r < s.size() && s[l] == s[r]) // Odd: a, aba, bbb. Even: aa, bb, cccc, adda and expand 
+        {
+            l--;
+            r++;
+        }
+        
+        return make_pair(l, r);
+    }
+    
+    string longestPalindrome(string s) {
+        
+        // string result = "";
+        int maxlen = 0, start = 0, end = 0;
+        int tmp;
+        pair<int, int> oddp, evenp, maxp;
+        
+        for(int i = 0; i < s.size(); i++)
+        {
+            oddp = getmaxlen(s, i, i);
+            evenp = getmaxlen(s, i, i+1);
+            
+            maxp = ((oddp.second - oddp.first - 1) > (evenp.second - evenp.first - 1)) ? oddp : evenp;
+            
+            if(maxlen < (maxp.second - maxp.first - 1))
+            {
+                start = maxp.first + 1;
+                end = maxp.second -1;
+                maxlen = (maxp.second - maxp.first - 1);
+            }
+        }
+        
+        return s.substr(start, end - start + 1);
+    }
+};
