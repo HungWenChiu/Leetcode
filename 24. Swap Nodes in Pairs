@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    
+    ListNode* swapPairs(ListNode* head) {
+        
+        ListNode* current = head;
+        ListNode* front = nullptr;
+        ListNode* tmp = nullptr;
+        
+        while(current != nullptr) //一次跳兩數檢查，如果跳的那個數字是null表示到結尾了
+        {
+            if(current->next == nullptr) // 此外如果自己還有數字，則要檢查下一個是不是nullptr，如果是表示單個數字不能swap, break!!
+                break;
+            
+            tmp = current;
+            current = current->next;
+            
+    
+            tmp->next = current->next;
+            current->next = tmp;
+            
+            if(front != nullptr)
+                front->next = current;
+
+            if(tmp == head)
+                head = current;
+            current = tmp->next;
+            front = tmp;
+        }
+        
+        return head;
+    }
+};
