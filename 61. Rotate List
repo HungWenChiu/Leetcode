@@ -1,0 +1,48 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        ListNode* tail = head;
+        
+        if(tail == nullptr)
+            return head;
+        if(tail->next == nullptr)
+            return head;
+        
+        int length = 1;
+        while(tail->next != nullptr) // get the length of list
+        {
+            length++;
+            tail = tail->next;    
+        }
+        
+        
+        tail->next = head; // shape list to a circle
+        
+        int new_tail_pos = length - k; // new_tail_pos is the new position of the tail ptr
+        while(new_tail_pos < 0)        // if new position is negative number, such as length = 3, k = 4 => 3-4 = -1
+            new_tail_pos += length;    // so we need to plus length to the negative number to ensure it will be positive. 
+                                       // -1 + 3 = 2 means that tail need to walk 2 steps forward to the new position.
+                                       // which is equal to new position that is move 1 step backward.
+                                       
+        for(int i = 1; i <= new_tail_pos; i++) // tail walks to the new postion
+            tail = tail->next;
+            
+        head = tail->next; // new head
+        tail->next = nullptr;
+
+        
+        return head;
+        
+    }
+};
