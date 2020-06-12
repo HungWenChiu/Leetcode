@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+/*
+判斷方式，經過每個點: 必須要 (current -1 != current) and (current != current + 1)才能確保是unique
+
+且要判斷 current -1 是null(start point)，current + 1是null(the last number)的情形
+
+把每個unique的數字串成一個新的link list return
+*/
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        
+        ListNode* current = nullptr;
+        ListNode* front = nullptr;
+        ListNode* new_head = nullptr;
+        ListNode* new_current = nullptr;
+        
+        
+        if(head == nullptr || head->next == nullptr) // cases of null list and only one number, return with unchange
+            return head;
+        
+        // we can ensure that the list is always >= two numbers
+        current = head;
+        while(current != nullptr)
+        {
+            bool isUnique = false;
+            
+            if(front == nullptr) // the first number
+                isUnique = (current->val != current->next->val) ? true : false;
+            else if(current->next == nullptr) // the last number
+                isUnique = (front->val != current->val) ? true : false;
+            else // otherwise
+                isUnique = (front->val != current->val && current->val != current->next->val) ? true : false;
+            
+            if(isUnique == true)  // check OK
+            {
+                ListNode* tmp = new ListNode(current->val);
+                if(new_head == nullptr) // add first number to the new list
+                {
+                    new_head = tmp;
+                    new_current = tmp;
+                }    
+                else // add number to the existing list
+                {
+                    new_current->next = tmp;
+                    new_current = new_current->next;
+                }    
+            }    
+            
+            front = current; 
+            current = current->next; //check the next number
+        }
+        
+        return new_head;
+    }
+};
