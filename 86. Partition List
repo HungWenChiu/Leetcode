@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        
+        ListNode* new_head = nullptr;
+        ListNode* new_curptr = nullptr;
+        ListNode* curptr = head;
+        ListNode* front = head;
+        
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        
+        while(curptr != nullptr)
+        {
+            if(curptr->val < x)
+            {
+                // if the first element is less than x, 
+                // we need to move head to the next one, 
+                // and pop the fist element and put it into the new_head's list
+                if(curptr == head) 
+                {
+                    head = curptr->next;
+                    front = curptr->next;
+                }   
+                else if(front != curptr) 
+                // it is the case that the curent element is not the first element
+                // notice that we cannot use (front != head), it will be error when the case of 2->1 array.
+                    front->next = curptr->next;
+                
+                if(new_head == nullptr) 
+                {
+                    // create the new list that stores all elements which are less than x
+                    new_head = curptr;
+                    new_curptr = curptr;
+                }
+                else
+                {
+                    // concatenate new_curptr with a new elemet
+                    new_curptr->next = curptr;
+                    new_curptr = new_curptr->next;
+                }
+                
+                curptr = curptr->next; // find the next element
+                new_curptr->next = nullptr;
+            }
+            else // if the element is greater or equal than x, find the next one.
+            {
+                front = curptr;
+                curptr = curptr->next;
+            }
+            
+            
+        }
+        
+        if(new_head == nullptr) // there is no case that is less than x
+            return head;
+        else
+        {
+            new_curptr->next = head;
+            return new_head;
+        }    
+        
+    }
+};
