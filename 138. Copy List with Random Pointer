@@ -1,0 +1,43 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+
+// 想法: 使用hash map 對每個node對應出他的一個新創得node，random時也會去找node對應的新點
+class Solution {
+public:
+    
+    Node* get_copy(Node* node, unordered_map<Node*, Node*> &list_map)
+    {
+        if(node == nullptr)
+            return nullptr;
+        
+        if(list_map.count(node))
+            return list_map[node];
+        
+        Node* tmp = new Node(node->val);
+        list_map[node] = tmp;
+        tmp->next = get_copy(node->next, list_map);
+        tmp->random = get_copy(node->random, list_map);
+        return tmp;
+    }
+        
+    Node* copyRandomList(Node* head) {
+        
+        unordered_map<Node*, Node*> list_map;
+        return get_copy(head, list_map);
+        
+    }
+};
