@@ -1,0 +1,71 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// 解法: 設定一個start, current, current後一個得位置
+// current 跑每個數，如果是在m, n範圍內，就把tmp(current後一個數放到start的位置)
+// Ex: 1->2->3->4->5, m = 2, n = 4
+// current = 2, tmp = 3, start 為m=2的前一個位置(指向1)，則把3放到2前面，變成:
+// 1->3->2->4->5
+// 接下來在看tmp=current->next, tmp = 4，把4差到start的位置，
+// 1->4->3->2->5 結束
+// ***需特別考慮m = 1的情形
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        
+        int startSwap = false; // check if reverse starts or not
+        int count = 1; // the nth number
+        ListNode* curptr = head;
+        ListNode* start = head;
+        
+        if(head == nullptr || head->next == nullptr)
+            return head; // null list or only one element
+        
+        while(curptr->next != nullptr) // go through each element
+        {
+            if(count == m) // start reversing
+                startSwap = true;
+            if(count == n) //end reversing, DO NOT use else if becasue there is a case: m = n
+                break;
+            
+            if(startSwap == true)
+            {
+                ListNode* tmp = curptr->next;
+                curptr->next = tmp->next;
+                
+                
+                if(m == 1) // means that the reversed number is the first element
+                {
+                    tmp->next = start; //**** notice that 
+                    start = tmp;
+                    head = tmp; // change head ptr to reversed number
+                }
+                else // no the first element
+                {
+                    tmp->next = start->next; //**** notice that
+                    start->next = tmp;
+                }
+                
+            }
+            else // if the reversing does not start yet, find  the next element
+            {
+                start = curptr;
+                curptr = curptr->next;
+            }
+            
+            count++;
+            
+        }
+        
+        return head;
+        
+    }
+};
