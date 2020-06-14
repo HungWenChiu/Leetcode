@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// O(nlogn) : merge sort, quick sort, heap sort
+// 使用merge sort 跟長短指針的概念
+class Solution {
+public:
+    
+    ListNode* merge(ListNode* list1, ListNode* list2){
+        
+        ListNode* new_head = new ListNode(-1);
+        ListNode* curptr2 = list2;
+        ListNode* curptr1 = list1;
+        ListNode* new_curptr = new_head;
+        
+        while(curptr1 != nullptr || curptr2 != nullptr)
+        {
+            if(curptr1 == nullptr)
+            {
+                new_curptr->next = curptr2;
+                curptr2 = curptr2->next;
+            }    
+            else if(curptr2 == nullptr)
+            {
+                new_curptr->next = curptr1;
+                curptr1 = curptr1->next;
+            }
+            else
+            {
+                if(curptr1->val > curptr2->val)
+                {
+                    new_curptr->next = curptr2;
+                    curptr2 = curptr2->next;
+                }
+                else
+                {
+                    new_curptr->next = curptr1;
+                    curptr1 = curptr1->next;
+                   
+                }
+                    
+            }
+            new_curptr = new_curptr->next;
+            new_curptr->next = nullptr;
+        }
+        
+        return new_head->next; 
+        
+    }
+    
+    ListNode* sortList(ListNode* head) {
+        
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast->next && fast->next->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* tmp = slow->next;
+        slow->next = nullptr;
+                
+        return merge(sortList(head), sortList(tmp));
+        
+    }
+};
