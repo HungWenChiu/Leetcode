@@ -1,0 +1,69 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// reverse 概念: 使用stack!!!!
+// 找中位數概念: 使用快慢指針!!!
+
+// 1. find meidan element by using slow & fast pointors
+// 2. according to the median, separate the list into 2 lists.
+// 3. reverse the 2nd list.
+// 4. insert the elements in the 2nd list to the 1st one. 
+class Solution{
+public:
+    void reorderList(ListNode* head) {
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* second_head = nullptr;
+        stack<ListNode*> s;
+        
+        if(head == nullptr || head->next == nullptr)
+            return;
+        
+        //start finding the median of the list
+        while(fast->next && fast->next->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        second_head = slow->next;
+        slow->next = nullptr;
+        
+        // start putting the 2nd list into the stack
+        while(second_head)
+        {
+            s.push(second_head);
+            second_head = second_head->next;
+        }
+        
+        // start poping the element from the stack and insert it into the slot between the elements in the 1st list
+        ListNode* curptr = head;
+        while(curptr)
+        {
+            if(s.size() > 0)
+            {
+                ListNode* tmp = curptr->next;
+                s.top()->next = tmp;
+                curptr->next = s.top();
+                s.pop();
+
+                curptr = tmp;
+            }
+            else
+                curptr = curptr->next;
+            
+        }
+        
+        return;
+        
+    }
+};
