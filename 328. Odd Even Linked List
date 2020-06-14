@@ -1,0 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// 解題方式: 
+// 1. 兩個 ponters, front & curptr, front 指到odd位置，curptr指到head->next(even)
+// 2. curptr->next就是odd postion，所以把curptr->next抓到front後面
+// 3. 這時curptr是even的數front是odd的數字，兩個往前一格，curptr又到下一個even的數字，front則是剛剛移過來的odd數字，迴圈回到剛開始
+// 4. 最後直到curptr == nullptr(奇數個數的時候)curptr->next == nullptr(偶數個數的時候)
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        
+        ListNode* front = head;
+        ListNode* curptr = head->next;
+        
+        while(curptr != nullptr && curptr->next != nullptr)
+        {
+            ListNode* tmp = front->next;
+            front->next = curptr->next;
+            curptr->next = curptr->next->next;
+            front->next->next = tmp;
+            
+            front = front->next;
+            curptr = curptr->next;
+        }
+        
+        return head;
+        
+    }
+};
