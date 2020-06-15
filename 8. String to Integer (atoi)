@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int myAtoi(string str) {
+        
+        bool minus = false;
+        long long int result = 0;
+        bool start_num = false;
+        
+        for(auto i = 0; i < str.size(); i++)
+        {
+            
+            if(start_num == false)
+            {
+                if(str[i] == ' ')
+                    continue;
+                else if((str[i] > 57 || str[i] < 48) && (str[i] != '-') && (str[i] != '+'))
+                    return 0;
+                else if(str[i] == '-' && str[i+1] <=57 && str[i+1] >= 48)
+                    minus = true;
+                else if(str[i] == '+' && str[i+1] <=57 && str[i+1] >= 48)
+                    continue;
+                else if(str[i] <=57 && str[i] >= 48) // 48 <= str[i] <= 57
+                {
+                    start_num = true;
+                    result = result * 10 + (str[i] - 48);
+                }
+                else
+                    return 0;
+            }
+            else // start number!!
+            {
+                if(result > INT_MAX && minus == false)
+                    return INT_MAX;
+                else if(-result < INT_MIN && minus == true)
+                    return INT_MIN;
+                
+                if(str[i] <= 57 && str[i] >= 48)
+                    result = result * 10 + (str[i] - 48); 
+                else
+                {
+                    start_num = false;
+                    break;
+                }
+                        
+            }
+        }
+        
+        if(minus == true)
+            return ((-result) < INT_MIN) ? INT_MIN : (-result);
+        else
+            return (result > INT_MAX) ? INT_MAX : result;
+        
+        
+        
+    }
+};
