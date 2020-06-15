@@ -9,39 +9,40 @@ public:
         for(auto i = 0; i < str.size(); i++)
         {
             
-            if(start_num == false)
+            if(start_num == false) // 表示還沒開始計算整數
             {
-                if(str[i] == ' ')
+                if(str[i] == ' ') // 先把空白濾掉
                     continue;
-                else if((str[i] > 57 || str[i] < 48) && (str[i] != '-') && (str[i] != '+'))
-                    return 0;
-                else if(str[i] == '-' && str[i+1] <=57 && str[i+1] >= 48)
-                    minus = true;
-                else if(str[i] == '+' && str[i+1] <=57 && str[i+1] >= 48)
-                    continue;
-                else if(str[i] <=57 && str[i] >= 48) // 48 <= str[i] <= 57
+                else // 如果不是空白
                 {
-                    start_num = true;
+                    if((str[i] == '-') || (str[i] == '+')) // 遇到加減符號，表示數字要來囉～
+                    {
+                        start_num = true;
+                        if(str[i] == '-') // start minus
+                            minus = true;
+                    }
+                    else if(str[i] <=57 && str[i] >= 48) // 直接遇到數字，開始計算！
+                    {
+                        result = result * 10 + (str[i] - 48);
+                        start_num = true;
+                    }
+                    else // 遇到其他符號，表示還沒開始算數字就遇到奇怪符號，return 0
+                        return 0;
+                }
+            }
+            else // start_num == true:  start to tansform int
+            {// 開始計算數字的情形下，只有遇到數字才會繼續計算下去，否則停住！
+                if(str[i] <=57 && str[i] >= 48)
+                {
+                    if(result > INT_MAX && minus == false) // 每次一定都要檢查會不會overflow!!!
+                        return INT_MAX;
+                    else if(-result < INT_MIN && minus == true)
+                        return INT_MIN;
+                    
                     result = result * 10 + (str[i] - 48);
                 }
-                else
-                    return 0;
-            }
-            else // start number!!
-            {
-                if(result > INT_MAX && minus == false)
-                    return INT_MAX;
-                else if(-result < INT_MIN && minus == true)
-                    return INT_MIN;
-                
-                if(str[i] <= 57 && str[i] >= 48)
-                    result = result * 10 + (str[i] - 48); 
-                else
-                {
-                    start_num = false;
+                else // 遇到其他怪怪的符號，包括空白，都要表示整數轉換得停止點
                     break;
-                }
-                        
             }
         }
         
