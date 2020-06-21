@@ -1,0 +1,49 @@
+// 解法就像是國中教的直式解法
+// n * m的最大位數就是n + m位數
+// carry vector 是存每一個result位數的進位
+// result vector 是存每一個位數的相乘ㄇ
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        
+        string ans;
+        vector<int> carry(num1.size() + num2.size(), 0);
+        vector<int> result(num1.size() + num2.size(), 0);
+        int digit = 0;
+        
+        if(num1 == "0" || num2 == "0") // if any num is 0, the product is 0
+            return "0";
+        
+        for(int i = num1.size() - 1 ; i >= 0; i--) // multiply each num from the last num.
+        // ex: 456 X 123 -> calculate 3*6, 3*5, 3*4... and so on. 
+        {
+            for(int j = num2.size() - 1; j >= 0; j--) 
+                result[digit + num2.size() - 1 - j] += (num1[i] - 48) * (num2[j] - 48); // because num2[num2.size() - 1] is digit 0, storing the product to result[0]. so the index will be "digit + num2.size() - 1 - j"
+            digit++; // to the next digit of num1
+        }
+        
+        
+        for(int i = 0; i < result.size(); i++) // calculate the carry num
+        {
+            result[i] += carry[i];
+            if(result[i] >= 10)
+            {
+                carry[i + 1] += (result[i] / 10);
+                result[i] %= 10;
+            }
+        }    
+        
+        bool start_num = false; // transform the int vector to string result
+        for(int i = result.size() - 1 ; i >= 0; i--)
+        {
+            if(result[i] == 0 && start_num == false)
+                continue;
+            else if(result[i] != 0 && start_num == false)
+                start_num = true;
+            ans += char(result[i] + 48);
+        }
+        
+        return ans;
+        
+    }
+};
