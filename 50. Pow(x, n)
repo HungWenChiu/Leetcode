@@ -1,0 +1,37 @@
+// 把n顯示成2進位的方式來算，
+// Ex: 15 = 2^0 + 2^1 + 2^2 + 2^3 = 1111
+// 每次15 % 2 = 1 表示2的0次方是1 -> 表示有一個x 所以result *= x
+// 並用一個數字product去存總共的product
+// 迴圈每次i = i / 2 表示二進位的進一個位數 Ex 15/2 = 7
+// 7 % 2 = 1 表示 2的1次方有位數，表示2^1 -> 有兩個x 所以 product = prodcut * product
+// 7/2 = 3, 3 % 2 = 1 表示2^2的位元數是1表示有4個x
+// 而剛剛的product是 x^2, 所以product = product * product = x^2 * x^2
+// 依此類推就可以算出x^n
+// 注意n有可能會到INT_MAX or INT_MIN 所以要用long long存
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        
+        double result = 1;
+        long long int N = n;
+        double product;
+        
+        if(N < 0)
+        {
+            x = 1/x;
+            N = -N;
+        }
+        
+        product = x;
+        for(long long int i = N; i >= 1; i /= 2)
+        {
+            if(i % 2 == 1)
+                result *= product;
+            product *= product;
+        }
+        
+        return result;
+        
+    }
+};
