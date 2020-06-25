@@ -1,0 +1,60 @@
+// 解法: 觀察規律
+// ex: n = 3, k = 6
+// 3! 有6種可能: 
+// 123
+// 132
+// 213
+// 231
+// 312
+// 321
+// 不用每一個都算出來
+// 找規律，第一個數出現了(3-1)!次，因為選完第一個數之後，後面有2!個排法，
+// 第二個數出現(3-2)!次，依此類推。
+// 所以k = 6，
+// 可以發現第一個數k1的選法就是(6 - 1)從第0個開始算/(3-1)! = 5/2! = 2 表示經過了兩輪為 n[2] = 3。
+// K2 = ((6-1)/2!) % 2! 剩下的數字再去 / 1! = 1 / 1 ! 表示剩下"12" 裡面選n[1] = 2。
+// K3 = 上一輪的 ((6-1)/2!) % 2! % 0! = 0/0! = 0 選剩下array裡面的n[0] = 1。
+// 答案就是321，
+
+
+class Solution {
+public:
+    
+    int Factor(int num)
+    {
+        int result = 1;
+        
+        if(num == 1 || num == 0)
+            return 1;
+        else
+        {
+            for(int i = 2; i <= num ; i++)
+                result *= i;
+            return result;
+        }
+        
+    }
+    
+    string getPermutation(int n, int k) {
+        
+        string ans = "";
+        vector<int> seq(n, 0);
+        
+        for(auto i = 0; i < n; i++)
+            seq[i] = i+1; // 開一個array去存1~n個數
+        
+        int tmp = k - 1;
+        for(int i = 0; i < n ; i++) // 挑每一個位數的數字
+        {
+            int fac = Factor(n - i - 1); // (n -1 -i)!
+            ans += seq[tmp / fac] + '0'; // int to string
+            seq.erase(seq.begin() + (tmp / fac)); //原本array裡面刪掉被取出的那個數字
+            tmp = tmp % fac;
+        }
+        
+        return ans;
+        
+        
+        
+    }
+};
