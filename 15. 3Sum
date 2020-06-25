@@ -1,0 +1,50 @@
+// 想法：先排序
+// 固定第一個值，在往後面那一個序列去前後設兩pointers 去找
+// 需要判斷nums empty, 第一個值是不是>0 或最後一個直是不是<0因為是排序，所以這幾種情況都需要回空值
+// 之後再判斷後面兩個值的和有沒有跟第一個fix的負值一樣或是三個num加起來=0
+// 如果後兩個值的和小於fix的負值，小的那個pointer需要往後移一個
+// 如果後面兩個值得和大於fix的負值，大的那一個pointer要往前移一格
+// 如果num[i] == num[i+1] 則要再往下一個移動，不看重複的值
+
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        
+        vector<vector<int>> result;
+        
+        sort(nums.begin(), nums.end());
+        
+        if(nums.empty() || nums.front() > 0 || nums.back() < 0)
+            return {};
+        
+        for(int i = 0; i < (int)nums.size() - 2; i++)
+        {
+            if(nums[i] > 0) break;
+            else if(i > 0 && nums[i] == nums[i-1]) continue;
+            else
+            {
+                int tmp = -nums[i], j = i+1, k = (int)nums.size() - 1;
+                
+                while(j < k)
+                {
+                    if(nums[j] + nums[k] < tmp)
+                        j++;
+                    else if(nums[j] + nums[k] > tmp)
+                        k--;
+                    else
+                    {
+                        result.push_back({nums[i], nums[j], nums[k]});
+                        while(j < k && nums[j] == nums[j+1]) j++;
+                        while(j < k && nums[k] == nums[k-1]) k--;
+                        j++;
+                        k--;
+                        
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+};
