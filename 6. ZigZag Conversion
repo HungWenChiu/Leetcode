@@ -1,0 +1,43 @@
+/* 解法: 畫圖出來找規律:
+EX: numRows = 4:
+P     I     N
+A   L S   I G
+Y A   H R
+P     I
+會發現
+1. 每一大行相差 row + (numRows + 2) EX: P 跟 I 相差 0 + (4 + 2) = 6個，推導每一大行差row + n*(numRows + 2)
+2. 而除了numRows = 0 跟最後一行numRows-1 之外，需要算中間的小行
+3. 小行的算法:
+ A跟L差距5-1 = 4個數字 -> row + (numRows + 2)(S位置) - row*2( row*2的原因為如果 row = 2 就要往前看4個) 例如H跟A
+4. 找到規律之後就可以來寫code了
+*/
+
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        
+        string result = "";
+        string tmp = "";
+        int index = 0;
+        
+        if(numRows == 1)
+            return s;
+        
+        for(int i = 0; i < numRows; i++)
+        {
+            index = i; // 就是對應目前要存的位置
+            while(index < s.size())
+            {
+                tmp.push_back(s[index]); // 每次大行都要先存
+                
+                if(i != 0 && i != numRows -1 && (index + (2*numRows - 2) - 2*i) < s.size()) // 如果不是第一根最後一行，則需要去算小行
+                    tmp.push_back(s[index + (2*numRows - 2) - 2*i]);
+                
+                index += (2*numRows - 2);
+            }
+            result += tmp;
+            tmp = "";
+        }
+        return result;
+    }
+};
