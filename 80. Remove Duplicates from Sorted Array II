@@ -1,0 +1,32 @@
+// 解法 1 : 可以利用loop 跟duplicate參數比看看nums[i] == nums[i-1]，如果一樣就nums.erase(nums.begin() + i)
+// 解法 2 : 多一個參數pre來判斷確保被pre走過的index都是只有最多兩個重複值，如下:
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        
+        int duplicate = 0, pre = 0;
+        
+        int i = 1;
+        while(i < nums.size())
+        {
+            if(nums[i] == nums[i-1])
+            {
+                duplicate++;
+                if(duplicate > 1) // 如果duplicate > 1 表示超過一個重複,就不存到nums[pre]裡面，直接找下一個(i++)
+                    i++;
+                else // 如果只有一個重複或是沒有重複則存到nums[pre + 1] 
+                    nums[++pre] = nums[i++];
+            }    
+            else if(nums[i] != nums[i-1]) // 不一樣的話一樣存到nums[pre + 1]
+            {
+                duplicate = 0;
+                nums[++pre] = nums[i++];
+            }
+                
+            
+        }
+        return (nums.empty()) ? 0 : (pre + 1); 
+        // 如此一來可以確保index pre之前的數列一定是只有最多重複一個數字的array，後面就不用管了
+    }
+};
