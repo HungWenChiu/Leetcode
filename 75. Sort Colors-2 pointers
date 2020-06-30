@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        
+        int red = 0, blue = nums.size()-1;
+        
+        for(int i = 0; i <= blue; i++)
+        {
+            int tmp;
+            if(nums[i] == 0 && red < nums.size())
+            {
+                tmp = nums[i];
+                nums[i] = nums[red];
+                nums[red] = tmp;
+                red++;
+            }
+            else if(nums[i] == 2 && blue >= 0)
+            {
+                tmp = nums[i];
+                nums[i] = nums[blue];
+                nums[blue] = tmp;
+                blue--;
+                i--; // 需要再檢查原本從blue換回來的數字是不是RED
+            }
+            
+        }
+    }
+};
