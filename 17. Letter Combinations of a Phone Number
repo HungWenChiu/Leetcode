@@ -1,0 +1,36 @@
+// 使用recursive 的方式:
+// 用一個vector: dict去紀錄每個數字代表的英文字母有哪些
+// index依序去跑digits的每一個字母
+// 然後對每個digits的字母-'0': 轉成int 去dict找到對應的字母對每個做recursive
+// 現在的res + 跑出來的字母
+// 最後抓到字母尾巴的時候把一整串串接好的res push到result vector裡面
+
+
+class Solution {
+public:
+    
+    void est_str(string digits, vector<string>& dict, vector<string>& result, string res, int index){
+        
+        if(index == digits.size()) // 表示字串串接到最後面了
+        {
+            result.push_back(res); // 串接完的字穿push到result裡面
+            return;
+        }     
+        
+        for(auto tmp : dict[int(digits[index] - '0')])
+            est_str(digits, dict, result, res + tmp, index + 1); // 把當前char串上去之後 對下一個數字做recursive
+        
+    }
+        
+    vector<string> letterCombinations(string digits) {
+        
+        vector<string> result;
+        vector<string> dict = {"", "", "abc","def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        
+        if(digits.empty())
+            return {}; // case: empty
+        
+        est_str(digits, dict, result, "", 0); // 一剛開始的string 是空字串   準備串接
+        return result;
+    }
+};
