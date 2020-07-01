@@ -1,0 +1,36 @@
+// 通常要找所有解的盡量都用recursive做
+
+class Solution {
+public:
+    
+    void gen_par(int right, int left, vector<string> &res, string tmp)
+    {
+        // 每次印一個左掛號left-1, 印一個右掛號right-1，所以left一定會 >= right，如果相反的話表示出現)(的情形 直接return
+        if(left > right || left < 0 || right < 0)
+            return;
+    
+        if(left == 0 && right == 0)
+        {
+            res.push_back(tmp);
+            return;
+        }    
+        
+        
+        gen_par(right - 1, left, res, tmp + ")");
+        gen_par(right, left - 1, res, tmp + "(");
+        return;
+
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        
+        vector<string> result;
+        int left = n, right = n;
+        
+        gen_par(right, left - 1, result, "(");
+        
+        return result;
+        
+        
+    }
+};
