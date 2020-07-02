@@ -1,0 +1,64 @@
+// 解法: 觀察case 逐一破解:
+// 1. 連續"/"(EX: // or //// .... )，需要 while loop 去剔除多餘/
+// 2. /XX/中間才是dir name
+// 3. 遇到一個.不做事，兩個.需要往上移一層dir
+// 4. 然而三個以上連續"."視為dir名稱
+// algorithm:
+// 1. 用一個vector<string> 去記錄每一層的檔案名
+// 2. while迴圈 i < path.size()
+// 3. 遇到"/"表示要進入subdir了  開始抓subdir
+// 4. start代表只到subdir第一個字母的指針
+// 5. 如果遇到另一個"/" break，subdir結束
+// 6. 把抓出來的subdir存到tmp裡面
+// 7. 存完之後針對最上面的case做判斷:
+// 7-1: tmp 是否是".."
+// 7-2: 如果不是".."，且也不是"."和空值，表示subdir是合法的(including "...")，把它push到subdir vector裡面
+// 8. 最後把所有subdir串起來
+class Solution {
+public:
+    string simplifyPath(string path) {
+        
+        string result;
+        vector<string> subdir;
+        
+        int i = 0;
+        // bool sub = false;
+        while(i < path.size())
+        {
+            if(path[i++] == '/') // 表示subdir開始
+            {
+                 if(i >= path.size()) // /結尾的case
+                    break;
+                
+                while(path[i] == '/' && i < path.size()) i++; // 濾掉連續的/
+                
+                int start = i;
+                string tmp = "";
+                while(start < path.size()) // 開始抓subdir
+                {
+                    if(path[start] == '/') // 遇到/表示subdir結尾，離開
+                        break;
+                    tmp += path[start++]; // 否則就是一值存到tmp
+                }
+                if(tmp == "..") //判斷sundir case
+                {
+                    if(!subdir.empty())
+                        subdir.pop_back();
+                }
+                else if(tmp != "." && tmp != "") // 表示合法的subdir
+                    subdir.push_back(tmp);
+                
+                i = start; // 往下一個char
+            }   
+        }
+        
+        if(subdir.size() == 0)
+            return "/";
+        
+        for(auto &i : subdir)
+            result += "/" + i;
+        
+        return result;
+        
+    }
+};
