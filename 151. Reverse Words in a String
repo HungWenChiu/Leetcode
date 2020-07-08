@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        
+        stack<string> st;
+        string result = "";
+        string word;
+        
+        for(auto i = 0; i <= s.size(); i++)
+        {
+            if(s[i] == ' ' || i == s.size()) // 遇到空白或是結尾表示一個word已經形成，要把這word push到stack裡面
+            {
+                if(word != "") // 表示有word
+                {
+                    st.push(word + " "); // word加上空白
+                    word = ""; // 清空準備存下一個
+                }
+            }
+            else // 如果沒有遇到空白表示word還在計算
+                word.push_back(s[i]); 
+        }
+        
+        while(st.size() != 0) // 算完之後依序把stack的element pop出來
+        {
+            result += st.top();
+            st.pop();
+        }
+        
+        if(result == "") // 如果result是空字串，表示沒有1. 任何word情況 2. string只有一堆空白
+            return "";
+    
+        result.pop_back(); // 最後一個字元會是空白，需要pop出來
+        return result;
+    }
+};
