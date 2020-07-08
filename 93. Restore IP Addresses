@@ -1,0 +1,58 @@
+// 使用recursive找出每種可能，
+// 判斷每種可能最後valid的IP存到result
+
+class Solution {
+public:
+    
+    void find_IP(vector<string> &res, string s, string IP, int index, int num){
+        // string IP: 為valid IP，第一次會先傳空字串進去
+        // int index: 指到第幾個字元的pointer
+        // int num: 為目前計算的第幾個數, 1~4 總共4個數
+        if(num == 4) // 已經算完第4個數(IP由4個數字構成)
+        {
+            if(index == s.size()) // 如果index已經跑完，表示整串字串都已經讀完且沒有其他問題 Valid IP
+            {
+                IP.pop_back();
+                res.push_back(IP); // valid IP 放到vector裡面
+                return;
+            }
+            else // 如果已經抓完4個數字但是字串還沒讀完表示這IP不是valid，不存入
+                return;
+            
+        }
+            
+        // 需要處理的情況
+        int tmp = 0;
+        for( int i = index; i < s.size(); i++) // 從index開始抓字元
+        {
+            tmp = tmp * 10 + (s[i] - '0'); // 把字元轉乘整數
+            
+            if(tmp == 0) // 表示case '0',只需要做一次不用在找下一位，因為不會有'01, 02, 06'這種case
+            {
+                find_IP(res, s, IP + to_string(tmp) + ".", i + 1, num + 1); // 找到一個IP了，繼續找下一個
+                break; // 0 的IP這個數字不用在往下找
+            }
+            else if(tmp > 0 && tmp <= 255) // 非0開頭的需要往下找，EX: 2.4.56.7, 24.5.6.7這種可能
+                find_IP(res, s, IP + to_string(tmp) + ".", i + 1, num + 1);
+            else // 算出的數字是 > 255 invalid => break
+                break;
+                
+            
+        }    
+        
+    }
+    
+    vector<string> restoreIpAddresses(string s) {
+        
+        vector<string> result;
+        
+        if(s.size() < 4) // IP 組成一定要4個數字，如果小於4個就無法形成IP，這種case要考慮到
+            return {};
+        
+        find_IP(result, s, "", 0, 0); // 使用recursive的作法
+        return result;
+        
+        
+        
+    }
+};
