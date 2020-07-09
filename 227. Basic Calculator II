@@ -1,0 +1,55 @@
+// 方法: 
+// 1. 遇到符號先把符號存起來，default OP 為'+'
+// 2. op 跟 op 中間一定是num or 空白
+// 3. 把op中間的數字存到num
+// 4. 直到遇到下一個op，則判斷上一個op是什麼
+// 5. 如果上一個是'+' 表示num是正數存入stack.(num)
+// 6. 如果上一個是'-' 表示num是負數存入stack.push(-num)
+// 7. 如果這次遇到的符號是'*'則把num跟stack裡面的top拿出
+// 8. 如果這次遇到的符號是'/'則把num跟stack裡面的top拿出來相除完放入stack
+// 來相乘完放入stack
+// 9. 遇到空格不做事
+
+class Solution {
+public:
+ 
+    int calculate(string s) {
+        
+        long long int result = 0;
+        char op = '+';
+        int num = 0;
+        stack<int> st;
+        
+        for(int i = 0; i < s.size(); i++)
+        {
+            if(s[i] >= 48 && s[i] <= 57)
+                num = num * 10 + (s[i] - '0'); // get num between symbols
+            
+            if((s[i] < '0' && s[i] != ' ') || i == s.size() - 1)
+            // symbol, i == s.size() - 1 表示讀到最後一個char時表示後面沒東西了，需要把num放入satck
+            {
+                if(op == '+')
+                    st.push(num);
+                else if(op == '-')
+                    st.push(-num);
+                else // case '*' & '/'
+                {
+                    int tmp = st.top();
+                    st.pop();
+                    st.push((op == '*') ? (tmp * num) : (tmp / num));
+                }
+                
+                num = 0;
+                op = s[i];
+            }
+        }
+        
+        while(!st.empty())
+        {
+            result += st.top();
+            st.pop();
+        }
+        
+        return result;
+    }
+};
