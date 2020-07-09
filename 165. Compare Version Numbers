@@ -1,0 +1,42 @@
+// 使用recursive的方式去找substring
+// 每次都比對兩個string轉int(以'.'做分界)
+// Ex: 1.2.3.5 v.s. 1.2.5
+// 比較第一個點前面的數字，兩個一樣就往後比第二個點前面的數字 1一樣就比2，一此類堆
+// 如果第一個大救回傳1，第二個數字大救回傳-1
+// 如果==0的話就往後比，直到id1跟id2都跑完
+// 注意:  如果有一串數字比較短則後面要比較的時候都是用0跟另一個數字做比較
+// EX: 1.2.5 -> 1.2.5.0 跟 1.2.3.5比較
+
+class Solution {
+public:
+    
+    int get_subver(string v1, string v2, int id1, int id2)
+    {
+        int t1 = 0, t2 = 0;
+        while(v1[id1] != '.' && id1 != v1.size()) // 把點跟點之間的字串轉換成數字
+            t1 = t1 * 10 + (v1[id1++] - '0');
+        
+        while(v2[id2] != '.' && id2 != v2.size()) // 把點跟點之間的字串轉換成數字，如果已經到了底端，以0代替
+            t2 = t2 * 10 + (v2[id2++] - '0');
+           
+
+        if(t1 > t2)
+            return 1;
+        else if(t1 < t2)
+            return -1;
+        else
+        {
+            if(id1 == v1.size() && id2 == v2.size()) // 兩個字串都跑完了，版本還是比對一樣就回傳0
+                return 0;
+            else // 只要有個字串還沒跑完就繼續比對下去
+                return get_subver(v1, v2, id1 == v1.size() ? id1 : id1 + 1, id2 == v2.size() ? id2 : id2 + 1);
+        }
+    }
+    
+    int compareVersion(string version1, string version2) {
+        
+        return get_subver(version1, version2, 0, 0);
+
+        
+    }
+};
