@@ -1,0 +1,46 @@
+// 尋找規律，每種rotate的情形都可以發現如果:
+// 中間數 < 最右邊的數字 => 右半邊是有序的
+// 中間數 > 最右邊的數字 => 左半邊是有序的
+// 所以有序的部分可以直接判斷nums[mid] < target < nums[right] 或是反之，
+// 如此就可以決定要捨去哪一半部，去另一個半部找
+class Solution {
+public:
+    
+    
+    
+    int search(vector<int>& nums, int target) {
+        
+        int left = 0, right = nums.size() - 1;
+        
+        while(left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            
+            if(nums[mid] == target)
+                return mid;
+            else
+            {
+                if(nums[mid] < nums[right]) // 右邊有序
+                {
+                    if(target > nums[mid] && target <= nums[right]) // 如果是在有序區間裡面
+                        left = mid + 1;
+                    else
+                        right = mid - 1;
+                }
+                else // 左邊有序
+                {
+                     if(target < nums[mid] && target >= nums[left]) // 如果是在有序區間裡面
+                        right = mid - 1;
+                    else
+                        left = mid + 1; // 沒有就去另一個區間
+                }
+                    
+            }
+            
+            
+        }
+        
+        return -1;
+        
+    }
+};
