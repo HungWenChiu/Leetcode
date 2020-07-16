@@ -1,0 +1,60 @@
+// solution 1: 
+// time complexity: O(n*sizeof(integer))
+/*
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        
+        vector<int> res;
+        
+        for(int i = 0; i <= num; i++)
+        {
+            int total = 0;
+            int num = i;
+            while(num != 0)
+            {
+                total += num % 2;
+                num /= 2;
+            }
+            
+            res.push_back(total);
+        }
+        return res;
+        
+    }
+};
+*/
+
+
+// perfect solution:
+// Time complexity: O(n)
+// Space complexity: O(n)
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        
+        vector<int> res;
+        int two_fact = 1; // compute 2 factor
+            
+        for(int i = 0; i <= num; i++)
+        {
+            if(i < 2) // case 0 & 1
+                res.push_back(i);
+            else
+            {
+                if(i % two_fact == 0) // 2的次方數bit 1's nums is always 1, EX: 10  100  1000  10000....
+                {
+                    res.push_back(1);
+                    two_fact = i;
+                }
+                else
+                    res.push_back(1 + res[i % two_fact]); // 發現只要不是2的次方數他的1's bit num 就會是 數字%次方數的餘數的那個數的1's bit num + 1
+                                                          // EX: 5 = 2^2 + 1,  (2次方數一定只有一個1) + (1 的 1's bit num是1) = 2
+                                                          // EX: 13 = 2^3 + 5 的 1's bit num = 1 + 2 = 3  ===> 1000(8) + 101(5)  = 3個1
+            }
+        }
+        return res;
+        
+    }
+};
+
