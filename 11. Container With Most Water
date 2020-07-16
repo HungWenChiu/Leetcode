@@ -1,0 +1,24 @@
+// 使用前後指針向中間搜尋
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+    
+        int result = 0, l = 0, r = height.size() - 1;
+        
+        while(l < r)
+        {
+            result = max(result, min(height[l], height[r]) * (r - l));
+            
+            if(height[l] < height[r]) // 如果小的那個就要往下一個去找，要留大的那一個，因為如果留小的那個，而大的那一邊往內找，則找到的下一個一定會<現在的值
+                l++;
+            else
+                r--;
+            
+        }
+        
+        return result;
+            
+        
+    }
+};
