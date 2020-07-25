@@ -1,0 +1,24 @@
+// DP programming，從1~amount去算每一個數字的"the fewest number of coins"
+// dp_res[i]: i 這個數字的fewest number of coins = min(dp_res[i-所有 <= i的面額] + 1(本身這個coin))
+
+class Solution {
+public:
+    
+    int coinChange(vector<int>& coins, int amount) {
+        
+        vector<int> dp_res(amount + 1, amount + 1); // dp_res[amount + 1]: index表示每個i值的fewest number of coins 從 1~amount，所以index要amount + 1，default數值為 amount + 1，因為如果coin只有1 最多也只需要加amount次
+        dp_res[0] = 0; // initial值 = 0
+        
+        for(int i = 1; i <= amount; i++) // 從1~amount都算出fewest number of coins
+        {
+            for(auto j = 0; j < coins.size(); j++) // 對每個數i，遍歷整個coin面額
+            {
+                if(coins[j] <= i) // 面額一定要 < i
+                    dp_res[i] = min(dp_res[i], dp_res[i - coins[j]] + 1); // 由目前最小值跟i - 面額的dp_res最小值找minimum
+            }
+        }
+        
+        return (dp_res[amount] == amount + 1) ? -1 : dp_res[amount];
+        
+    }
+};
