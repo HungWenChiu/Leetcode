@@ -1,0 +1,44 @@
+// 解法: 使用recursive 列出所有的組合並排序每組組合裡面的數字，排序過後清除重複組合
+
+class Solution {
+public:
+    
+    void find_prob(set<vector<int>>& res,  vector<int>& tmp, vector<int>& candidates, int target){
+        
+        if(target == 0) // 表示combination是valid的
+        {
+            sort(tmp.begin(), tmp.end()); // sort裡面的element，因為有可能重複，EX: {2,2,3} and {2,3,2} 算同一組
+            if(res.count(tmp) == 0) // 如果set裡沒有同一組
+                res.insert(tmp);// 放數組到set裡
+            return;
+        }
+        
+        
+        for(auto i = 0; i < candidates.size() && target > 0; i++) 
+        // 每次用loop找candidates裡面的數字，如果 <= target表是這個數字可以當作target的combination
+        {
+            if(candidates[i] <= target)
+            {
+                vector<int> tmp2 = tmp; // 用來存原本還沒放入這數字的array
+                tmp.push_back(candidates[i]); // 把新的數字放進去
+                find_prob(res,  tmp, candidates, target - candidates[i]); // 放入新數字之後再找下一個combination element => target - candidates[i]
+                tmp = tmp2; // 找完之後要把原本array放回來再找下一個element，EX: 2,"2" 找完 要找 2,"3".....
+            }
+        }
+        
+    }
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        
+        set<vector<int>> set_res; // 用來存每種valid的組合
+        vector<int> tmp = {};
+        find_prob(set_res, tmp, candidates, target); 
+        
+        vector<vector<int>> res;
+        for(auto i = set_res.begin(); i != set_res.end(); i++)
+            res.push_back(*i);   
+        
+        return res;
+    
+    }
+};
