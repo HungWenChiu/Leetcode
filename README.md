@@ -95,7 +95,7 @@ erase (key / it): 刪除鍵值對
 ## 排列組合類似題目：使用遞迴算出每個結果：
 起始點：get_sequence(res, {}, nums);
 函數：
-```
+```cpp
 void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> nums)
     {
         if(nums.empty())
@@ -119,7 +119,7 @@ void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> n
 ```
 
 ## Combination列出所有可能(candidates裡面 所有組成X數字的組合)
-```
+```cpp
 void find_prob(vector<vector<int>>& res,  vector<int>& tmp, vector<int>& candidates, int target){  
           
         if(target == 0) // 表示combination是valid的  
@@ -145,7 +145,7 @@ void find_prob(vector<vector<int>>& res,  vector<int>& tmp, vector<int>& candida
 ```
 
 ## Binary Search 應用
-```
+```cpp
 int find_lowbound(vector<int>& nums, int target){ // 找出第一個大於或等於target的元素
         
         int left = 0, right = nums.size() - 1;
@@ -166,7 +166,7 @@ int find_lowbound(vector<int>& nums, int target){ // 找出第一個大於或等
 
 
 ## BFS Search Algorithm: 需要有一個Queue存input近來的數字順序
-```
+```cpp
 void BFS_find(vector<vector<int>> &res, queue<TreeNode*> &q)  
 {  
           
@@ -196,7 +196,7 @@ void BFS_find(vector<vector<int>> &res, queue<TreeNode*> &q)
 ```
 
 ## Transpose Matrix Algorithm(NxN)
-```
+```cpp
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
@@ -217,7 +217,7 @@ public:
 // 1. 由終點往前找看看哪一點是成功可以跳到終點的點，把它當作"上一個成功點"，再由上一個成功點再往前推。
 // 2. 如果目前的點的數值 + 點的位置 >= 上一個成功點，表示目前的點一定可以跳到上一個成功點，到達上一個成功點就表示可以跳到終點。
 // 最後再看看上一個成功點會不會等於最一開始的點(i == 0)，如果是表示此點一定可以到達終點
-```
+```cpp
 class Solution {
 public:
     
