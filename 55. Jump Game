@@ -1,0 +1,20 @@
+// 1. 由終點往前找看看哪一點是成功可以跳到終點的點，把它當作"上一個成功點"，再由上一個成功點再往前推。
+// 2. 如果目前的點的數值 + 點的位置 >= 上一個成功點，表示目前的點一定可以跳到上一個成功點，到達上一個成功點就表示可以跳到終點。
+// 最後再看看上一個成功點會不會等於最一開始的點(i == 0)，如果是表示此點一定可以到達終點
+
+class Solution {
+public:
+    
+    bool canJump(vector<int>& nums) {
+        
+        int last_suc_pt = nums.size() - 1;
+        
+        for(int i = nums.size() - 2; i >= 0; i--)
+        {
+            if(i + nums[i] >= last_suc_pt)
+                last_suc_pt = i;
+        }
+        
+        return (last_suc_pt == 0) ? true : false;
+    }
+};
