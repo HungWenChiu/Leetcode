@@ -1,0 +1,27 @@
+// 利用重複排列，來做
+// EX: m = 7, n = 3 表示需要走 7 - 1 = 6 步Right，3 - 1 = 2步down到終點
+// 所以 RRRRRRDD = 8!/6!2! = (8 * 7)/(1 * 2) = 28  =====> 重複排列
+
+class Solution {
+public:
+    
+    int permut_wo_repeat(int m, int n){
+         
+        if(m == 0 || n == 0)
+            return 1;
+        
+        long long res = 1;
+        for(int i = 1; i <= n; i++)
+        {
+            res *= m - i + 1;
+            res /= i;
+        }    
+        return (int)res;
+    }
+    
+    int uniquePaths(int m, int n) {
+        
+        return permut_wo_repeat(m + n - 2, min(m - 1, n - 1));
+
+    }
+};
