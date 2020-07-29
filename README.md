@@ -5,20 +5,20 @@ source code of mine
 
 ## Vector：
 ### initial:
-Vector\<type\> a()<br>
+Vector\<type\> a;<br>
 vector\<int\> number = {10, 20, 30};
 
 ### Useful Function:
-push_back()：add element\<br>
-pop_back(): remove the last element
-size()
-begin(): iliterator 指標指到第一個元素
-end(): illiterator 指標指到最後一個元素
-front(): 回傳第一個元素
-empty(): 是否回空直
-a.swap(b): a, b array對調
-insert(it, num): 插入值
-a.erase(it.begin() + i): 刪掉第幾個元素
+push_back()：add element<br>
+pop_back(): remove the last element<br>
+size()<br>
+begin(): iliterator 指標指到第一個元素<br>
+end(): illiterator 指標指到最後一個元素<br>
+front(): 回傳第一個元素<br>
+empty(): 是否回空直<br>
+a.swap(b): a, b array對調<br>
+insert(it, num): 插入值<br>
+a.erase(it.begin() + i): 刪掉第幾個元素<br>
 sort(tmp.begin(), tmp.end());
 
 ## Queue:
