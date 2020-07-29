@@ -5,8 +5,8 @@ source code of mine
 
 ## Vector：
 ### initial:
-Vector<type> a()<br>
-vector<int> number = {10, 20, 30};
+Vector\<type\> a()<br>
+vector\<int\> number = {10, 20, 30};
 
 ### Useful Function:
 push_back()：add element\<br>
