@@ -4,7 +4,7 @@ source code of mine
 # USEFUL STL C++
 
 ## Vector：
-### initial:
+### Initial:
 Vector\<type\> a;<br>
 vector\<int\> number = {10, 20, 30};<br>
 
@@ -23,7 +23,7 @@ sort(tmp.begin(), tmp.end());<br>
 greater\<int\>() / less\<int\>()<br>
  
 ## Queue:
-### initial:
+### Initial:
 queue\<type\> myqueue;<br>
 
 ### Useful Function:
@@ -41,7 +41,7 @@ a.top(): 回傳最前面的element但不取出<br>
 
  
 ## Stack
-### initial:
+### Initial:
 stack\<type\> mystack;<br>
 
 ### Useful Function:
@@ -52,7 +52,7 @@ a.size()<br>
 a.empty()<br>
 
 ## Set
-### initial:
+### Initial:
 set\<type\> myset -> `以紅黑樹implement，裡面的數都是有序的`<br>
 
 ### Useful Function:
@@ -61,7 +61,7 @@ a.erase(a): 把a移出<br>
 a.count(a): 看a有沒有在裡面<br>
 
 ## Unordered Set
-### initial:
+### Initial:
 unordered_set\<type\> myset -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
 
 ### Useful Function:
@@ -70,7 +70,7 @@ a.erase(a): 把a移出<br>
 a.count(a): 看a有沒有在裡面<br>
 
 ## Map
-### initial:
+### Initial:
 map\<type1, type2\> mymap
 
 ### Useful Function:
@@ -81,7 +81,7 @@ a..clear(): 刪除map整個element<br>
 a.erase(key / it): 刪除鍵值對
 
 ## Unordered map
-### initial:
+### Initial:
 unordered_map\<type\> mymap -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
 
 ### Useful Function:
@@ -115,6 +115,26 @@ void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> n
                 get_sequence(res, tmp, tmp2); // 遞迴算出每個結果
             }
         }
+    }
+```
+
+## 重複排列演算法(8! / 3!5!)
+m 為大值，n為小值<br>
+res需要使用long long int 以防overflow<br>
+(8!) / (3!5!) => (8*7*6) / (1*2*3)，所以loop只需要算小值的次數就好<br>
+```cpp
+    int permut_wo_repeat(int m, int n){
+         
+        if(m == 0 || n == 0)
+            return 1;
+        
+        long long res = 1;
+        for(int i = 1; i <= n; i++)
+        {
+            res *= m - i + 1;
+            res /= i;
+        }    
+        return (int)res;
     }
 ```
 
