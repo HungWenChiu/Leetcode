@@ -9,7 +9,7 @@ Vector<type> a()
 vector<int> number = {10, 20, 30};
 
 ### Useful Function:
-push_back()：add element
+push_back()：add element\<br>
 pop_back(): remove the last element
 size()
 begin(): iliterator 指標指到第一個元素
