@@ -20,76 +20,76 @@ a.swap(b): a, b array對調<br>
 a.insert(it, num): 插入值<br>
 a.erase(it.begin() + i): 刪掉第幾個元素<br>
 sort(tmp.begin(), tmp.end());<br>
-greater<int>() / less<int>()<br>
+greater\<int\>() / less\<int\>()<br>
  
 ## Queue:
 ### initial:
 queue\<type\> myqueue;<br>
 
 ### Useful Function:
-back(): 回傳最後一個element<br>
-front(): 回傳第一個element<br>
-push(): 放到queue的最後<br>
-pop(): 拿出第一個element<br>
-empty(): 是否回空直<br>
-size()
+a.back(): 回傳最後一個element<br>
+a.front(): 回傳第一個element<br>
+a.push(): 放到queue的最後<br>
+a.pop(): 拿出第一個element<br>
+a.empty(): 是否回空直<br>
+a.size()<br>
 
 ## priority Queue:
-functions跟Queue一樣，差別差再越前面的一定越大<br>
-priority_queue< int,vector<int>,greater<int> >：這樣宣告則是越小的越前面<br>
-top(): 回傳最前面的element但不取出
+<font color=red> functions跟Queue一樣，差別差再越前面的一定越大</font><br>
+priority_queue< int,vector\<int\>,greater\<int\>()\>：這樣宣告則是越小的越前面<br>
+a.top(): 回傳最前面的element但不取出<br>
 
  
 ## Stack
 ### initial:
-stack<type> mystack;<br>
+stack\<type\> mystack;<br>
 
 ### Useful Function:
-top(): 回傳最上面的element但不取出<br>
-push(): 放到stack最上面<br>
-pop(): 移除最上面的element<br>
-size()<br>
-empty()
+a.top(): 回傳最上面的element但不取出<br>
+a.push(): 放到stack最上面<br>
+a.pop(): 移除最上面的element<br>
+a.size()<br>
+a.empty()<br>
 
 ## Set
 ### initial:
-set<type> myset -> 以紅黑樹implement，裡面的數都是有序的<br>
+set\<type\> myset -> <font color=red>以紅黑樹implement，裡面的數都是有序的</font><br>
 
 ### Useful Function:
-insert(a): 把a放進集合<br>
-erase(a): 把a移出<br>
-count(a): 看a有沒有在裡面
+a.insert(a): 把a放進集合<br>
+a.erase(a): 把a移出<br>
+a.count(a): 看a有沒有在裡面<br>
 
 ## Unordered Set
 ### initial:
-unordered_set<type> myset -> 使用hash table實踐，search速度幾乎是O(1)，但空間利用大
+unordered_set\<type\> myset -> <font color=red>使用hash table實踐，search速度幾乎是O(1)，但空間利用大</font>
 
 ### Useful Function:
-insert(a): 把a放進集合<br>
-erase(a): 把a移出<br>
-count(a): 看a有沒有在裡面
+a.insert(a): 把a放進集合<br>
+a.erase(a): 把a移出<br>
+a.count(a): 看a有沒有在裡面<br>
 
 ## Map
 ### initial:
-map<type1, type2> mymap
+map\<type1, type2\> mymap
 
 ### Useful Function:
-[]: 得到對應的值, EX: my_map[‘a’] = b -> assign<br>
-insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
-count(a): 看a有沒有在裡面<br>
-mymap.clear(): 刪除map整個element<br>
-erase (key / it): 刪除鍵值對
+a\[index\]: 得到對應的值, EX: my_map['a'] = b -> assign<br>
+a.insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
+a.count(a): 看a有沒有在裡面<br>
+a..clear(): 刪除map整個element<br>
+a.erase(key / it): 刪除鍵值對
 
 ## Unordered map
 ### initial:
-unordered_map<type> mymap -> 使用hash table實踐，search速度幾乎是O(1)，但空間利用大
+unordered_map\<type\> mymap -> <font color=red>使用hash table實踐，search速度幾乎是O(1)，但空間利用大</font><br>
 
 ### Useful Function:
-[]: 得到對應的值, EX: my_map[‘a’] = b -> assign<br>
-insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
-count(a): 看a有沒有在裡面<br>
-mymap.clear(): 刪除map整個element<br>
-erase (key / it): 刪除鍵值對
+a[idx]: 得到對應的值, EX: my_map['a'] = b -> assign<br>
+a.insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
+a.count(b): 看b有沒有在裡面<br>
+a.clear(): 刪除map整個element<br>
+a.erase(key / it): 刪除鍵值對<br>
 
 # Algorithm
 ## 排列組合類似題目：使用遞迴算出每個結果：
