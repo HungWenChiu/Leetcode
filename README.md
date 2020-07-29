@@ -6,57 +6,58 @@ source code of mine
 ## Vector：
 ### initial:
 Vector\<type\> a;<br>
-vector\<int\> number = {10, 20, 30};
+vector\<int\> number = {10, 20, 30};<br>
 
 ### Useful Function:
-push_back()：add element<br>
-pop_back(): remove the last element<br>
-size()<br>
-begin(): iliterator 指標指到第一個元素<br>
-end(): illiterator 指標指到最後一個元素<br>
-front(): 回傳第一個元素<br>
-empty(): 是否回空直<br>
+a.push_back()：add element<br>
+a.pop_back(): remove the last element<br>
+a.size(): vector長度<br>
+a.begin(): iliterator 指標指到第一個元素<br>
+a.end(): illiterator 指標指到最後一個元素<br>
+a.front(): 回傳第一個元素<br>
+a.empty(): 是否回空直<br>
 a.swap(b): a, b array對調<br>
-insert(it, num): 插入值<br>
+a.insert(it, num): 插入值<br>
 a.erase(it.begin() + i): 刪掉第幾個元素<br>
-sort(tmp.begin(), tmp.end());
-
+sort(tmp.begin(), tmp.end());<br>
+greater<int>() / less<int>()<br>
+ 
 ## Queue:
 ### initial:
-queue<type> myqueue;
+queue\<type\> myqueue;<br>
 
 ### Useful Function:
-back(): 回傳最後一個element
-front(): 回傳第一個element
-push(): 放到queue的最後
-pop(): 拿出第一個element
-empty(): 是否回空直
+back(): 回傳最後一個element<br>
+front(): 回傳第一個element<br>
+push(): 放到queue的最後<br>
+pop(): 拿出第一個element<br>
+empty(): 是否回空直<br>
 size()
 
 ## priority Queue:
-functions跟Queue一樣，差別差再越前面的一定越大
-priority_queue< int,vector<int>,greater<int> >：這樣宣告則是越小的越前面
+functions跟Queue一樣，差別差再越前面的一定越大<br>
+priority_queue< int,vector<int>,greater<int> >：這樣宣告則是越小的越前面<br>
 top(): 回傳最前面的element但不取出
 
  
 ## Stack
 ### initial:
-stack<type> mystack;
+stack<type> mystack;<br>
 
 ### Useful Function:
-top(): 回傳最上面的element但不取出
-push(): 放到stack最上面
-pop(): 移除最上面的element
-size()
+top(): 回傳最上面的element但不取出<br>
+push(): 放到stack最上面<br>
+pop(): 移除最上面的element<br>
+size()<br>
 empty()
 
 ## Set
 ### initial:
-set<type> myset -> 以紅黑樹implement，裡面的數都是有序的
+set<type> myset -> 以紅黑樹implement，裡面的數都是有序的<br>
 
 ### Useful Function:
-insert(a): 把a放進集合
-erase(a): 把a移出
+insert(a): 把a放進集合<br>
+erase(a): 把a移出<br>
 count(a): 看a有沒有在裡面
 
 ## Unordered Set
@@ -64,8 +65,8 @@ count(a): 看a有沒有在裡面
 unordered_set<type> myset -> 使用hash table實踐，search速度幾乎是O(1)，但空間利用大
 
 ### Useful Function:
-insert(a): 把a放進集合
-erase(a): 把a移出
+insert(a): 把a放進集合<br>
+erase(a): 把a移出<br>
 count(a): 看a有沒有在裡面
 
 ## Map
@@ -73,10 +74,10 @@ count(a): 看a有沒有在裡面
 map<type1, type2> mymap
 
 ### Useful Function:
-[]: 得到對應的值, EX: my_map[‘a’] = b -> assign
-insert(pair<type1, type2>(value1, value2)) : 塞入一個pair
-count(a): 看a有沒有在裡面
-mymap.clear(): 刪除map整個element
+[]: 得到對應的值, EX: my_map[‘a’] = b -> assign<br>
+insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
+count(a): 看a有沒有在裡面<br>
+mymap.clear(): 刪除map整個element<br>
 erase (key / it): 刪除鍵值對
 
 ## Unordered map
@@ -84,17 +85,16 @@ erase (key / it): 刪除鍵值對
 unordered_map<type> mymap -> 使用hash table實踐，search速度幾乎是O(1)，但空間利用大
 
 ### Useful Function:
-[]: 得到對應的值, EX: my_map[‘a’] = b -> assign
-insert(pair<type1, type2>(value1, value2)) : 塞入一個pair
-count(a): 看a有沒有在裡面
-mymap.clear(): 刪除map整個element
+[]: 得到對應的值, EX: my_map[‘a’] = b -> assign<br>
+insert(pair<type1, type2>(value1, value2)) : 塞入一個pair<br>
+count(a): 看a有沒有在裡面<br>
+mymap.clear(): 刪除map整個element<br>
 erase (key / it): 刪除鍵值對
 
 # Algorithm
-
 ## 排列組合類似題目：使用遞迴算出每個結果：
-起始點：get_sequence(res, {}, nums);
-函數：
+起始點：get_sequence(res, {}, nums);<br>
+函數：<br>
 ```cpp
 void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> nums)
     {
@@ -214,9 +214,9 @@ public:
 };
 ```
 ## 需要判斷是否可以到終點(用暴力法判斷結果會超時)，這時可以使用由結果往前推的概念(55. Jump Game 是其中一個應用)
-// 1. 由終點往前找看看哪一點是成功可以跳到終點的點，把它當作"上一個成功點"，再由上一個成功點再往前推。
-// 2. 如果目前的點的數值 + 點的位置 >= 上一個成功點，表示目前的點一定可以跳到上一個成功點，到達上一個成功點就表示可以跳到終點。
-// 最後再看看上一個成功點會不會等於最一開始的點(i == 0)，如果是表示此點一定可以到達終點
+1. 由終點往前找看看哪一點是成功可以跳到終點的點，把它當作"上一個成功點"，再由上一個成功點再往前推。<br>
+2. 如果目前的點的數值 + 點的位置 >= 上一個成功點，表示目前的點一定可以跳到上一個成功點，到達上一個成功點就表示可以跳到終點。<br>
+3. 最後再看看上一個成功點會不會等於最一開始的點(i == 0)，如果是表示此點一定可以到達終點<br>
 ```cpp
 class Solution {
 public:
