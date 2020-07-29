@@ -1,0 +1,31 @@
+// 需要列出所有可能，使用recursion 
+// 第i 個數的subset只需要從i+1開始找就好了(避免重複)
+// EX: {1,2,3} => 1會找到{1,2} {1,3} 如果2也去找1會變成{2,1} =====> 和{1,2}重複了
+class Solution {
+public:
+    
+    void find_subsets(vector<int>& nums, vector<vector<int>>& res, vector<int>& subseq, int index){ 
+    // 找出所有subset
+        
+        for(int i = index; i < nums.size(); i++) // 從現有的index開始找，每找到一個數就把他加到res裡面
+        {
+            // EX: index = 0 時會從 {1, 2, 3} loop去找
+            vector<int> tmp = subseq; // 把目前sub_seq存到tmp裡面避免被蓋掉
+            
+            tmp.push_back(nums[i]); // 把1加進去 
+            res.push_back(tmp); // {1} 也算是subset
+            find_subsets(nums, res, tmp, i + 1); // 1找過了，之後從1後面開始找{2,3}
+        }
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        
+        vector<vector<int>> res;
+        res.push_back({}); // 空集合也算subset
+        vector<int> start = {};
+        
+        find_subsets(nums, res, start, 0);
+        return res;
+        
+    }
+};
