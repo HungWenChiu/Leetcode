@@ -35,7 +35,7 @@ a.empty(): 是否回空直<br>
 a.size()<br>
 
 ## priority Queue:
-```diff ! functions跟Queue一樣，差別差再越前面的一定越大```<br>
+`functions跟Queue一樣，差別差再越前面的一定越大`<br>
 priority_queue< int,vector\<int\>,greater\<int\>()\>：這樣宣告則是越小的越前面<br>
 a.top(): 回傳最前面的element但不取出<br>
 
@@ -53,7 +53,7 @@ a.empty()<br>
 
 ## Set
 ### initial:
-set\<type\> myset -> <font color=red>以紅黑樹implement，裡面的數都是有序的</font><br>
+set\<type\> myset -> `以紅黑樹implement，裡面的數都是有序的`<br>
 
 ### Useful Function:
 a.insert(a): 把a放進集合<br>
@@ -62,7 +62,7 @@ a.count(a): 看a有沒有在裡面<br>
 
 ## Unordered Set
 ### initial:
-unordered_set\<type\> myset -> <font color=red>使用hash table實踐，search速度幾乎是O(1)，但空間利用大</font>
+unordered_set\<type\> myset -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
 
 ### Useful Function:
 a.insert(a): 把a放進集合<br>
@@ -82,7 +82,7 @@ a.erase(key / it): 刪除鍵值對
 
 ## Unordered map
 ### initial:
-unordered_map\<type\> mymap -> <font color=red>使用hash table實踐，search速度幾乎是O(1)，但空間利用大</font><br>
+unordered_map\<type\> mymap -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
 
 ### Useful Function:
 a[idx]: 得到對應的值, EX: my_map['a'] = b -> assign<br>
