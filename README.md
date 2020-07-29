@@ -121,7 +121,7 @@ void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> n
 ## 重複排列演算法(8! / 3!5!)
 m 為大值，n為小值<br>
 res需要使用long long int 以防overflow<br>
-(8!) / (3!5!) => (8*7*6) / (1*2*3)，所以loop只需要算小值的次數就好<br>
+(8!) / (3!5!) => (8\*7\*6) / (1\*2\*3)，所以loop只需要算小值的次數就好<br>
 ```cpp
     int permut_wo_repeat(int m, int n){
          
