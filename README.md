@@ -35,7 +35,7 @@ a.empty(): 是否回空直<br>
 a.size()<br>
 
 ## priority Queue:
-<font color=red> functions跟Queue一樣，差別差再越前面的一定越大</font><br>
+!functions跟Queue一樣，差別差再越前面的一定越大<br>
 priority_queue< int,vector\<int\>,greater\<int\>()\>：這樣宣告則是越小的越前面<br>
 a.top(): 回傳最前面的element但不取出<br>
 
