@@ -1,0 +1,40 @@
+// 使用DFS的方式每個case都去找，每個字元都去對
+// board找過的地方都會改為'#'
+// 如果x or y 超出邊界 或是 找到已經找過的地方 或是 當前字元跟word[index]不合，則return false
+// 如果idx == word.size() 表示中途沒有遇到問題，回傳true
+// 其他的情形就繼續上下左右往下找，記得找完board = '#' 要存回原來的值，不然會影響到下一個DFS的function
+
+// 這題難在無法使用另一個vector來記錄找過的地方或是用copy vector的方式(記憶體會爆炸)，所以必須使用同一個board vector然後找過在賦歸原來的值
+
+class Solution {
+public:
+    
+    bool DFS(vector<vector<char>>& board, string &word, int idx, int x, int y){
+        
+        if(idx == word.size()) return true;
+        
+        if(x < 0 || y < 0 || x >= board.size() || y >= board[0].size() || board[x][y] == '#' || board[x][y] != word[idx]) 
+            return false;
+        
+        char tmp = board[x][y];
+        board[x][y] = '#';
+        bool res = DFS(board, word, idx + 1, x + 1, y) || DFS(board, word, idx + 1, x - 1, y) || DFS(board, word, idx + 1, x, y + 1) || DFS(board, word, idx + 1, x, y - 1);
+        board[x][y] = tmp;
+        
+        return res;
+        
+    }
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        if(board.empty() || board[0].empty()) return false;
+        
+        for(int i = 0; i < board.size(); i++)
+            for(int j = 0; j < board[0].size(); j++)
+                if(DFS(board, word, 0, i, j)) return true;
+        
+        
+        return false;
+        
+    }
+};
