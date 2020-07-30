@@ -100,14 +100,33 @@ list <Type*> listTP; <br>
 listT.push_back (b);	// 將 b 複製丟到 listT 後面 <br>
 listT.push_front (f)	// 將 f 複製丟到 listT 前面 <br>
 mylist.push_front (200) // Insert element at beginning <br>
-mylist.pop_front(); // Delete first element
-mylist.push_back(myint); // Add element at the end
-mylist.pop_back(); // Delete last element
-mylist.insert(it,10); // 在itor前面insert 10， itor指的目標不會變
-mylist.erase(it1); // delete itor所指的值
-first.swap(second); // first 跟 second 互換
+mylist.pop_front(); // Delete first element <br>
+mylist.push_back(myint); // Add element at the end <br>
+mylist.pop_back(); // Delete last element <br>
+mylist.insert(it,10); // 在itor前面insert 10， itor指的目標不會變 <br>
+mylist.erase(it1); // delete itor所指的值 <br>
+first.swap(second); // first 跟 second 互換 <br>
+mylist1.splice (it, mylist2) // mylist2拼接到mylist1 <br>
+```cpp
+// set some initial values:
+  for (int i=1; i<=4; ++i)
+     mylist1.push_back(i);      // mylist1: 1 2 3 4
 
+  for (int i=1; i<=3; ++i)
+     mylist2.push_back(i*10);   // mylist2: 10 20 30
 
+  it = mylist1.begin();
+  ++it;                         // points to 2
+
+  mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+                                // mylist2 (empty)
+                                // "it" still points to 2 (the 5th element)
+                                          
+  mylist2.splice (mylist2.begin(),mylist1, it);
+                                // mylist1: 1 10 20 30 3 4
+                                // mylist2: 2
+                                // "it" is now invalid.
+```
 
 
 # Algorithm
