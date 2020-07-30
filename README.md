@@ -289,4 +289,11 @@ public:
     }
 };
 ```
+## Traversal in Binary Tree以及Algorithms:
+Tree的找法分成三種: (1) Inorder Traversal (2) Preorder Traversal (3) Postorder Traversal (4) Level-Order Traversal<br>
+### Inorder Traversal: 左->中->右
+### Preorder Traversal: 中->左->右
+### Postorder Traversal: 左->右->中
+
+EX:
 
