@@ -295,5 +295,91 @@ Tree的找法分成三種: (1) Inorder Traversal (2) Preorder Traversal (3) Post
 ### Preorder Traversal: 中->左->右
 ### Postorder Traversal: 左->右->中
 
-EX:
+![image](https://github.com/t51113030/Leetcode/blob/master/pic/Tree.jpg) <br>
 
+### Inorder + Preorder array 或 Inorder + Postorder array 可以決定一棵樹的構造，參考以下程式碼: <br>
+#### 106. Construct Binary Tree from Inorder and Postorder Traversal<br>
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    TreeNode* buildTree(vector<int>& inorder, int ileft, int iright, vector<int>& postorder, int pleft, int pright){
+        
+        if(ileft > iright || pleft > pright) return nullptr;
+        
+        int i;
+        for(i = ileft; i <= iright; i++)
+            if(postorder[pright] == inorder[i]) break; // post 是最右邊為根節點，所以從右邊開始找
+        
+        TreeNode* node = new TreeNode(postorder[pright]);
+        node->right = buildTree(inorder, i + 1, iright, postorder, pright - (iright - i) , pright - 1); // post 是左右中，所以中找完了就下一個就是找右邊subtree
+        node->left = buildTree(inorder, ileft, i - 1, postorder, pleft, pright - (iright - i) - 1); // 右邊之後才是找左邊
+        // 最難的是subtree 的左右邊界怎麼訂，一定要看清楚
+        return node;
+    }
+    
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        
+        TreeNode* tree = buildTree(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
+        return tree;
+    }
+};
+```
+#### 105. Construct Binary Tree from Preorder and Inorder Traversal<br>
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        
+        TreeNode* tree = buildTree(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+        
+        return tree;
+    }
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder, int pleft, int pright, int ileft, int iright){
+        
+        if(pleft > pright || ileft > iright)
+            return nullptr;
+        
+        int bound;
+        for(int i = ileft; i <= iright; i++)
+        {
+            if(preorder[pleft] == inorder[i]) // preoreder 是最左邊為根節點，所以從左邊開始找
+            {
+                bound = i;
+                break;
+            }
+        }    
+        
+        TreeNode* node = new TreeNode(preorder[pleft]);
+        node->left = buildTree(preorder, inorder, pleft + 1, pleft + bound - ileft, ileft, bound - 1); // pre 是中左右，所以中找完了就下一個就是找left subtree
+        node->right = buildTree(preorder, inorder, pleft + bound - ileft + 1, pright, bound + 1, iright); //然後才是找right subtree
+        
+        return node;
+        
+    }
+};
+```
