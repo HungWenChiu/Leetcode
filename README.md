@@ -91,6 +91,25 @@ a.count(b): 看b有沒有在裡面<br>
 a.clear(): 刪除map整個element<br>
 a.erase(key / it): 刪除鍵值對<br>
 
+## List:
+### Initial:
+list <Type> listT; <br>
+list <Type*> listTP; <br>
+
+### Useful Function:
+listT.push_back (b);	// 將 b 複製丟到 listT 後面 <br>
+listT.push_front (f)	// 將 f 複製丟到 listT 前面 <br>
+mylist.push_front (200) // Insert element at beginning <br>
+mylist.pop_front(); // Delete first element
+mylist.push_back(myint); // Add element at the end
+mylist.pop_back(); // Delete last element
+mylist.insert(it,10); // 在itor前面insert 10， itor指的目標不會變
+mylist.erase(it1); // delete itor所指的值
+first.swap(second); // first 跟 second 互換
+
+
+
+
 # Algorithm
 ## 排列組合類似題目：使用遞迴算出每個結果：
 起始點：get_sequence(res, {}, nums);<br>
