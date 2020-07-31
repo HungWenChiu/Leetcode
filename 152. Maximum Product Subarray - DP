@@ -1,0 +1,27 @@
+// dp 題，難
+//1. 每個dp[i - 1] 需要計算出max & min
+//2. 而dp[i]的最大值一定確保在dp_max[i - 1] * nums[i], dp_min[i - 1] * nums[i] , nums[i] 三者其中之一個
+//3. 所以再次計算出dp_max[i], dp_min[i]，在跟目前最大值:res 取max
+// 最後的result就會是答案
+
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        
+        vector<int> dp_max(nums.size());
+        vector<int> dp_min(nums.size());
+        int res = nums[0];
+        
+        dp_max[0] = nums[0];
+        dp_min[0] = nums[0];
+        
+        for(auto i = 1; i < nums.size(); i++)
+        {
+            dp_max[i] = max(max(dp_max[i - 1] * nums[i], dp_min[i - 1] * nums[i]), nums[i]);
+            dp_min[i] = min(min(dp_max[i - 1] * nums[i], dp_min[i - 1] * nums[i]), nums[i]);
+            res = max(res, dp_max[i]);
+        }
+        
+        return res;
+    }
+};
