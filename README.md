@@ -95,6 +95,9 @@ a.erase(key / it): 刪除鍵值對<br>
 ### Initial:
 list <Type> listT; <br>
 list <Type*> listTP; <br>
+ 
+int myints[] = {75,23,65,42,13};
+list<int> mylist (myints, myints+5);
 
 ### Useful Function:
 listT.push_back (b);	// 將 b 複製丟到 listT 後面 <br>
