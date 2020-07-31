@@ -1,0 +1,32 @@
+// 使用DP做題
+// 遍歷每個字元，對每個字元分成0~j-1, j~i
+// 找出dp[j] : 0~j-1個字串是否可以由字典裡找出所有的word
+// s.substr(j, i - j) : 子字元判斷是否可以在字典裡找到
+// 如果dp[j] && s.substr(j, i - j) 都是true，表示子字元dp[i] = true(裡面的子字串組合都可以在字典裡找到)
+// 從i = 0 一值找到dp.size() => 分成已經找到的結果 + 目前要找的子字串兩部分
+
+class Solution {
+public:
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        
+        unordered_set<string> dic_s(wordDict.begin(), wordDict.end());
+        vector<bool> res(s.size() + 1);
+        res[0] = true;
+        
+        for(int i = 0; i < res.size(); i++)
+        {
+            for(int j = 0; j < i; j++)
+            {
+                if(res[j] == true && dic_s.count(s.substr(j, i - j)) > 0)
+                {
+                    res[i] = true;
+                    break;
+                }
+                
+            }
+        }
+        
+        return res.back();
+    }
+};
