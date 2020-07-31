@@ -1,0 +1,47 @@
+// 需要使用兩個data structures: hash_table & linked list
+// hash_table=> key跟對應的值為iterator指到特定的list上面
+// 而每個list則是包含一個pair<key, value>
+
+class LRUCache {
+    
+    int capacity;
+    list<pair<int, int>> key_seq;
+    unordered_map<int, list<pair<int, int>>:: iterator> dic;
+    
+public:
+    LRUCache(int capacity) {
+        this->capacity = capacity;
+    }
+    
+    int get(int key) {
+        
+        if(dic.count(key) > 0) // find the key
+        {
+            key_seq.splice(key_seq.begin(), key_seq, dic[key]); // 把map到的那個list element移到最前面
+            return dic[key]->second; // 回傳value
+        }
+        else
+            return -1;
+    }
+    
+    void put(int key, int value) {
+        
+        if(dic.count(key)) // 要先判斷如果原本key就已經存在 EX: 裡面有(1,2) 但 input (1,3)
+            key_seq.erase(dic[key]); // 把舊的mapping到的list remove
+        
+        if(key_seq.size() == this->capacity) // capacity滿了，要刪除vecotor最前面的數，表示沒有用到
+        {
+            dic.erase(key_seq.back().first);
+            key_seq.pop_back();
+        }
+        key_seq.push_front(make_pair(key, value)); // 把新的pair放到list最前面
+        dic[key] = key_seq.begin(); //hash table 的 value 改為指到新的list element上面
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
