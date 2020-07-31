@@ -1,0 +1,49 @@
+// 使用recursive
+// 需要兩個2D vector: 
+//      grid:存地圖(0跟1) 
+//      map_check: 紀錄地圖的哪個座標已經找過了
+//      res 用來記錄有多少個island
+// 遍歷每個點開始當作起點往外擴張找相鄰的1
+// 如果那個點已經被走過了(map_check[i][j] == true)) 則忽略找下一個點
+
+class Solution {
+public:
+    
+    bool find_island(vector<vector<char>>& grid, vector<vector<bool>>& map_check, int x, int y){
+        
+        if(x < 0 || y < 0 || x >= grid.size() || y >= grid[0].size()) // 停止點1. 判斷遇到bound的情形，當作water return true
+            return true;
+        
+        if(grid[x][y] == '0') // 停止點2. 找到0的時候表示不用繼續找下去了
+            return true;
+        
+        if(grid[x][y] == '1' && map_check[x][y] == true) // 停止點3. 遇到已經找過的座標而且是island則回傳true，避免重複尋找進入無窮迴圈
+            return true;
+        
+        map_check[x][y] = true; // 是'1'而且還沒找過此座標，設為true
+        
+        return find_island(grid, map_check, x + 1, y) && find_island(grid, map_check, x, y + 1) && find_island(grid, map_check, x - 1, y) && find_island(grid, map_check, x, y - 1); // 必須要是上下左右擴張"且"都回傳true表示才是找到一個正常的island
+        
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        
+        if(grid.size() == 0)
+            return 0;
+        
+        vector<vector<bool>> map_check(grid.size(), vector<bool>(grid[0].size(), false));
+        int res = 0;
+        
+        for(int i = 0; i < grid.size(); i++)
+            for(int j = 0; j < grid[0].size(); j++) // 每個點當作起始點開始
+            {
+                if(map_check[i][j] == true || grid[i][j] == '0') // 如果遇到已經找過的點就不當起始點，直接continue
+                    continue;
+                
+                res = (find_island(grid, map_check, i, j) == true) ? res + 1 : res; // 最後回傳true的話表示是island，res++，不是的話就不要理他
+            }
+        
+        return res;
+        
+    }
+};
