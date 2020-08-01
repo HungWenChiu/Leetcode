@@ -425,8 +425,8 @@ public:
 };
 ```
 ## LinkedList 操作:
-# Reverse -> 概念: 再創一個新的new_head，把原本head的list依序串到新的new_head，就會Reverse
-Iterate:
+### Reverse -> 概念: 再創一個新的new_head，把原本head的list依序串到新的new_head，就會Reverse
+#### Iliterate:
 ```cpp
 ListNode* reverseList(ListNode* head) {   
         
@@ -447,7 +447,7 @@ ListNode* reverseList(ListNode* head) {
         return new_head;
     }
 ```
-Recursive:
+#### Recursive:
 ```cpp
 ListNode* new_list(ListNode* new_head, ListNode* head){
         
