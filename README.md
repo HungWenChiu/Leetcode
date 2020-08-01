@@ -1,24 +1,28 @@
 # Leetcode
 [USEFUL STL C++](#useful-stl-c) <br>
-- [Vector](##vector) <br>
-- [Queue](##Queue) <br>
-- [Priority Queue](##Priority-Queue) <br>
-- [Stack](##Stack) <br>
-- [Set](##Set) <br>
-- [Unordered Set](##Unordered-Set) <br>
-- [Map](##Map) <br>
-- [Unordered map](##Unordered-map) <br>
-- [List](##List) <br><br>
+- [Vector](#vector) <br>
+- [Queue](#queue) <br>
+- [Priority Queue](#priority-queue) <br>
+- [Stack](#stack) <br>
+- [Set](#set) <br>
+- [Unordered Set](#unordered-set) <br>
+- [Map](#map) <br>
+- [Unordered map](#unordered-map) <br>
+- [List](#list) <br><br>
 
 
-[Algorithm](#Algorithm) <br>
-- [排列組合類似題目](#排列組合類似題目：使用遞迴算出每個結果) <br>
-- [重複排列演算法](#重複排列演算法) <br>
-- [Combination列出所有可能](#Combination列出所有可能) <br>
-- [Binary Search 應用](##Binary-Search-應用) <br>
-- [BFS Search Algorithm](##BFS-Search-Algorithm:-需要有一個Queue存input近來的數字順序) <br>
-- [Transpose Matrix Algorithm(NxN)](##Transpose-Matrix-Algorithm(NxN)) <br>
-- [Dynamic Programming](##需要判斷是否可以到終點(用暴力法判斷結果會超時)，這時可以使用由結果往前推的概念(55.-Jump-Game-是其中一個應用)) <br>
+[Algorithm](#algorithm) <br>
+- [排列組合類似題目](#排列組合類似題目使用遞迴算出每個結果) <br>
+- [重複排列演算法](#重複排列演算法8--35) <br>
+- [Combination列出所有可能](#combination列出所有可能candidates裡面-所有組成x數字的組合) <br>
+- [Binary Search 應用](#binary-search-應用) <br>
+- [BFS Search Algorithm](#bfs-search-algorithm-需要有一個queue存input近來的數字順序) <br>
+- [Transpose Matrix Algorithm(NxN)](#transpose-matrix-algorithmnxn) <br>
+- [Dynamic Programming](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
+- [List相關用法](#list-all-subsets-refer-to-78-subsets) <br>
+- [Traversal In Binary Tree](#traversal-in-binary-tree以及algorithms) <br>
+- [LinkedList](#linkedlist-操作) <br>
+- [圖論](#圖論)<br>
 
 
 # USEFUL STL C++
