@@ -1,0 +1,49 @@
+// 圖論，使用BFS來找
+// 最後有點indegree不為0，且沒有 
+
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        vector<vector<int>> grap_list(numCourses, vector<int>());
+        vector<int> in_degree(numCourses, 0); // 紀錄每個點的indegree
+        queue<int> no_in_vertex; // 沒有indegree的VERTEX
+        
+        for(int i = 0; i < prerequisites.size(); i++) // 把每個點link的點串起來，EX: 1->2, 3, 5, 7
+        {
+            grap_list[prerequisites[i][0]].push_back(prerequisites[i][1]); // 把指到的點串近來
+            in_degree[prerequisites[i][1]]++; // 指向一個點表示這個點的indegree會加一
+        }
+        
+        for(int i = 0; i < in_degree.size(); i++)
+            if(in_degree[i] == 0) // 表示沒有人進來，不會形成loop，可以當起點
+                no_in_vertex.push(i);
+        
+        // 開始從indegree的vertex做BFS
+        while(!no_in_vertex.empty())
+        {
+            vector<int> tmp = grap_list[no_in_vertex.front()];
+            no_in_vertex.pop();
+            
+            for(int i = 0; i < tmp.size(); i++)
+            {
+                in_degree[tmp[i]]--;
+                if(in_degree[tmp[i]] == 0) // 如果有in degree = 0的vertex，表示是另一個起點，需要把它放到queue裡面
+                    no_in_vertex.push(tmp[i]);
+            }
+                
+            
+            
+        }
+        
+        for(int i = 0; i < in_degree.size(); i++) // 最後檢查看看每個vertex的in degree是不是都為0
+        {
+            if(in_degree[i] != 0) // 如果有vertex indegree != 0，但no_in_vertex的queue是empty: 表示沒有進入點 ==> 形成loop
+                return false;
+        }
+        
+        return true;
+            
+    }
+};
