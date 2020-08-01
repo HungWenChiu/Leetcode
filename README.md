@@ -1,6 +1,6 @@
 # Leetcode
-[USEFUL STL C++](#USEFUL-STL-C++) <br>
-- [Vector](##Vector) <br>
+[USEFUL STL C++](#useful-stl-c) <br>
+- [Vector](##vector) <br>
 - [Queue](##Queue) <br>
 - [Priority Queue](##Priority-Queue) <br>
 - [Stack](##Stack) <br>
