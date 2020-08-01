@@ -1,5 +1,25 @@
 # Leetcode
-[USEFUL STL C++](#USEFUL-STL-C++)
+[USEFUL STL C++](#USEFUL-STL-C++) <br>
+- [Vector](##Vector) <br>
+- [Queue](##Queue) <br>
+- [Priority Queue](##Priority-Queue) <br>
+- [Stack](##Stack) <br>
+- [Set](##Set) <br>
+- [Unordered Set](##Unordered-Set) <br>
+- [Map](##Map) <br>
+- [Unordered map](##Unordered-map) <br>
+- [List](##List) <br><br>
+
+
+[Algorithm](#Algorithm) <br>
+- [排列組合類似題目](#排列組合類似題目：使用遞迴算出每個結果) <br>
+- [重複排列演算法](#重複排列演算法) <br>
+- [Combination列出所有可能](#Combination列出所有可能) <br>
+- [Binary Search 應用](##Binary-Search-應用) <br>
+- [BFS Search Algorithm](##BFS-Search-Algorithm:-需要有一個Queue存input近來的數字順序) <br>
+- [Transpose Matrix Algorithm(NxN)](##Transpose-Matrix-Algorithm(NxN)) <br>
+- [Dynamic Programming](##需要判斷是否可以到終點(用暴力法判斷結果會超時)，這時可以使用由結果往前推的概念(55.-Jump-Game-是其中一個應用)) <br>
+
 
 # USEFUL STL C++
 
@@ -34,7 +54,7 @@ a.pop(): 拿出第一個element<br>
 a.empty(): 是否回空直<br>
 a.size()<br>
 
-## priority Queue:
+## Priority Queue:
 `functions跟Queue一樣，差別差再越前面的一定越大`<br>
 priority_queue< int,vector\<int\>,greater\<int\>()\>：這樣宣告則是越小的越前面<br>
 a.top(): 回傳最前面的element但不取出<br>
