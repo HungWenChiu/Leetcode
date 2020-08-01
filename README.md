@@ -424,3 +424,45 @@ public:
     }
 };
 ```
+## LinkedList 操作:
+# Reverse -> 概念: 再創一個新的new_head，把原本head的list依序串到新的new_head，就會Reverse
+Iterate:
+```cpp
+ListNode* reverseList(ListNode* head) {   
+        
+        if(head == nullptr || head->next == nullptr)
+            return head;
+       
+        ListNode* current = head;
+        ListNode* new_head = nullptr; // 新的list的head
+        
+        while(current != nullptr)
+        {
+            head = current->next; // 原list依序串到new_head，結果就會reverse
+            current->next = new_head;
+            new_head = current;
+            current = head;
+        }
+        
+        return new_head;
+    }
+```
+Recursive:
+```cpp
+ListNode* new_list(ListNode* new_head, ListNode* head){
+        
+        if(head == nullptr)
+            return new_head;
+        
+        ListNode* tmp = head->next;
+        head->next = new_head;
+        new_head = head;
+        return new_list(new_head, tmp);
+    }
+    
+ListNode* reverseList(ListNode* head) {   
+
+    ListNode* new_head = nullptr;
+    return new_list(new_head, head);
+}
+```
