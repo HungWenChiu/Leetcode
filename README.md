@@ -466,3 +466,7 @@ ListNode* reverseList(ListNode* head) {
     return new_list(new_head, head);
 }
 ```
+## 圖論
+### indegree: vertex中有多少個箭頭指向自己
+### outdegree: vertex有多少箭頭出去
+### search方式: BFS 
