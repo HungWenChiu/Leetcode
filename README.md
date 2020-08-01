@@ -469,4 +469,4 @@ ListNode* reverseList(ListNode* head) {
 ## 圖論
 ### indegree: vertex中有多少個箭頭指向自己
 ### outdegree: vertex有多少箭頭出去
-### search方式: BFS 
+### search方式: BFS or DFS
