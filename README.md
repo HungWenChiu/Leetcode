@@ -24,6 +24,7 @@
 - [LinkedList](#linkedlist-操作) <br>
 - [圖論](#圖論)<br>
 - [Dictionary Tree](#dictionary-tree) <br>
+- [Sort](#sort) <br>
 
 # USEFUL STL C++
 
@@ -504,7 +505,7 @@ ListNode* reverseList(ListNode* head) {
 ![image](https://github.com/t51113030/Leetcode/blob/master/pic/Dic_tree.jpg) <br>
 
 ### Implementation(最容易的方式就是每個節點開一個26個字母的array，每個array的內容為一個指標指向下一個node): Refer to 208. Implement Trie (Prefix Tree)
-[1] 需要先建立Node的data structure <br>
+- [1] 需要先建立Node的data structure <br>
 ```cpp
 class TrieNode{
  
@@ -520,7 +521,7 @@ public:
     
 };
 ```
-[2] 各個操作 <br>
+- [2] 各個操作 <br>
 ```cpp
 class TrieNode{
  
@@ -589,4 +590,29 @@ public:
         return true;
     }
 };
+```
+
+## Sort
+### Quick Sort
+```cpp
+void quick_sort(vector<int>& nums, int start, int end){ // start initial 為 0 end 為 nums.size() - 1
+        
+        if(start >= end)
+            return;
+        
+        int pivot = nums[end];
+        int i = start - 1; // 有多少個數在pivot左邊
+        
+        for(int j = start; j < end; j++)
+        {
+            if(nums[j] < pivot)
+            {
+                i++;
+                swap(nums[i], nums[j]);
+            }
+        }
+        swap(nums[i+1], nums[end]);
+        quick_sort(nums, start, i);
+        quick_sort(nums, i+1, end);
+}
 ```
