@@ -493,7 +493,14 @@ ListNode* reverseList(ListNode* head) {
 ## 圖論
 ### indegree: vertex中有多少個箭頭指向自己
 ### outdegree: vertex有多少箭頭出去
-### search方式: BFS or DFS
+### search方式: BFS or DFS <br>
 
 ## Dictionary Tree
-![image](https://github.com/t51113030/Leetcode/blob/master/pic/Tree.jpg) <br>
+主要有3個特點:
+- [x] 根節點不包括字符，除了根節點之外每個子節點都會包括一個字母。
+- [x] 各節點之間連接起來就是形成一個字串。
+- [x] 每個節點的所有子節點包含的字元都不相同。
+
+![image](https://github.com/t51113030/Leetcode/blob/master/pic/Dic_tree.jpg) <br>
+
+### Implementation:
