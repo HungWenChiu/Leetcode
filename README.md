@@ -597,6 +597,7 @@ public:
 Quick Sort是一種「把大問題分成小問題處理」的Divide and Conquer方法，概念如下： <br>
 - 在數列中任意挑選一個數，稱為pivot，然後調整數列，使得「所有在pivot左邊的數，都比pivot還小」，而「在pivot右邊的數都比pivot大」。 <br>
 - 接著，將所有在pivot左邊的數視為「新的數列」，所有在pivot右邊的數視為「另一個新的數列」，「分別」重複上述步驟(選pivot、調整數列)，直到分不出「新的數列」為止。 <br>
+![image](https://github.com/t51113030/Leetcode/blob/master/pic/Q_sort.jpg) <br>
 ```cpp
 void quick_sort(vector<int>& nums, int start, int end){ // start initial 為 0 end 為 nums.size() - 1
         
