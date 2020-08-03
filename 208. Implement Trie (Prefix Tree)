@@ -1,0 +1,77 @@
+class TrieNode{
+ 
+public:
+    TrieNode *child[26]; // 每個node都有26個pointer，代表著26個字母
+    bool isWord; // 判斷最後走道這個node是不是一個word
+    
+    TrieNode() : isWord(false){ // initial 每個child指到nullptr
+        
+        for(auto &i : child)
+            i = nullptr;
+    }
+    
+};
+
+class Trie {
+    
+TrieNode *root;
+    
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        
+        TrieNode *curptr = root;
+        for(auto &a : word)
+        {
+            if(curptr->child[a - 'a'] == nullptr) // insert的話就是一層一層找下來，如果沒有child就加一個
+                curptr->child[a - 'a'] = new TrieNode();
+            curptr = curptr->child[a - 'a'];
+        }
+        curptr->isWord = true; // 最後形成一個word，所以要把isWord = true
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) { 
+        
+        TrieNode *curptr = root;
+        for(auto &a : word)
+        {
+            if(curptr->child[a - 'a'] == nullptr)
+                return false;
+            
+            curptr = curptr->child[a - 'a'];
+        }
+        if(curptr->isWord == false)
+            return false;
+        
+        return true;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        
+        TrieNode *curptr = root;
+        for(auto &a : prefix)
+        {
+            if(curptr->child[a - 'a'] == nullptr)
+                return false;
+            curptr = curptr->child[a - 'a'];
+        }
+        
+        return true;
+        
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
