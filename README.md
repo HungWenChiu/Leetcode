@@ -23,7 +23,7 @@
 - [Traversal In Binary Tree](#traversal-in-binary-tree以及algorithms) <br>
 - [LinkedList](#linkedlist-操作) <br>
 - [圖論](#圖論)<br>
-
+- [Dictionary Tree](#dictionary-tree) <br>
 
 # USEFUL STL C++
 
