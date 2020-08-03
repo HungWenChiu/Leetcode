@@ -503,4 +503,90 @@ ListNode* reverseList(ListNode* head) {
 
 ![image](https://github.com/t51113030/Leetcode/blob/master/pic/Dic_tree.jpg) <br>
 
-### Implementation:
+### Implementation(最容易的方式就是每個節點開一個26個字母的array，每個array的內容為一個指標指向下一個node): Refer to 208. Implement Trie (Prefix Tree)
+[1] 需要先建立Node的data structure <br>
+```cpp
+class TrieNode{
+ 
+public:
+    TrieNode *child[26]; // 每個node都有26個pointer，代表著26個字母
+    bool isWord; // 判斷最後走道這個node是不是一個word
+    
+    TrieNode() : isWord(false){ // initial 每個child指到nullptr
+        
+        for(auto &i : child)
+            i = nullptr;
+    }
+    
+};
+```
+[2] 各個操作 <br>
+```cpp
+class TrieNode{
+ 
+public:
+    TrieNode *child[26]; // 每個node都有26個pointer，代表著26個字母
+    bool isWord; // 判斷最後走道這個node是不是一個word
+    
+    TrieNode() : isWord(false){ // initial 每個child指到nullptr
+        
+        for(auto &i : child)
+            i = nullptr;
+    }
+    
+};
+
+class Trie {
+    
+TrieNode *root;
+    
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        
+        TrieNode *curptr = root;
+        for(auto &a : word)
+        {
+            if(curptr->child[a - 'a'] == nullptr) // insert的話就是一層一層找下來，如果沒有child就加一個
+                curptr->child[a - 'a'] = new TrieNode();
+            curptr = curptr->child[a - 'a'];
+        }
+        curptr->isWord = true; // 最後形成一個word，所以要把isWord = true
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) { 
+        
+        TrieNode *curptr = root;
+        for(auto &a : word)
+        {
+            if(curptr->child[a - 'a'] == nullptr)
+                return false;
+            
+            curptr = curptr->child[a - 'a'];
+        }
+        if(curptr->isWord == false)
+            return false;
+        
+        return true;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        
+        TrieNode *curptr = root;
+        for(auto &a : prefix)
+        {
+            if(curptr->child[a - 'a'] == nullptr)
+                return false;
+            curptr = curptr->child[a - 'a'];
+        }
+        return true;
+    }
+};
+```
