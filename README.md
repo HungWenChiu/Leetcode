@@ -494,3 +494,6 @@ ListNode* reverseList(ListNode* head) {
 ### indegree: vertex中有多少個箭頭指向自己
 ### outdegree: vertex有多少箭頭出去
 ### search方式: BFS or DFS
+
+## Dictionary Tree
+![image](https://github.com/t51113030/Leetcode/blob/master/pic/Tree.jpg) <br>
