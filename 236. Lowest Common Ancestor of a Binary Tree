@@ -1,0 +1,44 @@
+// 用recursive找，並把找到p or q 的時候回傳他的位置
+// 尋找的時候會有三種情形:
+// 1. 如果q跟p分別在root左右邊，則表示root是LCA，回傳root 
+//      ===> (right && left) return root;
+//
+//
+// 2. 如果p跟q在root的左邊，則會有兩種情形:
+//  2-1.如果p或q其中一個是另一個的parent，則回傳p或q的指標位置。 
+//      ===> if(root == nullptr || p == root || q == root) return root;
+//  2-2.如果p跟q在某一個parent的左右邊，則會回傳parent
+//      ===> if(left != nullptr && right != nullptr) return root;
+// 
+// 
+// 3. 如果p跟q在root的右邊，則也會有兩種情形:
+//  3-1.如果p或q其中一個是另一個的parent，則回傳p或q的指標位置。 
+//      ===> if(root == nullptr || p == root || q == root) return root;
+//  3-2.如果p跟q在某一個parent的左右邊，則會回傳parent
+//      ===> if(left != nullptr && right != nullptr) return root;
+//
+// 2或3的情況下最後一定會有一個子節點找不到(left or right 會回傳 nullptr)，這時救回傳另一邊的位置
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+     
+        if(root == nullptr || p == root || q == root) return root;
+        
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        
+        if(left != nullptr && right != nullptr) return root;
+        
+        return (left != nullptr) ? left : right;
+    }
+};
