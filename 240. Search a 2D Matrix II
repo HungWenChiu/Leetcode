@@ -1,0 +1,30 @@
+// 依照此matrix的特性:
+// 從最右上角開始找起，如果比target大就往下(x++)
+// 如果比target小，就往左(y--)
+// 直到找到超出邊界都找不到就return false
+// 找到就return true
+
+
+class Solution {
+public:
+    
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        
+        if(!matrix.size())
+            return false;
+        
+        int x = 0, y = matrix[0].size() - 1; // 最左邊
+        
+        while(x < matrix.size() && y >= 0)
+        {
+            if(target > matrix[x][y])
+                x++;
+            else if(target < matrix[x][y])
+                y--;
+            else
+                return true;
+        }
+        
+        return false;
+    }
+};
