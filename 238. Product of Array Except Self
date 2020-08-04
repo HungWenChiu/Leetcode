@@ -1,0 +1,30 @@
+// 最佳解法:(不能用除法而且要O(logN))
+// 解題概念: 把要算出來的那一個分乘左半部*右半部
+// EX: 第i個數的乘積 = 0~(i-1)個數的乘積 * i+1~n的乘積
+// 開一個output array，裡面第i個數為第1~i-1的數字的乘積
+// 在開一個變數int right，存的是由右邊數來的乘積(i+1~n)
+//
+// 由最後往前跑則 output[i] = output[i](0~i-1乘積) * right
+// 做完這一個right = right * nums[i]
+
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        
+       vector<int> output(nums.size(), 1);
+        int right = 1;
+        
+        for(int i = 1; i < nums.size(); i++)
+            output[i] = output[i - 1] * nums[i - 1];
+        
+        for(int i = nums.size() - 1; i >= 0; i--)
+        {
+            output[i] = output[i] * right;
+            right *= nums[i];
+        }    
+        
+        return output;
+        
+    }
+};
