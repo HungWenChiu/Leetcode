@@ -1,0 +1,76 @@
+// 1. DP來做，O(N^2)
+/*
+class Solution {
+public:
+    
+    int lengthOfLIS(vector<int>& nums) {
+        
+        int max_len = 0;
+        vector<int> dp(nums.size(), 1);
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            for(int j = 0; j < i; j++)
+            {
+                if(nums[i] > nums[j])
+                {
+                    dp[i] = max(dp[i], dp[j] + 1); // 每個數字都從第一個數字開始找，如果"找到的數字<數字本身"，則把目前此數字的LIS最大值跟找到的數字LIS + 1 取最大值
+                }
+            }
+            max_len = max(max_len, dp[i]);
+        }    
+            
+        
+        return max_len;
+        
+    }
+};
+*/
+
+// 2. O(NlogN)的方式: 類似於填滿最大長度的方式
+// 例如說我現在有[2345] 那最大長度就是4，
+// 之後如果有數字進來的話就要想辦法先"取代裡面4個數字"證明後來進來的LIS長度會>=原本的LIS
+// 方法: 
+// 1. 遍歷每個數字O(N)
+// 2. 如果找到的數字 < [裡面最小的數字] => 現在這數字取代第一個數字
+// 3. 如果找到的數字 > [裡面最大的數字] => 則把這數字放到[]最後
+// 4. [min_num] < 如果找到的數字 < [max_num] => 則用binary search取代[第一個找到>他的數]
+// refer to https://leetcode.com/problems/longest-increasing-subsequence/discuss/74855/Short-C%2B%2B-STL-based-solution%3A-O(n-log-n)-time-O(1)-space-with-explanation
+class Solution {
+public:
+    
+    int lengthOfLIS(vector<int>& nums) {
+        
+        if(nums.size() == 0 || nums.size() == 1)
+            return nums.size();
+        
+        vector<int> max_length;
+        max_length.push_back(nums[0]);
+            
+        for(int i = 1; i < nums.size(); i++)
+        {
+            if(nums[i] < max_length[0])
+                max_length[0] = nums[i];
+            else if(nums[i] > max_length[max_length.size() - 1])
+                max_length.push_back(nums[i]);
+            else
+            {
+                int left = 0, right = max_length.size() - 1;
+                
+                while(left < right)
+                {
+                    int mid = (left + right) / 2;
+                    if(max_length[mid] < nums[i])
+                        left = mid + 1;
+                    else
+                        right = mid;
+                }
+                max_length[right] = nums[i];
+            }
+        }
+    
+        return max_length.size();
+        
+    }
+};
+
