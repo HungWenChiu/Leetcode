@@ -1,0 +1,31 @@
+// 使用stack的概念，因為必須要成對，所以把前面的字元都先放到stack裡面
+// 遇到'c'的時候就把前面'a', 'b' pop出來
+class Solution {
+public:
+    bool isValid(string S) {
+        
+        stack<char> s;
+        
+        for(auto i : S)
+        {
+            if(i == 'c')
+            {
+                if(!s.empty() && s.top() == 'b')
+                {
+                    s.pop();
+                    if(!s.empty() && s.top() == 'a')
+                        s.pop();
+                    else
+                        return false;
+                }    
+                else
+                    return false;
+            }
+            else
+                s.push(i);
+        }
+        
+        return (s.empty()) ? true : false;  
+        
+    }
+};
