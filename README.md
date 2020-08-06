@@ -19,7 +19,8 @@
 - [BFS Search Algorithm](#bfs-search-algorithm-需要有一個queue存input近來的數字順序) <br>
 - [Transpose Matrix Algorithm(NxN)](#transpose-matrix-algorithmnxn) <br>
 - [Dynamic Programming](#dynamic-programming) <br>
-- [需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
+- [需要判斷是否可以到終點，使用由結果往前推的概念](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
+- [Stock及最大Profit問題](#stock以及最大收益的問題309-best-time-to-buy-and-sell-stock-with-cooldown) <br>
 - [List相關用法](#list-all-subsets-refer-to-78-subsets) <br>
 - [Traversal In Binary Tree](#traversal-in-binary-tree以及algorithms) <br>
 - [LinkedList](#linkedlist-操作) <br>
@@ -323,40 +324,6 @@ public:
     }
 };
 ```
-### List All Subsets (refer to 78. Subsets) 
-```cpp
-// 需要列出所有可能，使用recursion 
-// 第i 個數的subset只需要從i+1開始找就好了(避免重複)
-// EX: {1,2,3} => 1會找到{1,2} {1,3} 如果2也去找1會變成{2,1} =====> 和{1,2}重複了
-class Solution {
-public:
-    
-    void find_subsets(vector<int>& nums, vector<vector<int>>& res, vector<int>& subseq, int index){ 
-    // 找出所有subset
-        
-        for(int i = index; i < nums.size(); i++) // 從現有的index開始找，每找到一個數就把他加到res裡面
-        {
-            // EX: index = 0 時會從 {1, 2, 3} loop去找
-            vector<int> tmp = subseq; // 把目前sub_seq存到tmp裡面避免目前的sub_seq被蓋掉
-            
-            tmp.push_back(nums[i]); // 把1加進去 
-            res.push_back(tmp); // {1} 也算是subset
-            find_subsets(nums, res, tmp, i + 1); // 1找過了，之後從1後面開始找{2,3}
-        }
-    }
-    
-    vector<vector<int>> subsets(vector<int>& nums) {
-        
-        vector<vector<int>> res;
-        res.push_back({}); // 空集合也算subset
-        vector<int> start = {};
-        
-        find_subsets(nums, res, start, 0); // start 是空的array，從index 0開始找
-        return res;
-        
-    }
-};
-```
 ### Stock以及最大收益的問題(309. Best Time to Buy and Sell Stock with Cooldown)
 ```cpp
 /*
@@ -402,6 +369,41 @@ public:
         }
         
         return sell[n - 1];
+        
+    }
+};
+```
+
+## List All Subsets (refer to 78. Subsets) 
+```cpp
+// 需要列出所有可能，使用recursion 
+// 第i 個數的subset只需要從i+1開始找就好了(避免重複)
+// EX: {1,2,3} => 1會找到{1,2} {1,3} 如果2也去找1會變成{2,1} =====> 和{1,2}重複了
+class Solution {
+public:
+    
+    void find_subsets(vector<int>& nums, vector<vector<int>>& res, vector<int>& subseq, int index){ 
+    // 找出所有subset
+        
+        for(int i = index; i < nums.size(); i++) // 從現有的index開始找，每找到一個數就把他加到res裡面
+        {
+            // EX: index = 0 時會從 {1, 2, 3} loop去找
+            vector<int> tmp = subseq; // 把目前sub_seq存到tmp裡面避免目前的sub_seq被蓋掉
+            
+            tmp.push_back(nums[i]); // 把1加進去 
+            res.push_back(tmp); // {1} 也算是subset
+            find_subsets(nums, res, tmp, i + 1); // 1找過了，之後從1後面開始找{2,3}
+        }
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        
+        vector<vector<int>> res;
+        res.push_back({}); // 空集合也算subset
+        vector<int> start = {};
+        
+        find_subsets(nums, res, start, 0); // start 是空的array，從index 0開始找
+        return res;
         
     }
 };
