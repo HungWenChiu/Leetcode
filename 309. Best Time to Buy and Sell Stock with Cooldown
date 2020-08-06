@@ -1,0 +1,46 @@
+/*
+Dynamic Program 題目:
+
+開兩個vector:
+    buy[i] = max(sell[i - 2] - price[i], buy[i - 1]): 前i天中以buy為結尾的最大利潤
+    sell[i] = max(sell[i - 1], buy[i - 1] + price[i]): 前i天中以sell為結尾的最大利潤
+    而最後結尾收益要最大一定是要sell[N]的時候
+    
+    explanation:
+    but[i] = max(sell[i - 2] - price[i], buy[i - 1]):
+        1.sell[i - 2]為前i-2天時最後賣掉之後的利潤因為i-1天前最後一個action時候是要rest,
+          所以i - 1的時候不能算進來。
+          而到了第i天前的最後一個axction是buy，表示rest完之後一天用price[i]的價格買了stock，
+          所以總收益就會是:sell[i - 2] - price[i]。
+        2.另外還有一種可能是buy[i-1] => i - 1天前最後買了stock，而第i天rest不買，
+          此時的收益就是維持在buy[i-1]。
+          
+    sell[i] = max(sell[i - 1], buy[i - 1] + price[i]):
+        1.sell[i - 1]為第i-1前最後是sell，然後rest，收益維持在sell[i - 1]。
+        2.buy[i - 1] + price[i]為第i-1天最後是buy，然後i天前把它賣掉了，所以收益多一個price[i]。
+
+*/
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        
+        int n = prices.size();
+        vector<int> buy(n, 0), sell(n, 0);
+        
+        if(n <= 1)
+            return 0;
+        
+        buy[0] = -prices[0];
+        buy[1] = max(buy[0], -prices[1]); // max(第0天買, 第0天不買第一天買)
+        sell[1] = max(prices[1] - prices[0], 0); // max(第0天買第一天賣, 第0天沒有買，沒動作)
+        
+        for(int i = 2; i < n; i++)
+        {
+            buy[i] = max(sell[i - 2] - prices[i], buy[i - 1]);
+            sell[i] = max(sell[i - 1], buy[i - 1] + prices[i]);
+        }
+        
+        return sell[n - 1];
+        
+    }
+};
