@@ -18,7 +18,8 @@
 - [Binary Search 應用](#binary-search-應用) <br>
 - [BFS Search Algorithm](#bfs-search-algorithm-需要有一個queue存input近來的數字順序) <br>
 - [Transpose Matrix Algorithm(NxN)](#transpose-matrix-algorithmnxn) <br>
-- [Dynamic Programming](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
+- [Dynamic Programming](#dynamic-programming) <br>
+- [需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
 - [List相關用法](#list-all-subsets-refer-to-78-subsets) <br>
 - [Traversal In Binary Tree](#traversal-in-binary-tree以及algorithms) <br>
 - [LinkedList](#linkedlist-操作) <br>
@@ -299,7 +300,8 @@ public:
     }
 };
 ```
-## 需要判斷是否可以到終點(用暴力法判斷結果會超時)，這時可以使用由結果往前推的概念(55. Jump Game 是其中一個應用)
+## Dynamic Programming
+### 需要判斷是否可以到終點(用暴力法判斷結果會超時)，這時可以使用由結果往前推的概念(55. Jump Game 是其中一個應用)
 1. 由終點往前找看看哪一點是成功可以跳到終點的點，把它當作"上一個成功點"，再由上一個成功點再往前推。<br>
 2. 如果目前的點的數值 + 點的位置 >= 上一個成功點，表示目前的點一定可以跳到上一個成功點，到達上一個成功點就表示可以跳到終點。<br>
 3. 最後再看看上一個成功點會不會等於最一開始的點(i == 0)，如果是表示此點一定可以到達終點<br>
@@ -321,7 +323,7 @@ public:
     }
 };
 ```
-## List All Subsets (refer to 78. Subsets) 
+### List All Subsets (refer to 78. Subsets) 
 ```cpp
 // 需要列出所有可能，使用recursion 
 // 第i 個數的subset只需要從i+1開始找就好了(避免重複)
@@ -355,6 +357,56 @@ public:
     }
 };
 ```
+### Stock以及最大收益的問題(309. Best Time to Buy and Sell Stock with Cooldown)
+```cpp
+/*
+Dynamic Program 題目:
+
+開兩個vector:
+    buy[i] = max(sell[i - 2] - price[i], buy[i - 1]): 前i天中以buy為結尾的最大利潤
+    sell[i] = max(sell[i - 1], buy[i - 1] + price[i]): 前i天中以sell為結尾的最大利潤
+    而最後結尾收益要最大一定是要sell[N]的時候
+    
+    explanation:
+    but[i] = max(sell[i - 2] - price[i], buy[i - 1]):
+        1.sell[i - 2]為前i-2天時最後賣掉之後的利潤因為i-1天前最後一個action時候是要rest,
+          所以i - 1的時候不能算進來。
+          而到了第i天前的最後一個axction是buy，表示rest完之後一天用price[i]的價格買了stock，
+          所以總收益就會是:sell[i - 2] - price[i]。
+        2.另外還有一種可能是buy[i-1] => i - 1天前最後買了stock，而第i天rest不買，
+          此時的收益就是維持在buy[i-1]。
+          
+    sell[i] = max(sell[i - 1], buy[i - 1] + price[i]):
+        1.sell[i - 1]為第i-1前最後是sell，然後rest，收益維持在sell[i - 1]。
+        2.buy[i - 1] + price[i]為第i-1天最後是buy，然後i天前把它賣掉了，所以收益多一個price[i]。
+
+*/
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        
+        int n = prices.size();
+        vector<int> buy(n, 0), sell(n, 0);
+        
+        if(n <= 1)
+            return 0;
+        
+        buy[0] = -prices[0];
+        buy[1] = max(buy[0], -prices[1]); // max(第0天買, 第0天不買第一天買)
+        sell[1] = max(prices[1] - prices[0], 0); // max(第0天買第一天賣, 第0天沒有買，沒動作)
+        
+        for(int i = 2; i < n; i++)
+        {
+            buy[i] = max(sell[i - 2] - prices[i], buy[i - 1]);
+            sell[i] = max(sell[i - 1], buy[i - 1] + prices[i]);
+        }
+        
+        return sell[n - 1];
+        
+    }
+};
+```
+
 ## Traversal in Binary Tree以及Algorithms:
 Tree的找法分成三種: (1) Inorder Traversal (2) Preorder Traversal (3) Postorder Traversal (4) Level-Order Traversal<br>
 ### Inorder Traversal: 左->中->右
