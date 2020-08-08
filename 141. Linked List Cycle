@@ -1,0 +1,32 @@
+// concept: 使用快慢指針，如果是環，一定會碰到
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        
+        if(head == nullptr || head->next == nullptr)
+            return false;
+        
+        ListNode *ptr1 = head->next;
+        ListNode *ptr2 = head->next->next;
+        
+        while(ptr1 != ptr2)
+        {
+            if(ptr2 ==  nullptr || ptr2->next == nullptr)
+                return false;
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next->next;
+        }
+        
+        return true;
+        
+    }
+};
