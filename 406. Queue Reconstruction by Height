@@ -1,0 +1,21 @@
+// 技巧：使用sort由大到小排，其中如果一樣大的話，則第二個數的較小的排前面
+// 則會排成：[7,0] [7,1] [6,1] [5,0] [5,2] [4,4] ==> 以確保最大的而且又沒有比他大的會在最前面，第二個就是最大或是第二大的但是有一個大於等於他的在他前面
+// 最後：遍歷每個數字，根據第二個數字表示位置往前插入==>這表示因為前面的數字已經確保都比他大了，所以他的第二個數字表示他前面有多少個比她大的數字，等於他插入的位置
+// EX: [6,1]一定會插到第一位置（從０開始算），變成[7,0] [6,1] [7,1]這樣並不會改變[7,1]的排序，因為比她小的數字插到他前面他本身不會有影響
+
+class Solution {
+public:
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        
+        sort(people.begin(), people.end(), [](vector<int> &a, vector<int> &b){return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);});
+        
+        for(int i = 0; i < people.size(); i++)
+        {
+            vector<int> tmp = people[i];
+            people.erase(people.begin() + i);
+            people.insert(people.begin() + tmp[1], tmp);
+        }
+        
+        return people;
+    }
+};
