@@ -1,0 +1,27 @@
+// DP，要能分成兩部份且數字一樣，總數一定要是偶數才能/2
+// 使用DP對每個數字num算num~target之間的數字有沒有辦法可以組的出來
+// 轉換方式dp[i] = dp[i] || dp[i - num] =>i 可以由 i - num 跟 num 兩個數字組出來依此類推
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+     
+        int sum = 0;
+        for(auto i = 0; i < nums.size(); i++)
+            sum += nums[i];
+        
+        if(sum % 2 != 0)
+            return false;
+        
+        int target = sum / 2;
+        vector<bool> dp(target + 1, false);
+        
+        dp[0] = true;
+        for(auto num : nums)
+        {
+            for(int i = target; i >= num; i--)
+                dp[i] = dp[i] || dp[i - num];
+        }
+        
+        return dp[target];
+    }
+};
