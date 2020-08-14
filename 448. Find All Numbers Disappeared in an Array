@@ -1,0 +1,18 @@
+// 把找到那個數i的對應位置nums[i - 1] 改成負數，如果原本就是負數就不辨。
+// 以正負數來判斷這個位置有沒有對應的數字
+// 最後如果num[i] > 0 表示沒有對應的數字在這位置，push_back(i + 1)
+
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        
+        vector<int> res;
+        
+        for(int i = 0; i < nums.size(); i++)
+            nums[abs(nums[i]) - 1] = (nums[abs(nums[i]) - 1] < 0) ? nums[abs(nums[i]) - 1] : -nums[abs(nums[i]) - 1];
+        for(int i = 0; i < nums.size(); i++)
+            if(nums[i] > 0)
+                res.push_back(i + 1);
+        return res;
+    }
+};
