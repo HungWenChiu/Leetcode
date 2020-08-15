@@ -408,6 +408,40 @@ public:
     }
 };
 ```
+## Tree
+### Tree diameter: 任兩點的距離
+max Diameter 定義: max(任一點的左子樹的max dept加上右子樹max dept) <br>
+例題: 543. Diameter of Binary Tree <br>
+```cpp
+class Solution {
+public:
+    
+    int get_length(TreeNode* node, int &max_dia){
+        
+        if(node == nullptr)
+            return 0;
+        
+        int leftdept = 0, rightdept = 0;
+        
+        if(node->left != nullptr)
+            leftdept = get_length(node->left, max_dia);
+        if(node->right != nullptr)
+            rightdept = get_length(node->right, max_dia);
+        
+        max_dia = max(max_dia, leftdept + rightdept); // 左右子樹最大深度相加跟當前的max_len比較大小
+        return 1 + max(leftdept, rightdept);
+        
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root) {
+        
+        int max_dia = 0;
+        get_length(root, max_dia);
+        return max_dia;
+        
+    }
+};
+```
 
 ## Traversal in Binary Tree以及Algorithms:
 Tree的找法分成三種: (1) Inorder Traversal (2) Preorder Traversal (3) Postorder Traversal (4) Level-Order Traversal<br>
