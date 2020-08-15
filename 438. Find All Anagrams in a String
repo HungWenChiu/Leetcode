@@ -1,0 +1,40 @@
+// 可以使用兩個map, p_map 跟 s_map, 分別記錄p裡面每個字元出現幾次跟s_map再p.size()這個範圍的字元出現幾次
+// 概念:如果再相同範圍的大小，p_map跟s_map裡面的字元table以及次數都一樣，那表示符合題目的anagrams規定。
+// EX: 'aab' 則 a:2 b:1 跟 baa一樣，不管排列順序，而且如果相同字元數的範圍，table都一模一樣，
+// 表示出現的字元跟數量一定一樣，絕對不會有其他字元出現，
+// 所以可以依此來判斷符不符合anagrams
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        
+        if(s.size() == 0 || p.size() > s.size()) // 空字串或是p比較大的case
+            return {};
+        
+        unordered_map<char, int> p_map;
+        unordered_map<char, int> s_map;
+        vector<int> res;
+        
+        for(auto e : p) // 計算所有p出現的的字元個數，存在map裡面
+            p_map[e]++;
+        for(int i = 0; i < p.size(); i++) // 把從0~p.size() - 1的大小的字元計算各個數量，當作是一個slide window
+            s_map[s[i]]++;
+        
+        if(p_map == s_map) // 如果兩個table再開頭是一樣的，則把開頭起點存到 vector裡面
+            res.push_back(0);
+        
+        for(int i = p.size(); i < s.size(); i++) // 每次slide一個element，把下一個字元加進s_map，移除最前面的字元
+        {
+            s_map[s[i]]++;
+            s_map[s[i - p.size()]]--;
+            if(s_map[s[i - p.size()]] == 0) // 如果s_map[element] = 0，要把這個key移除
+                s_map.erase(s[i - p.size()]);
+            
+            if(s_map == p_map) // 再比一次如果兩個map一樣，把開頭加到res
+                res.push_back(i - p.size() + 1); // 新的開頭 i - p.size() + 1 下一個start
+        }
+        
+        return res;
+        
+    }
+};
