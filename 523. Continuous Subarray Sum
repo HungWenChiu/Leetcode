@@ -1,0 +1,27 @@
+// 找子集合連續數目，使用sum跟hash table or set的方式，
+// 使用a % k = x, b % k = x -> 則 (a - b) % k = 0的概念
+
+
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        int sum = 0;
+        unordered_map<int, int> m;
+        m[0] = -1;
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            sum += nums[i];
+            int tmp = (k == 0) ? sum : (sum % k);
+            
+            if(m.count(tmp))
+            {
+                if(i - m[tmp] > 1)
+                    return true;
+            }    
+            else
+                m[tmp] = i;
+        }
+        return false;
+    }
+};
