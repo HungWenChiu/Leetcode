@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        
+        unordered_map<int, int> sum_map; // <i, j>有和為i的子字串數目有j個
+        int res = 0, sum = 0;
+        sum_map[0] = 1; //initial 從０開始，所以和為0的個數一定從1開始
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            sum += nums[i]; // 紀錄每次累加得值
+            res += sum_map[sum - k]; // 用sum - k的原因是因為要找出看看有沒有sum - k 這個和的子字串出現，
+            //如果這個子字串有出現那表示從sum-k的那個數一直加，加到現在這個i位置的數字剛好是k值，符合題目意思
+            // EX: [1,2,5] sum為[1,3,8] k為7 -> 則8-7 = 1，m[1] = 1，表示有子字串和為1（[1]），從1開始加了k(7) ＝ 8(5的位置)
+            sum_map[sum]++;
+        }
+        return res;
+        
+    }
+};
