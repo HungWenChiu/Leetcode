@@ -1,0 +1,46 @@
+// 使用slid window的概念:
+// 一開始從windows size = 整個string size開始從 index = 0算 substring 跟 reverse的substring
+// 如果一樣 res++
+// 然後再滑到index = 1 的起始點比較substring
+// 如果 index + slide window 剛好 超過size的話，表示這個size的substring都算完了，slide window size - 1繼續從index = 0開始找
+// 注意: 比較sub string的時候不要每次都tmp = s.substr(index, slide_window)，這樣會time limit。
+// 請使用slide_window的概念 減去第一個字元然後把下一個要看的字元加到tmp的最後
+// reverse tmp則是相反，拿掉最後的字元，把s的下一個字元加到rtmp最前面
+
+class Solution {
+public:
+
+    
+    int countSubstrings(string s) {
+        
+        int res = 0;
+        int windows_size = s.size();
+        
+        while(windows_size >=1){ // slide window表示這個substring大小是多少 一定會 >= 1
+            
+            string tmp = s.substr(0, windows_size); // 先從0開始檢查大小為windows_size的sunstring
+            string rtmp = tmp;
+            reverse(rtmp.begin(), rtmp.end()); // rtmp = reverse tmp
+            
+            int start = 0; // 從第一個開始
+            while(start + windows_size <= s.size())
+            {
+                if(tmp == rtmp) // 回文，res++
+                    res++;
+                
+                if(start + windows_size + 1 <= s.size()) // 判斷如果再加一(往後移一位)會不會超過邊界
+                {
+                    tmp.erase(tmp.begin()); // tmp 移除第一位，把下一位字元加進來
+                    tmp += s[start + windows_size];
+                    rtmp.pop_back(); // rtmp 相反移除最後一位，把下一位字元加到第一位
+                    rtmp.insert(rtmp.begin(), s[start + windows_size]);
+                }
+                start++;
+            }
+                
+            windows_size--;
+        }
+            
+        return res;
+    }
+};
