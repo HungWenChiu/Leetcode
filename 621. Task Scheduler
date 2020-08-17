@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        
+        int block = n + 1; // 每個block 都是idle time + 原本最大的一個elment : A_ _ = 3
+        priority_queue<int> q; // priority queue 會把最大數量的字元排在第一個
+        unordered_map<char, int> m; // map讓我們可以統計每個字元的數量
+        int len = 0; // 最後長度
+        
+        for(int i = 0; i < tasks.size(); i++) // 計算每個字元出現的個數
+            m[tasks[i]]++;
+        
+        for(auto e : m) // 放到priority queue裡面
+            q.push(e.second);
+        
+        while(!q.empty()) // 方法: 每次都去把queue裡面的字元以block的大小的數量都pop出來一次    
+        {
+            vector<int> tmp; // 一個tmp存pop出來的整數
+            int cnt = 0; // 計算多少字元pop出來
+            
+            for(int i = 0; i < block; i++) // 一次pop出block大小的字元數
+            {
+                if(!q.empty()) // 如果queue裡面有element cnt++
+                {
+                    tmp.push_back(q.top()); 
+                    q.pop();
+                    cnt++;
+                }
+            }
+            
+            for(auto e : tmp) // 把pop出來存到tmp裡面的整數-1存到queue裡面
+            {
+                if(--e > 0) // 如果還是有字元數的話繼續push到queue裡面
+                    q.push(e);
+            }
+            
+            len += (q.empty()) ? cnt : block; // 最後長度確認如果q裡面不是空的話表示還會有element pop，
+            // 所以加上block，表示有element + idle的組合成為一個block
+            // 如果q == empty，表示element不足block，所以不需要有idle，就只需加上cnt 
+        }
+        
+        return len;
+    }
+};
