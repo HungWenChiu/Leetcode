@@ -22,9 +22,9 @@
 - [需要判斷是否可以到終點，使用由結果往前推的概念](#需要判斷是否可以到終點用暴力法判斷結果會超時這時可以使用由結果往前推的概念55-jump-game-是其中一個應用) <br>
 - [Stock及最大Profit問題](#stock以及最大收益的問題309-best-time-to-buy-and-sell-stock-with-cooldown) <br>
 - [List相關用法](#list-all-subsets-refer-to-78-subsets) <br>
+- [linkedlist-相關algorithms](#linkedlist-相關algorithms) <br>
 - [Tree Concepts](#tree) <br>
 - [Traversal In Binary Tree](#traversal-in-binary-tree以及algorithms) <br>
-- [LinkedList](#linkedlist-操作) <br>
 - [圖論](#圖論)<br>
 - [Dictionary Tree](#dictionary-tree) <br>
 - [Sort](#sort) <br>
@@ -582,48 +582,6 @@ public:
         
     }
 };
-```
-## LinkedList 操作:
-### Reverse -> 概念: 再創一個新的new_head，把原本head的list依序串到新的new_head，就會Reverse
-#### Iliterate:
-```cpp
-ListNode* reverseList(ListNode* head) {   
-        
-        if(head == nullptr || head->next == nullptr)
-            return head;
-       
-        ListNode* current = head;
-        ListNode* new_head = nullptr; // 新的list的head
-        
-        while(current != nullptr)
-        {
-            head = current->next; // 原list依序串到new_head，結果就會reverse
-            current->next = new_head;
-            new_head = current;
-            current = head;
-        }
-        
-        return new_head;
-    }
-```
-#### Recursive:
-```cpp
-ListNode* new_list(ListNode* new_head, ListNode* head){
-        
-        if(head == nullptr)
-            return new_head;
-        
-        ListNode* tmp = head->next;
-        head->next = new_head;
-        new_head = head;
-        return new_list(new_head, tmp);
-    }
-    
-ListNode* reverseList(ListNode* head) {   
-
-    ListNode* new_head = nullptr;
-    return new_list(new_head, head);
-}
 ```
 ## 圖論
 ### indegree: vertex中有多少個箭頭指向自己
