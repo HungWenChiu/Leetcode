@@ -409,6 +409,51 @@ public:
     }
 };
 ```
+## LinkedList 相關Algorithms
+### LinkedList Reverse
+```cpp
+    ListNode* reverse_list(ListNode* head){
+        
+        ListNode* first = head;
+        ListNode* second = head->next;
+        ListNode* third;
+        
+        first->next = nullptr;
+        
+        while(true)
+        {
+            if(second == nullptr)
+                return first;
+            
+            third = second->next;
+            second->next = first;
+            first = second;
+            second = third;
+        }
+    }
+```
+### LinkedList使用快慢指針用法 ====> 找出中間數
+```cpp
+ListNode* find_middle(ListNode* head){
+        
+        ListNode* fast = head;
+        ListNode* slow = head;
+        
+        while(true){
+            
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if(fast == nullptr) // 偶數
+                return slow;
+            if(fast->next == nullptr) // 奇數
+                return slow->next;
+            
+        }
+        
+    }
+```
+
 ## Tree
 ### Tree diameter: 任兩點的距離
 max Diameter 定義: max(任一點的左子樹的max dept加上右子樹max dept) <br>
