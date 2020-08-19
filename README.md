@@ -488,6 +488,36 @@ public:
     }
 };
 ```
+### Tree Inverse: child node 左右對調
+```cpp
+TreeNode* getsymetric(TreeNode* node){
+        
+        if(node == nullptr || node->left == nullptr && node->right == nullptr)
+            return node;
+        
+        TreeNode* tmp = getsymetric(node->left);
+        node->left = getsymetric(node->right);
+        node->right = tmp;
+        
+        return node;
+    }
+```
+### Same Tree: 比對兩個子樹是不是一模一樣
+```cpp
+bool same_tree(TreeNode* left, TreeNode* right){
+
+    if(left == nullptr && right == nullptr)
+        return true;
+
+    if((left == nullptr && right != nullptr) || (left != nullptr && right == nullptr))
+        return false;
+
+    if(left->val != right->val)
+        return false;
+
+    return same_tree(left->left, right->left) && same_tree(left->right, right->right);
+}
+```
 
 ## Traversal in Binary Tree以及Algorithms:
 Tree的找法分成三種: (1) Inorder Traversal (2) Preorder Traversal (3) Postorder Traversal (4) Level-Order Traversal<br>
