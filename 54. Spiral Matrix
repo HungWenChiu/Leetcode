@@ -1,0 +1,62 @@
+// brute force solution
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        
+        if(matrix.size() == 0)
+            return {};
+        
+        int i = 0, j = 0;
+        int row_lbound = 0, col_lbound = 0;
+        int row_ubound = matrix.size() - 1, col_ubound = matrix[0].size() - 1;
+        vector<vector<bool>> visit(matrix.size(), vector<bool>(matrix[0].size(), false));
+        vector<int> res;
+        
+        while(visit[i][j] == false)
+        {        
+            while(j <= col_ubound)
+            {
+                if(visit[i][j] == true)
+                    return res;
+                visit[i][j] = true;
+                res.push_back(matrix[i][j++]);
+            }
+            j--; i++;
+            row_lbound++;
+            
+            while(i <= row_ubound)
+            {
+                if(visit[i][j] == true)
+                    return res;
+                visit[i][j] = true;
+                res.push_back(matrix[i++][j]);
+            }
+            i--; j--;
+            col_ubound--;
+            
+            while(j >= col_lbound)
+            {
+                if(visit[i][j] == true)
+                    return res;
+                visit[i][j] = true;
+                res.push_back(matrix[i][j--]);
+            }
+            j++; i--;
+            row_ubound--;
+            
+            while(i >= row_lbound)
+            {
+                if(visit[i][j] == true)
+                    return res;
+                visit[i][j] = true;
+                res.push_back(matrix[i--][j]);
+            }
+            i++; j++;
+            col_lbound++;
+        }
+        
+        return res;
+        
+    }
+};
