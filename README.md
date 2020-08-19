@@ -488,7 +488,7 @@ public:
     }
 };
 ```
-### Tree Inverse: child node 左右對調
+### Tree Inverse: child node 左右對調 (101. Symmetric Tree)
 ```cpp
 TreeNode* getsymetric(TreeNode* node){
         
