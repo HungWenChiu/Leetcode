@@ -1,0 +1,38 @@
+// 主要要注意sort的第三個參數排序規則的用法
+// 此處要找每個數的最大位數為最大就排最前面，小的就排後面，最後排序玩就結束
+// EX: [3,30,34,5,9] => [9,5,34,3,30]
+// 排序方式:
+// string a, string b => a + b 跟 b + a比較，大的那一個數是a，表示a放在前面比較大，反之，就是b
+
+class Solution {
+public:
+    static bool firstNum(string a, string b){
+        
+        if((a + b) > (b + a))
+           return true; // a 排在b前面
+        else
+           return false; // b 排在a前面
+    }
+    string largestNumber(vector<int>& nums) {
+        
+        if(nums.size() == 0)
+            return "0";
+        
+        vector<string> val;
+        string res = "";
+        
+        for(int i = 0; i < nums.size(); i++)
+            val.push_back(to_string(nums[i]));
+        
+        sort(val.begin(), val.end(), firstNum);
+        
+        if(val[0] == "0") // 預防[0, 0]的情形
+            return "0";
+        
+        for(int i = 0; i < val.size(); i++)
+            res += val[i];
+        
+        return res;
+        
+    }
+};
