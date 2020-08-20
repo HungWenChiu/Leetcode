@@ -1,0 +1,47 @@
+// 此題使用BFS + brute force解法:
+// 用BFS每次都跑從第一個字母換成a-z，來做比對，如果word在轉換的table裡面，表示這結果是valid的，放到queue
+// 之後在把第二個字母換到a-z，來做比對，如果word在轉換的table裡面，表示這結果是valid的，放到queue
+// 依此類推，這算是第一層轉換。 res + 1
+// 而到第二層轉換就是把第一層valid的結果一個一個從queue output出來，之後重複做上面的步驟。
+
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        
+        unordered_set<string> dic(wordList.begin(), wordList.end());
+        if(!dic.count(endWord)) return 0;
+        queue<string> q; // 存放每一次BFS的result;
+        q.push(beginWord);
+        // dic.erase(beginWord);
+        int res = 0;
+        
+        while(!q.empty())
+        {
+            for(int i = q.size() ; i > 0 ; i--) // 若要把當下queue裡面的東西取出來必須要用i--的方式，不然每次queue都會增加東西，若用i++會一起把後來才放進來的東西取出
+            {
+                string new_word = q.front();
+                q.pop();
+                if(new_word == endWord) return (res + 1);// transformation end
+                
+                for(int j = 0; j < new_word.size(); j++)
+                {
+                    for(char k = 'a'; k <= 'z'; k++)
+                    {
+                        string tmp = new_word;
+                        tmp[j] = k;
+                        if(dic.count(tmp) && tmp != new_word)
+                        { // 這個字在字典裡但是卻不是endWord，表示只是轉換之中的字，放到queue當下一層
+                            q.push(tmp);
+                            dic.erase(tmp);
+                        }
+                    }
+                }
+                
+            }
+            res++;
+        }
+        
+        return 0;
+        
+    }
+};
