@@ -1,0 +1,49 @@
+// 使用長除法
+// 另外循環小數的概念: 餘數如果有出現相同的數。表示接下去就會循環
+// 所以用一個Hash table每次紀錄剩下的餘數跟那個"餘數"的除成小數的位置
+
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        
+        if(numerator == 0)
+            return "0";
+        
+        long long numer = numerator;
+        long long denom = denominator; // 有可能到int_max所以用long long
+        unordered_map<int, int> m; // 存餘數跟小數點對應的位置
+        string frac = ""; // 算小數部分
+        int idx = 0; // 計算現在是算到第幾個小數位
+        
+        string res = (numer * denom < 0) ? "-" : ""; // 有正負數的case
+        numer = abs(numer);
+        denom = abs(denom);
+        
+        res += to_string(numer/denom); // 先把整束部分算出來
+        numer %= denom; 
+        
+        if(numer != 0)
+            res += ".";
+        
+        while(numer != 0)
+        {
+            if(m.count(numer) > 0) // 遇到有重複地餘數，表示循環要開始了
+            {
+                frac.insert(frac.begin() + m[numer], '('); // 找到第一個同餘數紀錄的小數點位置insert"("
+                frac += ')';
+                break; // 結束
+            }
+            else // 餘數之前沒有出現過
+            {
+                m[numer] = idx++;
+                numer *= 10;
+                
+                frac += to_string(numer/denom);
+                numer %= denom;
+            }
+        }
+        
+        return res + frac;
+        
+    }
+};
