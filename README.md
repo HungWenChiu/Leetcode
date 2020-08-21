@@ -49,7 +49,9 @@ a.insert(it, num): 插入值<br>
 a.erase(it.begin() + i): 刪掉第幾個元素<br>
 sort(tmp.begin(), tmp.end());<br>
 greater\<int\>() / less\<int\>()<br>
- 
+nth_element(nums.begin(), nums.begin() + n, nums.end()): 找出第n大的數，time complexity: O(n) 好用!!!!! <br>
+(找到之後nums[n]就會是第n大的數!)
+
 ## Queue:
 ### Initial:
 queue\<type\> myqueue;<br>
