@@ -1,0 +1,46 @@
+// solution 2 使用priority queue
+
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        
+        priority_queue<long long, vector<long>, greater<long>> pq;
+        pq.push(1);
+
+        for(int i = 1; i < n; i++)
+        {
+            long long tmp = pq.top();
+            pq.pop();
+            while(!pq.empty() && pq.top() == tmp) pq.pop();
+            
+            pq.push(tmp * 2);
+            pq.push(tmp * 3);
+            pq.push(tmp * 5);
+            
+        }
+        return (int)pq.top();
+    }
+};
+
+
+// solution 1 使用指標去算自己指向的上一個urgly number * 自己和其他兩個urgly number * 自己比哪一個最小 
+// class Solution {
+// public:
+//     int nthUglyNumber(int n) {
+        
+//         vector<int> res(1,1);
+//         int ptr2 = 0, ptr3 = 0, ptr5 = 0; // 用三個指標去表示目前要乘以2,3,5的最小urgly數是什麼
+        
+//         for(int i = 1; i < n; i++)
+//         {
+//             int tmp = min(min(res[ptr2] * 2, res[ptr3] * 3), res[ptr5] * 5); // 找出最小值
+//             if(tmp == res[ptr2] * 2) ptr2++; // 如果 = ptr2 * 2，則把ptr2指標往後移一個
+//             if(tmp == res[ptr3] * 3) ptr3++; // 如果 = ptr3 * 3，則把ptr3指標往後移一個
+//             if(tmp == res[ptr5] * 5) ptr5++; // 如果 = ptr5 * 5，則把ptr5指標往後移一個
+//             res.push_back(tmp);
+//         }
+        
+//         return res.back();
+//     }
+// };
+
