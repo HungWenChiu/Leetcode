@@ -1,0 +1,22 @@
+// 使用Ugly Number中的priority queue解法
+
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        
+        priority_queue<long, vector<long>, greater<long long>> pq;
+        pq.push(1);
+        
+        for(int i = 1; i < n; i++)
+        {
+            long long tmp = pq.top();
+            pq.pop();
+            
+            while(!pq.empty() && pq.top() == tmp) pq.pop();
+            for(int j = 0; j < primes.size(); j++)
+                pq.push(tmp * primes[j]);
+        }
+        
+        return pq.top();
+    }
+};
