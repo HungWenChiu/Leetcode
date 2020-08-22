@@ -67,6 +67,8 @@ a.size()<br>
 ## Priority Queue:
 `functions跟Queue一樣，差別差再越前面的一定越大`<br>
 priority_queue< int,vector\<int\>,greater\<int\>()\>：這樣宣告則是越小的越前面<br>
+***雖然vector中greater是最大的排最前面，但是其實queue在電腦中存的資料結構的方式"應該"也像array的方式， <br>
+所以pop的話也是從最尾端取出，跟我們印象中的queue學到的樣子有點不太一樣，所以greater的話也是從大排到小，pop就一樣變成最小的最優先取出了!!要特別注意!*** <br>
 a.top(): 回傳最前面的element但不取出<br>
 
  
