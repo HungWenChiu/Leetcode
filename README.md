@@ -12,6 +12,7 @@
 
 
 [Algorithm](#algorithm) <br>
+- [最大公因數算法(使用輾轉相除法)] <br>
 - [排列組合類似題目](#排列組合類似題目使用遞迴算出每個結果) <br>
 - [重複排列演算法](#重複排列演算法8--35) <br>
 - [Combination列出所有可能](#combination列出所有可能candidates裡面-所有組成x數字的組合) <br>
@@ -165,6 +166,12 @@ mylist1.splice (it, mylist2) // mylist2拼接到mylist1 <br>
 
 
 # Algorithm
+## 最大公因數(GCD 輾轉相除法)
+```cpp
+int gcd(int x, int y){
+        return y == 0 ? x : gcd(y , x % y);
+    }
+```
 ## 排列組合類似題目：使用遞迴算出每個結果：
 起始點：get_sequence(res, {}, nums);<br>
 函數：<br>
