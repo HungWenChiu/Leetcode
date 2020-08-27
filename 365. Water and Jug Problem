@@ -1,0 +1,19 @@
+// 这道问题其实可以转换为有一个很大的容器，我们有两个杯子，容量分别为x和y，问我们通过用两个杯子往里倒水，和往出舀水，问能不能使容器中的水刚好为z升。那么我们可以用一个公式来表达：
+// z = m * x + n * y
+// 有整數解時若且唯若z是x及y的最大公因數d的倍數。
+// 那么我们只要只要z % d == 0，就有解，且x + y >= z(不可能秤出比他們兩個加起來還多的水)
+
+class Solution {
+public:
+    bool canMeasureWater(int x, int y, int z) {
+        
+        return (z == 0) || (x + y >= z) && z % gcd(x, y) == 0;
+        // 需考慮兩種情形:
+        // 1. z == 0: 表示把水杯的水全部倒完即可，所以一定回傳ture
+        // 2. 另一種情形就是要x + y >= z(< z 的話不符合題目需求 you must have z liters of water contained within one or both buckets by the end) 而且z是x, y的gcd的倍數，回傳true
+    }
+    
+    int gcd(int x, int y){
+        return y == 0 ? x : gcd(y , x % y);
+    }
+};
