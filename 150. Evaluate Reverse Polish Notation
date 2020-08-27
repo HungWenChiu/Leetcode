@@ -1,0 +1,42 @@
+// using stack
+
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        
+        stack<string> s;
+        
+        for(int i = 0; i < tokens.size(); i++)
+        {
+            if(tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/")
+            {
+                int b = stoi(s.top());
+                s.pop();
+                int a = stoi(s.top());
+                s.pop();
+                int tmp;
+                
+                switch(tokens[i][0])
+                {
+                    case 43:
+                        tmp = (a + b);
+                        break;
+                    case 45:
+                        tmp = (a - b);
+                        break;
+                    case 42:
+                        tmp = (a * b);
+                        break;
+                    case 47:
+                        tmp = (a / b);
+                }
+                
+                s.push(to_string(tmp));
+            }
+            else
+                s.push(tokens[i]);
+        }
+        
+        return stoi(s.top());
+    }
+};
