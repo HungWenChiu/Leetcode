@@ -3,32 +3,67 @@
 // 算出這個vector之後，for迴圈每站開始看看繞了一圈total是不是 >= 0 是的話表示是可以繞一圈的，
 // 如果total加到一半變成負數，表示旅途中斷，換算下一個起始點
 
+
+// 我们首先要知道能走完整个环的前提是gas的总量要大于cost的总量，这样才会有起点的存在。假设开始设置起点start = 0, 并从这里出发，如果当前的gas值大于cost值，就可以继续前进，此时到下一个站点，剩余的gas加上当前的gas再减去cost，看是否大于0，若大于0，则继续前进。
+
+// Better solution(第二個的簡化板)
 class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-        
+     
+        int total = 0, sum = 0, start = 0; 
+        // total算的是整個vector的gas[i] - cost[i]
+        // sum則是算從start開始到結束(sum < 0或結尾)的和
+        // 所以最後的total = sum + (前面的gas - cost)
+        // 得到前面的(gas - cost) = total - sum
+        // 而sum 一定要 > 0 才會valid
+        // 所以最後算出來的total > 0表示 sum >= 前面的(gas - cost) 是 valid
         
         for(int i = 0; i < gas.size(); i++)
-            cost[i] = gas[i] - cost[i];
-        
-        for(int i = 0; i < cost.size(); i++)
         {
-            int res = cost[i];
-            int idx = (i + 1) % cost.size();
+            total += gas[i] - cost[i];
+            sum += gas[i] - cost[i];
             
-            while(idx != i)
+            if(sum < 0)
             {
-                if(res < 0)
-                    break;
-                
-                res += cost[idx++];
-                idx %= cost.size();
+                start = i + 1;
+                sum = 0;
             }
-            
-            if(res >= 0)
-                return i;
         }
         
-        return -1;
+        return (total >= 0) ? start : -1;
+        
     }
 };
+
+
+// O(n^2)
+// class Solution {
+// public:
+//     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        
+        
+//         for(int i = 0; i < gas.size(); i++)
+//             cost[i] = gas[i] - cost[i];
+        
+//         for(int i = 0; i < cost.size(); i++)
+//         {
+//             int res = cost[i];
+//             int idx = (i + 1) % cost.size();
+            
+//             while(idx != i)
+//             {
+//                 if(res < 0)
+//                     break;
+                
+//                 res += cost[idx++];
+//                 idx %= cost.size();
+//             }
+            
+//             if(res >= 0)
+//                 return i;
+//         }
+        
+//         return -1;
+//     }
+// };
