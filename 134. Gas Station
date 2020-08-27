@@ -1,0 +1,34 @@
+// 解法: 算出到每一站的剩下油量(gas[i] - cost[i])
+// 如果是負數，表示不可能從A站到B站
+// 算出這個vector之後，for迴圈每站開始看看繞了一圈total是不是 >= 0 是的話表示是可以繞一圈的，
+// 如果total加到一半變成負數，表示旅途中斷，換算下一個起始點
+
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        
+        
+        for(int i = 0; i < gas.size(); i++)
+            cost[i] = gas[i] - cost[i];
+        
+        for(int i = 0; i < cost.size(); i++)
+        {
+            int res = cost[i];
+            int idx = (i + 1) % cost.size();
+            
+            while(idx != i)
+            {
+                if(res < 0)
+                    break;
+                
+                res += cost[idx++];
+                idx %= cost.size();
+            }
+            
+            if(res >= 0)
+                return i;
+        }
+        
+        return -1;
+    }
+};
