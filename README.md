@@ -635,9 +635,9 @@ public:
 ### 圖論的問題，以後看到選課之類的問題就要想到有向圖判斷是否有loop
 ### 想到有向圖就要想到三個變數
 ```cpp
-vector<int> indegree ==> 負責存每個點的indegree
-unordered_map<int, vector<int>> graph ==> 存每個點出去的時候指到那些點的關係圖
-queue<int> q ==> 負責存目前indegree為0的點(表示出發點)
+vector<int> indegree // 負責存每個點的indegree
+unordered_map<int, vector<int>> graph // 存每個點出去的時候指到那些點的關係圖
+queue<int> q // 負責存目前indegree為0的點(表示出發點)
 ```
 ### indegree: vertex中有多少個箭頭指向自己
 ### outdegree: vertex有多少箭頭出去
