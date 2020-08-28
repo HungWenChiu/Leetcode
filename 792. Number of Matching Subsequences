@@ -1,0 +1,92 @@
+// 解題概念: brute force 一定會 time limited
+// 所以使用hash map的概念:
+// hash table以char為key，pair<int, int> 為value
+// pair<int, int>裡面則是存這個字元在words裡面的第幾個index(第一個int)的第幾個字元(第二個int(以1開始))
+// 1. 每次找s裡面的字串的時候，都去map裡面找看看有沒有相同字元，
+// 2. 把這字元的vector取出，並且map.erase(這個字元)
+// 3. 對這vector都去找裡面pair相對應的words元素，以及比對pair的第二個int(如果pair.second == size())，
+//    表示這個word已經找完了。 res++
+// 4. 如果還沒找完，則把word對應的下一個字元(pair.second)當作key加到map裡面。
+// EX: 
+// S = "abcde"
+
+// words = ["a", "bb", "acd", "ace"]
+
+// 那么首先我们将words数组中的单词按照其首字母的不同放入对应的群组中，得到：
+
+// a -> {0, 1}, {2, 1}, {3, 1}
+
+// b -> {1, 1}
+
+// 这里，每个pair的第一个数字是该单词在words中的位置，第二个数字是下一个字母的位置。比如 {0, 1} 表示 "a" 在words数组中位置为0，且下一个位置为1（因为当前位置是首字母）。{2, 1} 表示 "acd" 在words数组中位置为2，且下一个位置为1。{3, 1} 表示 "ace" 在words数组中位置为3，且下一个位置为1。{1, 1} 表示 "bb" 在words数组中位置为1，且下一个位置为1。
+
+// 好，下面我们来遍历字符串S，第一个遇到的字母是 'a'。
+
+// 那么我们群组中a对应了三个pair，将其提取出来分别进行操作。首先处理 {0, 1}，此时我们发现下一个位置为1，和单词"a"的长度相同了，说明是子序列，结果res自增1。然后处理 {2, 1}，在"acd"中取下一个位置1的字母为'c'，则将下一位置自增1后的新pair {2, 2} 加入c对应的群组。然后处理 {3, 1}，在"ace"中取下一个位置1的字母为'c'，则将下一位置自增1后的新pair {3, 2} 加入c对应的群组。则此时的群组为：
+
+// b -> {1, 1}
+
+// c -> {2, 2}, {3, 2}
+
+// 好，继续来遍历字符串S，第二个遇到的字母是 'b'。
+
+// 那么我们群组中b对应了一个pair，处理 {1, 1}，在"bb"中取下一个位置1的字母为'b'，则将下一位置自增1后的新pair {1, 2} 加入b对应的群组。则此时的群组为：
+
+// b -> {1, 2}
+
+// c -> {2, 2}, {3, 2}
+
+// 好，继续来遍历字符串S，第三个遇到的字母是 'c'。
+
+// 那么我们群组中c对应了两个pair，将其提取出来分别进行操作。首先处理 {2, 2}，在"ace"中取下一个位置2的字母为'e'，则将下一位置自增1后的新pair {2, 3} 加入e对应的群组。然后处理 {3, 2}，在"acd"中取下一个位置2的字母为'd'，则将下一位置自增1后的新pair {3, 3} 加入d对应的群组。则此时的群组为：
+
+// b -> {1, 2}
+
+// d -> {3, 3}
+
+// e -> {2, 3}
+
+// 好，继续来遍历字符串S，第四个遇到的字母是 'd'。
+
+// 那么我们群组中d对应了一个pair，处理 {3, 3}，此时我们发现下一个位置为3，和单词"acd"的长度相同了，说明是子序列，结果res自增1。则此时的群组为：
+
+// b -> {1, 2}
+
+// e -> {2, 3}
+
+// 好，继续来遍历字符串S，第五个遇到的字母是 'e'。
+
+// 那么我们群组中e对应了一个pair，处理 {2, 3}，此时我们发现下一个位置为3，和单词"ace"的长度相同了，说明是子序列，结果res自增1。则此时的群组为：
+
+// b -> {1, 2}
+
+// 此时S已经遍历完了，已经没有b了，说明"bb"不是子序列，这make sense，返回结果res即可。
+
+class Solution {
+public:
+    int numMatchingSubseq(string S, vector<string>& words) {
+        
+        int res = 0;
+        unordered_map<char, vector<pair<int , int>>> m;
+        
+        for(int i = 0; i < words.size(); i++)
+            m[words[i][0]].push_back(make_pair(i, 1)); // 對words每個element的第一個字母當作key加到map裡面 ，value為(字元是屬於words的哪一個index, string裡的第幾個字元(start from 1) 或可當作下一個字元的index)
+        
+        for(char c : S) 
+        {
+            if(m.count(c) > 0) // 如果map裡面有c字元，則檢查所有map[c]裡面的pairs
+            {
+                auto tmp = m[c];
+                m.erase(c);// 需要把檢查過的刪掉，避免res+到重複
+                for(auto it :  tmp) // "it" is the pair in vector 
+                {
+                    if(it.second == words[it.first].size()) res++; // 如果pair.second == 對應words的size，表示這個string已經找完了，是完整的出現在S，所以res++
+                    else 
+                        m[words[it.first][it.second++]].push_back(make_pair(it.first, it.second)); // 如果 != size，表示這個words裡面的string還沒找完，把下一個字元當作key存到map裡以及他的index
+                }
+            }
+        }
+        return res;
+        
+    }
+};
