@@ -1,0 +1,41 @@
+// 圖論的問題，以後看到選課之類的問題就要想到有向圖判斷是否有loop
+// 想到有向圖就要想到三個變數
+// 1. vector<int> indegree ==> 負責存每個點的indegree
+// 2. unordered_map<int, vector<int>> graph ==> 存每個點出去的時候指到那些點的關係圖
+// 3. queue<int> q ==> 負責存目前indegree為0的點(表示出發點)
+
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        vector<int> indegree(numCourses, 0);
+        unordered_map<int, vector<int>> graph;
+        queue<int> q;
+        vector<int> res;
+        
+        for(auto e : prerequisites) // 建構出graph每個點的連結關係跟每個點的indegree
+        {
+            graph[e[1]].push_back(e[0]);
+            indegree[e[0]]++;
+        }
+        
+        for(int i = 0; i < indegree.size(); i++) // 找出所有indegree為0的點當作start
+            if(indegree[i] == 0)
+                q.push(i);
+        
+        while(q.size() != 0) // 如果q.szie == 0表示已經沒有indegree == 0的點，2種可能: 1. 找完graph 2. 有loop產生
+        {
+            int node = q.front(); // 每次取出indegree == 0的點
+            res.push_back(node); // 把這個點放到res裡，indegree == 0 的點代表他前面已經沒有人指向他了，所以可以output出來
+            q.pop();
+            for(auto e : graph[node]) // 針對這個點所指向的點都把他們的indegree-1
+            {
+                indegree[e]--;
+                if(indegree[e] == 0) //如果減到的點是0，表示他可以當下一輪的起點，放到queue裡面
+                    q.push(e);
+            }
+        }
+        
+        return (res.size() == numCourses) ? res : vector<int>({});
+    }
+};
