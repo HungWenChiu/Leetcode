@@ -1,0 +1,55 @@
+// 使用剝洋蔥的方式去算
+// 依樣定義3個變數:
+// unordered_map<int, vector<int>> m;
+// queue<int> q;
+// vector<int> degree(n, 0);
+
+// 每一輪都把這一輪degree == 1的node放到queue裡面當作start點，
+// 每次都把這點取出，所以跟他連線的點都-1，然後判斷最後map是不是只剩1~2個點，不是的話繼續下一輪
+
+// 最後把map裡面剩下的點的key值取出，就是解
+
+class Solution {
+public:
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        
+        unordered_map<int, vector<int>> m;
+        queue<int> q;
+        vector<int> degree(n, 0);
+        vector<int> res;
+        
+        if(n == 1) // 只有一個點的話就直接回傳
+            return {0};
+        
+        for(auto edge : edges) // initial 所有node的mapping table
+        {
+            m[edge[0]].push_back(edge[1]);
+            m[edge[1]].push_back(edge[0]);
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+        }
+        
+        while(m.size() > 2) // 每一輪都檢查只有一個連線的node，最後必留1~2個點 case 1 and case 2
+        {
+            for(int i = 0; i < degree.size(); i++) // 把所有只有一個連線的node放到queue裡面開始去掉
+                if(degree[i] == 1)
+                    q.push(i);
+            
+            while(!q.empty()) // 然後取出
+            {
+                int node = q.front();
+                q.pop();
+                vector<int> conn = m[node];
+                m.erase(node);
+                degree[node] = -1;
+                for(auto e : conn)
+                    degree[e]--;
+            }
+            
+        }
+        
+        for(auto itr = m.begin(); itr != m.end(); itr++) // 把剩餘table的key值取出
+            res.push_back(itr->first);
+        return res;
+    }
+};
