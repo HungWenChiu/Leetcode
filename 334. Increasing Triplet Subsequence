@@ -1,0 +1,25 @@
+// 解法: 定義兩個value, min_num->存最小值, mid_num->中間值
+// 每次都保證min_num最小值, mid_num一定會大於min_num
+// 所以只要找到第三個任意值a > min_num，就會構成 min_num < mid_num < a
+// return true
+
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+      
+        int min_num = INT_MAX;
+        int mid_num = INT_MAX;
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(nums[i] < min_num)
+                min_num = nums[i];
+            else if(nums[i] > min_num && nums[i] < mid_num)
+                mid_num = nums[i];
+            else if(nums[i] > mid_num)
+                return true;
+        }
+        
+        return false;
+    }
+};
