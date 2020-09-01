@@ -1,0 +1,70 @@
+
+// O(m + n)的寫法
+/*
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        
+        unordered_set<int> s_row;
+        unordered_set<int> s_col;
+        
+        for(int i = 0; i < matrix.size(); i++)
+            for(int j = 0; j < matrix[0].size(); j++)
+                if(matrix[i][j] == 0)
+                {
+                    s_row.insert(i);
+                    s_col.insert(j);
+                }
+        
+        for(int i = 0; i < matrix.size(); i++)
+            for(int j = 0; j < matrix[0].size(); j++)
+                if(s_row.count(i) || s_col.count(j) && matrix[i][j] != 0)
+                    matrix[i][j] = 0;
+    }
+};
+*/
+
+// O(1)的寫法，直接把第一行第一列的array拿來紀錄
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        
+        bool row = false;
+        bool col = false;
+        
+        for(int i = 0; i < matrix.size(); i++) // 先確認第一行跟第一列需不需要變成0
+            if(matrix[i][0] == 0) row = true;  
+        
+        for(int j = 0; j < matrix[0].size(); j++)
+            if(matrix[0][j] == 0) col = true;   // row & col來判定第一行跟第一列需不需要變成0
+        
+        
+        // 下面就是比第一行跟第一列拿來記錄元素對應的行列有沒有出現0，有的話就[i][0] or [0][j] 就r記成0
+        for(int i = 1; i < matrix.size(); i++) // 值接從第二行跟第二列開始找
+            for(int j = 1; j < matrix[0].size(); j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    matrix[i][0] = 0; // 把對應的第一行跟第一列的值記成0
+                    matrix[0][j] = 0; // 把對應的第一行跟第一列的值記成0
+                }
+            }
+        
+        for(int i = 1; i < matrix.size(); i++) // 尋找每個element
+            for(int j = 1; j < matrix[0].size(); j++)
+            {
+                if(matrix[i][0] == 0 || matrix[0][j] == 0) // 如果對應的第一行或第一列是0，表示對應的整行或整列都要是0
+                   matrix[i][j] = 0;
+            }
+        
+        if(row == true) //最後再決定第一行跟第一列需不需要都改成0
+            for(int i = 0; i < matrix.size(); i++)
+                matrix[i][0] = 0;
+        
+        if(col == true)
+            for(int j = 0; j < matrix[0].size(); j++)
+                matrix[0][j] = 0;
+        
+        
+    }
+};
