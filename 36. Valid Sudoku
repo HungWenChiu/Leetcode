@@ -1,0 +1,35 @@
+// 解法: 使用一個unordered_map紀錄出現過的字元跟他們所在的index i, index j
+// 之後每個element檢查一次，
+// 如果檢查到的字元出現在map裡面，則把map裡面出現這個字元的所以位置抓出來一一比對，比對上面三個rule
+// 1. 如果同字元出現的index i == 比對的i 或是 index j == 比對的那個字元的j ==> 表示同行或同列
+// 2. 如果同字元出現的index i / 3 == 比對的i / 3 && index j / 3 == 比對的j / 3 ==> 表示是同一個block裡面
+// 符合上述都回傳 false
+// 最後把檢查的那個字元也加到map裡面
+// 檢查完都沒有返回false，則return true
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        
+        unordered_map<char, vector<pair<int, int>>> m;
+        
+        for(int i = 0; i < board.size(); i++)
+            for(int j = 0; j < board[0].size(); j++)
+            {
+                if(m.count(board[i][j]))
+                {
+                    for(auto e : m[board[i][j]])
+                    {
+                        if(e.first == i || e.second == j) // rule 1 and 2
+                            return false;
+                        else if((e.first / 3 == i / 3) && (e.second / 3 == j / 3)) // rule 3
+                            return false;
+                    }
+                }
+                
+                if(board[i][j] != '.')
+                    m[board[i][j]].push_back(make_pair(i, j));
+            }
+        
+        return true;
+    }
+};
