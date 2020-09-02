@@ -96,7 +96,7 @@ a.count(a): 看a有沒有在裡面<br>
 ## Unordered Set
 ### Initial:
 unordered_set\<type\> myset -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
-#### unordered_set 是使用hash function來做查詢element => 沒有實作vector的方式，所以unordered_set<vector\<int>> 會錯，但set<vector\<int>>可以。<br>
+***unordered_set 是使用hash function來做查詢element => 沒有實作vector的方式，所以unordered_set<vector\<int>> 會錯，但set<vector\<int>>可以。<br>***
 
 ### Useful Function:
 a.insert(a): 把a放進集合<br>
@@ -117,7 +117,7 @@ a.erase(key / it): 刪除鍵值對
 ## Unordered map
 ### Initial:
 unordered_map\<type\> mymap -> `使用hash table實踐，search速度幾乎是O(1)，但空間利用大`<br>
-#### unordered_map 是使用hash function來做查詢element => 沒有實作vector的方式，所以unordered_map<vector\<int>, int> 會錯，但map<vector\<int>, int>可以<br>
+***unordered_map 是使用hash function來做查詢element => 沒有實作vector的方式，所以unordered_map<vector\<int>, int> 會錯，但map<vector\<int>, int>可以。<br>***
 
 
 ### Useful Function:
