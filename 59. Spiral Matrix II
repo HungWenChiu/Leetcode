@@ -1,0 +1,31 @@
+// 針對上下左右定義目前範圍 left, right, up, down
+// while loop 裡面一次都有4個loops, 每次loops完比較各個範圍，超過break!
+
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        
+        vector<vector<int>> res(n, vector<int>(n, 0));
+        
+        int left = 0, right = n - 1, up = 0, down = n - 1, num = 1;
+        
+        while(true)
+        {
+            for(int j = left; j <= right; j++)
+                res[up][j] = num++;
+            if(++up > down) break;
+            for(int i = up; i <= down; i++)
+                res[i][right] = num++;
+            if(--right < left) break;
+            for(int j = right; j >= left; j--)
+                res[down][j] = num++;
+            if(--down < up) break;
+            for(int i = down; i >= up; i--)
+                res[i][left] = num++;
+            if(++left > right) break;
+            
+        }
+        
+        return res;
+    }
+};
