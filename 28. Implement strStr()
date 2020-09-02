@@ -1,0 +1,26 @@
+// 兩個loop 一個是對haystack每個字元開始檢查，而裡面那個loop則是針對needle每個字元檢查
+// 有三個條件:
+// 1. j == needle.size() : 表示needle已經檢查完了，回傳i的位置(第一個字元開始檢查的位置)
+// 2. j + i == haystack.size() : 表示haystack從i字元開始比對了needle的j個字元之後，已經超過haystack的結尾字元了，所以return -1
+// 3. needle[j] != haystack[i + j] : 表示比對的字元不一樣，值接break從下一個haystack的字元開始比對
+
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        
+        if(needle.size() == 0)
+            return 0;
+        
+        for(int i = 0; ;i++)
+        {
+            for(int j = 0; ;j++ )
+            {
+                if(j == needle.size()) return i;
+                if(i + j == haystack.size()) return -1;
+                if(needle[j] != haystack[i + j]) break;
+            } 
+        }
+               
+        return -1;
+    }
+};
