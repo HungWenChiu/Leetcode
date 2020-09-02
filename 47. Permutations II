@@ -1,0 +1,35 @@
+class Solution {
+public:
+    
+    void get_subseq(vector<int>& nums, vector<int> tmp, vector<vector<int>> &res, set<vector<int>>& pattern){
+        
+        if(nums.size() == 0)
+        {
+            if(!pattern.count(tmp))
+            {
+                res.push_back(tmp);
+                pattern.insert(tmp);
+            }
+            return;
+        }
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            vector<int> subarr = tmp;
+            subarr.push_back(nums[i]);
+            nums.erase(nums.begin() + i);
+            get_subseq(nums, subarr, res, pattern);
+            nums.insert(nums.begin() + i, subarr.back());
+        }
+    }
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        
+        vector<vector<int>> res;
+        set<vector<int>> pattern;
+        get_subseq(nums, {}, res, pattern);
+        return res;
+        
+        
+    }
+};
