@@ -1,0 +1,34 @@
+// 像这种结果要求返回所有符合要求解的题十有八九都是要利用到递归，而且解题的思路都大同小异，相类似的题目有 Path Sum II，Subsets II，Permutations，Permutations II，Combinations 等等
+class Solution {
+public:
+    void find_seq(vector<vector<int>>& res, vector<int>& candidates, vector<int>& sub_seq, int target, int start){
+        
+        if(target == 0)
+        {
+            res.push_back(sub_seq);
+            return;
+        }
+        
+        if(target < 0)
+            return;
+        
+        for(int i = start; i < candidates.size(); i++)
+        {
+            if(i > start && candidates[i] == candidates[i - 1]) continue; // 避免重複同一個值 例如這次是1開始做下去，下一個element也是1開始做下去，就不需要重複做
+            sub_seq.push_back(candidates[i]);
+            find_seq(res, candidates, sub_seq, target - candidates[i], i + 1);
+            sub_seq.pop_back();
+        }
+        
+    }
+    
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        
+        vector<vector<int>> res;
+        sort(candidates.begin(), candidates.end());
+        vector<int> sub_seq;
+        find_seq(res, candidates, sub_seq, target, 0);
+        
+        return res;
+    }
+};
