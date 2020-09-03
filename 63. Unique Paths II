@@ -1,0 +1,38 @@
+// 使用dp
+
+class Solution {
+public:
+    
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        
+        vector<vector<int>> dp(obstacleGrid.size(), vector<int>(obstacleGrid[0].size()));
+        
+        // dp[0][0] = 1;
+        int val = 1;
+        for(int i = 0; i < dp[0].size(); i++) // 先初始畫第一行的所有值，理論上都會是1
+        {
+            if(obstacleGrid[0][i] == 1) // 但如果遇到障礙物，則val = 0，這樣可以保證後面的方塊都到不了，所以後面的方塊都會設成0
+                val = 0;
+            dp[0][i] = val;
+        }
+            
+        val = 1;
+        for(int i = 0; i < dp.size(); i++) // 先初始化第一列的所有值，理論上都會是1
+        {
+            if(obstacleGrid[i][0] == 1) // 但如果遇到障礙物，則val = 0，這樣可以保證後面的方塊都到不了，所以後面的方塊都會設成0
+                val = 0;
+            dp[i][0] = val;
+        }
+        
+        for(int i = 1; i < obstacleGrid.size(); i++)
+            for(int j = 1; j < obstacleGrid[0].size(); j++) // 尋找每個element
+            {
+                if(obstacleGrid[i][j] == 1) // 遇到1表示該區塊永遠無法到達dp[i][j] = 0;
+                    dp[i][j] = 0;
+                else
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1]; // 其他的區塊則是dp[i-1][j] + dp[i][j-1]
+            }
+        
+        return  dp[obstacleGrid.size() - 1][obstacleGrid[0].size() - 1]; // 回傳區塊最後一個值就是solution
+    }
+};
