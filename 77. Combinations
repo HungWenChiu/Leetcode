@@ -1,0 +1,33 @@
+// 遇到combination 列出各種組合的話就要用recursive
+// 如果只是算出有多少種組合(sum)，可以使用dp
+
+class Solution {
+public:
+    
+    void get_seq(vector<vector<int>>& res, vector<int>& sub_seq, int n, int start, int k, int num){
+        
+        if(num == k) // 組合的個數剛好 = k 表示結束
+        {
+            res.push_back(sub_seq);
+            return;
+        }
+            
+        
+        for(int i = start; i <= n; i++) // 使用迴圈每個數字去找(使用i = start的原因是因為不用重複找，例如 [1, 2] 跟 [2, 1] 是同一個數組)
+        {
+            sub_seq.push_back(i);
+            get_seq(res, sub_seq, n, i + 1, k, num + 1);
+            sub_seq.pop_back();
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+        
+        vector<vector<int>> res;
+        vector<int> sub_seq;
+        get_seq(res, sub_seq, n, 1, k, 0);
+        
+        return res;
+        
+        
+    }
+};
