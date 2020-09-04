@@ -183,6 +183,8 @@ int lcm(int x, int y){
 ```
 
 ## 排列組合類似題目：使用遞迴算出每個結果：
+***遇到combination 列出各種組合的話就要用recursive <br>
+    如果只是算出有多少種組合(sum)，可以使用dp*** <br> 
 起始點：get_sequence(res, {}, nums);<br>
 函數：<br>
 ```cpp
