@@ -1,0 +1,36 @@
+class Solution {
+public:
+    
+    void get_subset(vector<int>& nums, vector<vector<int>>& res, set<vector<int>> &s, vector<int>& tmp, int start){
+        
+        vector<int> t2 = tmp;
+        sort(t2.begin(), t2.end());
+        
+        if(s.count(t2) == 0) // 沒有重複才要算進去
+        {
+            s.insert(t2);
+            res.push_back(t2);
+        }
+        
+        for(int i = start; i < nums.size(); i++)
+        {
+            tmp.push_back(nums[i]);
+            get_subset(nums, res, s, tmp, i + 1);
+            tmp.pop_back();
+            
+        }
+        
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        vector<vector<int>> res = {{}};
+        set<vector<int>> s; // 紀錄已經放進去的vector
+        vector<int> tmp = {};
+        s.insert(tmp);
+        get_subset(nums, res, s, tmp, 0);
+        
+        return res;
+        
+    }
+};
