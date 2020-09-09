@@ -772,3 +772,14 @@ void quick_sort(vector<int>& nums, int start, int end){ // start initial 為 0 e
         quick_sort(nums, i+1, end);
 }
 ```
+
+## Gray code (格雷碼)
+可參考wikipedia <br>
+格雷碼是一個數列集合，相鄰兩數間只有一個位元改變，為無權數碼，且格雷碼的順序不是唯一的。 <br>
+
+```cpp
+unsigned int binaryToGray(unsigned int num)
+{
+    return (num >> 1) ^ num;
+}
+```
