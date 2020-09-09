@@ -29,6 +29,7 @@
 - [圖論](#圖論)<br>
 - [Dictionary Tree](#dictionary-tree) <br>
 - [Sort](#sort) <br>
+- [Gray Code-格雷碼](#gray-code-格雷碼)<>
 
 # USEFUL STL C++
 
