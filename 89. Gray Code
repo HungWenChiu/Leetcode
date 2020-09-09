@@ -1,0 +1,13 @@
+// 然后我们来看看其他的解法，参考维基百科上关于格雷码的性质，有一条是说镜面排列的，n位元的格雷码可以从n-1位元的格雷码以上下镜射后加上新位元的方式快速的得到，如下图所示一般。
+
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> result;
+        for (int i = 0; i < 1 << n; ++i) { // 1 << n 表示最高位
+            // result.emplace_back(i >> 1 ^ i); 
+            result.push_back(i >> 1 ^ i);
+        }
+        return result;
+    }
+};
