@@ -637,6 +637,40 @@ public:
     }
 };
 ```
+#### Construct unique BST(95. Unique Binary Search Trees II) <br>
+```cpp
+// 使用Devide and conquer
+// recursive 對每個數字i做: 分成=> [start, i -1] & [i + 1, end] 兩部分在去建構tree
+// boundary是start > end => return nullptr
+vector<TreeNode*> get_sub_tree(int start, int end){
+        
+    if(start > end) return {nullptr};
+
+    vector<TreeNode*> res;
+
+    for(int i = start; i <= end; i++)
+    {
+        auto lefts = get_sub_tree(start, i - 1); // 分成contruct 左子樹
+        auto rights = get_sub_tree(i + 1, end); // 分成construct 右子樹
+        for(auto l : lefts) // 左右子樹會回傳一個所有可能建構出來的子樹的array
+        {
+            for(auto r : rights)
+            {
+                TreeNode* tmp = new TreeNode(i); 
+                tmp->left = l;
+                tmp->right = r;
+                res.push_back(tmp); // 每一種產生出來的可能都要放到新的array
+            }
+
+        }
+
+    }
+    return res; // 把產生出來子樹的array return
+
+}
+```
+
+
 ## 圖論
 ### 圖論的問題，以後看到選課之類的問題就要想到有向圖判斷是否有loop
 ### 想到有向圖就要想到三個變數
