@@ -1,0 +1,45 @@
+// 一樣使用devide and conquer的方式
+// 依序尋找每個字元，遇到運算符號的時候分為兩個部分做recursive:
+//      左邊為[0, i - 1] 的substring, 右邊為[i + 1, input.size()]的substr,   input[i]為當前的operator
+//      左邊:input.substr(0, i)
+//      右邊:input.substr(i + 1, input.size() - i - 1) ==> 第二個參數為substring的字元個數
+//      substring會把各種計算的結果加到res裡面，最後回傳
+// Boundrary:
+//      如果一直找找到沒有operator，表示這列substring全都是數字，則回傳{stoi(input)}
+
+
+class Solution {
+public:
+    
+    vector<int> diffWaysToCompute(string input) {
+        
+        vector<int> res;
+        
+        for(int i = 0; i < input.size(); i++)
+        {
+            if(input[i] < '0' || input[i] > '9')
+            {
+                auto lefts = diffWaysToCompute(input.substr(0, i));
+                auto rights = diffWaysToCompute(input.substr(i + 1, input.size() - i - 1));
+
+                for(auto l : lefts)
+                    for(auto r : rights)
+                    {
+                        if(input[i] == '+')
+                            res.push_back(l + r);
+                        else if(input[i] == '-')
+                            res.push_back(l - r);
+                        else if(input[i] == '*')
+                            res.push_back(l * r);
+                        else if(input[i] == '/')
+                            res.push_back(l / r);
+                    }
+            }
+        }
+                
+        if(res.empty()) // 表示沒有找到運算符號，就是純數字EX: '23' or '4' 把這字串轉成int回傳
+            return {stoi(input)};
+        else
+            return res;
+    }
+};
