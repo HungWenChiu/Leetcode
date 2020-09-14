@@ -1,0 +1,23 @@
+// 使用累加法一層一層加下來，最後一層排序過後第一個數字一錠是minimum
+
+class Solution {
+public:
+
+    int minimumTotal(vector<vector<int>>& triangle){
+        
+        if(triangle.size() == 0)
+            return 0;
+        
+        for(int i = 1; i < triangle.size(); i++)
+        {
+            for(int j = 0; j < triangle[i].size(); j++)
+            {
+                if(j == 0) triangle[i][j] += triangle[i - 1][0]; // 如果是每層第一個數字，上層一定只有一個數字加下來
+                else if(j == triangle[i].size() - 1) triangle[i][j] += triangle[i - 1][j - 1]; // 如果是最後一個數字，也是上層指有一個數字加下來
+                else triangle[i][j] += min(triangle[i - 1][j - 1], triangle[i - 1][j]); // 其他可能則上一層有兩個數字取最小的那一個加下來
+            }
+        }
+        sort(triangle[triangle.size() - 1].begin(), triangle[triangle.size() - 1].end()); // 照順序sort
+        return triangle[triangle.size() - 1][0]; // 回傳最小的
+    }
+};
