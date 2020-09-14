@@ -21,3 +21,18 @@ public:
         return triangle[triangle.size() - 1][0]; // 回傳最小的
     }
 };
+
+ 
+// DP解法: refer to : https://www.cnblogs.com/grandyang/p/4286274.html
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        vector<int> dp(triangle.back());
+        for (int i = (int)triangle.size() - 2; i >= 0; --i) {
+            for (int j = 0; j <= i; ++j) {
+                dp[j] = min(dp[j], dp[j + 1]) + triangle[i][j];
+            }
+        }
+        return dp[0];
+    }
+};
