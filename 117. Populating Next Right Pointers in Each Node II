@@ -1,0 +1,77 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+// 跟perfected B tree不一樣的地方是他每一次都要需要平行扫描父节点同层的节点，找到他们的左右子节点。
+// class Solution {
+// public:
+//     Node* connect(Node* root) {
+        
+//         if(root == nullptr) return nullptr;
+        
+//         Node* curptr = root->next;
+//         while(curptr) // 一直往後找，找到下一個有child node的點
+//         {
+//             if(curptr->left)
+//             {
+//                 curptr = curptr->left;
+//                 break;
+//             }   
+//             if(curptr->right)
+//             {
+//                 curptr = curptr->right;
+//                 break;
+//             }    
+//             curptr = curptr->next;
+//         }
+        
+//         if(root->right) root->right->next = curptr; // 一定要從最右邊先找回來，不然有可能左邊的child連到原本右邊child該聯的node
+//         if(root->left) root->left->next = (root->right) ? root->right : curptr;
+        
+//         connect(root->right);
+//         connect(root->left);
+        
+//         return root;
+//     }
+// };
+
+// iterative
+class Solution {
+public:
+    Node* connect(Node* root) {
+        
+        if(root == nullptr) return nullptr;
+        
+        queue<Node*> q;
+        q.push(root);
+        
+        while(!q.empty())
+        {
+            int len = q.size();
+            for(int i = 0; i < len; i++)
+            {
+                Node* tmp = q.front();
+                q.pop();
+                if(i < len - 1) tmp->next = q.front();
+                if(tmp->left) q.push(tmp->left);
+                if(tmp->right) q.push(tmp->right);
+                
+            }
+        }
+        return root;
+    }
+};
