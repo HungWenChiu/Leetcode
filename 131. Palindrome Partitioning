@@ -1,0 +1,47 @@
+// 使用recursive 去做
+// 1. 從第一個字元開始 抓出第一個字元判斷有沒有pal，而剩下字串丟到recursive繼續做
+// 2. 前兩個字串為一組判斷有沒有pal，後面剩下字串丟到recursive
+// 3. 前三個字串為一組判斷有沒有pal，後面剩下字串丟到recursive
+// 就這樣一直做到 i = s.size() - 1，而resursive後面的字串也會一個一個分開判斷有沒有pal
+// recursion的boundary: 如果start 的position == s.size()，表示已經做完，把結果放到res裡面
+// 每次找完之後都要把原本加進去的sub string pop 出來
+
+class Solution {
+public:
+
+    bool is_palindrome(string s){
+        
+        for(int i = 0; i < s.size(); i++)
+        {
+            if(s[i] != s[s.size() - 1 - i])
+                return false;
+        }
+        return true;
+    }
+    
+    void get_palindrome(string s, int start, vector<vector<string>>& res, vector<string>& out){
+        
+        if(start == s.size())
+        {
+            res.push_back(out);
+            return;
+        }
+        
+        for(int i = start; i < s.size(); i++)
+        {
+            if(!is_palindrome(s.substr(start, i - start + 1))) continue;
+            out.push_back(s.substr(start, i - start + 1));
+            get_palindrome(s, i + 1, res, out);
+            out.pop_back();
+        }
+    }
+    
+    vector<vector<string>> partition(string s) {
+        
+        vector<vector<string>> res;
+        vector<string> out;        
+        get_palindrome(s, 0, res, out);
+        
+        return res;
+    }
+}; 
