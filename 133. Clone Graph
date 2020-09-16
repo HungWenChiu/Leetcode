@@ -1,0 +1,52 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    
+    Node* new_graph(Node* node, unordered_map<Node*, Node*>& visited){
+        
+        if(!node) return nullptr; // 如果是空的 return nullptr
+        
+        if(visited.count(node) > 0) // 如果已經有clone的node就回傳新的cloned Node
+            return visited[node];
+        
+        Node* new_node = new Node(node->val); // 如果沒有就clone node
+        visited[node] = new_node; // 加到map
+        
+        for(auto n : node->neighbors)
+             new_node->neighbors.push_back(new_graph(n, visited)); // 把所有neighbors產生新node加到nieghbor
+        
+        return new_node;
+        
+    }
+    
+    Node* cloneGraph(Node* node) {
+        
+        unordered_map<Node*, Node*> visited; // 對應原本的node跟clone的node
+        return new_graph(node, visited);
+        
+        
+    }
+};
