@@ -1,0 +1,50 @@
+// 像這種array裡面有幾個數字然後找出只有出現一次的數字的時候就要使用 bit sum 的方式去判斷
+// 作法: 針對每個bit算出每個數在這個bit上面的總和，然後總和在和3取餘數，如果是1的話就表示這個1的bit是單獨的那個數字提供的
+// class Solution {
+// public:
+//     int singleNumber(vector<int>& nums) {
+        
+//         int res = 0;
+        
+//         for(int i = 0; i < 32; i++)
+//         {
+//             int sum = 0;
+//             for(int j = 0; j < nums.size(); j++)
+//                 sum += nums[j] >> i & 1;
+            
+//             res += (sum % 3) << i;
+//         }
+        
+//         return res;
+//     }
+// };
+
+// Another solution:
+// 更微妙的方式: refer to : https://www.cnblogs.com/grandyang/p/4263927.html
+// 對於每個bit，會有三種情形:
+// 00 + 1 = 01
+// 01 + 1 = 10
+// 01 + 1 = 00
+// 令 a 為十位，b 為個位:
+// 則ab對應上圖的公式可以寫為
+// b = b xor (num[i]的那個bit) & ~a
+// a = a xor (num[i]的那個bit) & ~b
+
+// 而最後只需要看個位數，因為10的最後一定會變成00(除了一個數以外其他都是剛好出現三次)
+// 所以每個bit最後一定只有個位數字是1不然就是0
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+        int a = 0; // 十位數字
+        int b = 0; // 個位數字
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            b = (b ^ nums[i]) & ~a;
+            a = (a ^ nums[i]) & ~b;
+        }
+        
+        return b;
+    }
+};
