@@ -1,4 +1,4 @@
-// refer to https://www.cnblogs.com/grandyang/p/4741122.html
+// 自己的解法，似乎無法到constant space
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
@@ -8,10 +8,10 @@ public:
         diff &= -diff; // 把diff 跟 自己的複數補數&，可以算出兩數不同位數出現的最高位元
         for(int i = 0; i < nums.size(); i++)
         {
-            // 如此就可以利用XOR把兩數一個會是0 另一個會是1，而其他數字做XOR跟diff比一定會被分到0或是1的那一組
-            // 但其他數字衣錠是成對，所以被分到不管是0或是1的那一組XOR就會抵消，剩下留下來的數字就是只有出現一次的
-            if(nums[i] ^ diff) res[0] ^= nums[i]; // XOR是1的話就分到同一組
-            else res[1] ^= nums[i]; // XOR是0的話就分到另一組
+            // 如此就可以利用and把兩數一個會是0 另一個會是1，而其他數字做and跟diff比一定會被分到0或是1的那一組
+            // 但其他數字衣錠是成對，所以被分到不管是0或是1的那一組and就會抵消，剩下留下來的數字就是只有出現一次的
+            if(nums[i] & diff) res[0] ^= nums[i]; // and是1的話就分到同一組
+            else res[1] ^= nums[i]; // and是0的話就分到另一組
         }
         
         return res;
