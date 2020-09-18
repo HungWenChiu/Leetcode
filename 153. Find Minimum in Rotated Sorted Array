@@ -1,0 +1,32 @@
+// 使用binary search: O(logN)
+// 1. 如果nums[mid] > nums[right]， EX: 3,4,5,1,2，則表示小的數一定會在右邊那一半
+// 2. 如果nums[mid] <= num[right]， EX: 1,2,3,5,6，則表示右半段是排序好的且最小數在左半邊
+
+class Solution {
+public:
+    
+    int findMin(vector<int>& nums) {
+        
+        int res = INT_MAX;
+        int left = 0, right = nums.size() - 1;
+        
+        while(left <= right)
+        {
+            int mid = (left + right) / 2;
+            
+            if(nums[mid] > nums[right])
+            {
+                res = min(res, nums[right]);
+                left = mid + 1;
+            }
+            else
+            {
+                res = min(res, nums[mid]);
+                right = mid - 1;
+            }
+                
+        }
+        
+        return res;
+    }
+};
