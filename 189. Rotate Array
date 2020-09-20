@@ -1,0 +1,30 @@
+// 藉由翻轉兩個部份的數組來實現
+// class Solution {
+// public:
+//     void rotate(vector<int>& nums, int k) {
+        
+//         if(nums.size() <= 1 || (k %= nums.size()) == 0 ) return;
+//         auto last_part = nums.begin() + nums.size() - k; // 要rotate的那一個部分的開頭
+        
+//         reverse(last_part, nums.end());
+//         reverse(nums.begin(), last_part);
+//         reverse(nums.begin(), nums.end());
+        
+//     }
+// };
+
+//solution 2，直接後面插入前面
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        
+        if(nums.size() <= 1 || (k %= nums.size()) == 0 ) return;
+        
+        for(int i = 0; i < nums.size() - k; i++)
+        {
+            nums.push_back(nums[0]);
+            nums.erase(nums.begin());
+        }
+        
+    }
+};
