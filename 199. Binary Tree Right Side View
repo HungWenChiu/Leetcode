@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// 這題目是要從right side去看，不表示只看right，如果right child 高度比較少，則需要回頭看left side的child的right side
+// 解法: 使用recursive + set的方式去做，set專門去存說現在有哪個level的node已經被紀錄，如果被記入，則不重複記
+
+class Solution {
+public:
+    
+    void get_right_side(TreeNode* node, vector<int>& res, int level, unordered_set<int>& s){
+        
+        if(node == nullptr) return;
+        
+        if(!s.count(level))// 如果現在這個level還沒有，表示需要加到res，能避免左右同個level的node都加入array
+        {
+            res.push_back(node->val);
+            s.insert(level);
+        } 
+        get_right_side(node->right, res, level + 1, s); // 先找右邊child
+        get_right_side(node->left, res, level + 1, s); // 右邊child沒node的話，再去左邊往下走
+    }
+    
+    vector<int> rightSideView(TreeNode* root) {
+    
+        vector<int> res;
+        unordered_set<int> s;
+        get_right_side(root, res, 0, s); // 需要紀錄走到哪個level，因為一個level只能紀錄一個node(左或右)
+        return res;
+    }
+};
