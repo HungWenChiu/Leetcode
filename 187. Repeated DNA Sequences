@@ -1,0 +1,26 @@
+// 使用hashmap來算，每次出現的substring都放到map中
+// 如果有重複的substring，且只有重複一次，則把substring放到res中 map[substring]++
+// 如果有重複的substring但重複不只一次了，則略過，因為同一個sunbstring只需要印一次就好
+class Solution {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        
+        if(s.size() <= 10) return {};
+        
+        vector<string> res = {};
+        unordered_map<string, int> m;
+        
+        for(int i = 0; i < s.size() - 9; i++)
+        {
+            string tmp = s.substr(i, 10);
+            if(m.count(tmp) && m[tmp] == 1)
+            {
+                m[tmp]++;
+                res.push_back(tmp);
+            }
+            else if(!m.count(tmp))
+                m[tmp]++;
+        }
+        return res;
+    }
+};
