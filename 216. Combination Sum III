@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void get_com(vector<vector<int>>& res, int k, int n, vector<int>& tmp, int start){
+        
+        if(n < 0) return;
+        if(n == 0 && tmp.size() == k)
+            res.push_back(tmp);
+        else
+        {
+            for(int i = start; i <= 9; i++)
+            {
+                tmp.push_back(i);
+                get_com(res, k, n - i, tmp, i + 1);
+                tmp.pop_back();
+            }
+        }
+        
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        
+        vector<vector<int>> res = {};
+        vector<int> tmp;
+        get_com(res, k, n, tmp, 1);
+        
+        return res;
+    }
+};
