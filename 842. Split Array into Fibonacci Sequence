@@ -1,0 +1,41 @@
+// 使用recursive 來做
+// 需要考慮的case:
+// 1. 如果抓到的substr 兩位數以上且開頭是'0'或是超過10位數，invalid break
+// 2. 超過INT上限 break
+// 3. 如果找到的數字不符合F數列，continue extend下一個位數
+
+class Solution {
+public:
+    void get_fib(vector<int>& res, vector<int>& out, string& S, int start){
+        
+        if(!res.empty()) return; // 表示result 已經有數列了，不需要再找下一個valid的數列
+        if(out.size() >=3 && start >= S.size()) // 表示已經抓完數列且out裡面有值
+        {
+            res = out;
+            return;
+        }
+        
+        for(int i = start; i < S.size(); i++)
+        {
+            string tmp = S.substr(start, i - start + 1);
+            if((tmp.size() > 1 && tmp[0] == '0') || tmp.size() > 10) break;// 如果抓到的substr 兩位數以上且開頭是'0'或是超過10位數，invalid
+            long long int sub_num = stol(tmp);
+            if(sub_num > INT_MAX) break; // 超過INT上限
+            if(out.size() >= 2 && sub_num != (long long int)out[out.size() - 1] + (long long int)out[out.size() - 2]) // 這個數不符合，往下一位數找
+                continue;
+            out.push_back(sub_num);
+            get_fib(res, out, S, i + 1);
+            out.pop_back();
+        }
+        
+        
+    }
+    vector<int> splitIntoFibonacci(string S) {
+        
+        vector<int> res;
+        vector<int> out;
+        get_fib(res, out, S, 0);
+        
+        return res;
+    }
+};
