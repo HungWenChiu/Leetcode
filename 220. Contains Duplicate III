@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+        
+        map<long long int, int> m;
+        int j = 0; // j 是一個index，負責記錄slide window 的下限
+        
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(i - j > k) m.erase(nums[j++]); // 維持window大小加上要依值在k以內
+            auto e = m.lower_bound((long long int)nums[i] - t); 
+            // 找出windows 裡面所有的element第一個 >= nums[i] - t的pointer: 
+            // 因為 e >= nums[i] - t 所以 nums[i] - e <= t
+            if(e != m.end() && abs(nums[i] - e->first) <= t) return true;
+            m[nums[i]] = i; // 把第i個值加進去
+        }
+        
+        return false;
+    }
+};
