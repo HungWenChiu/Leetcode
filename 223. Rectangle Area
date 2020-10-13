@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        
+        int ovl_x1 = min(C, G);
+        int ovl_y1 = min(D, H);
+        int ovl_x2 = max(A, E);
+        int ovl_y2 = max(B, F);
+        
+        // long long int ovl_area = (ovl_x1 - ovl_x2) * (ovl_y1 - ovl_y2);
+        if(E >= C || A >= G || F >= D || B >= H) return  (D - B) * (C - A) + (H - F) * (G - E); // 不相交的情況
+        else return (D - B) * (C - A) -  (ovl_x1 - ovl_x2) * (ovl_y1 - ovl_y2) + (H - F) * (G - E);
+
+    }
+};
+
