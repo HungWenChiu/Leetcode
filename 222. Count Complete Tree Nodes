@@ -1,0 +1,69 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+// class Solution {
+// public:
+    
+//     void get_child(TreeNode* node, int& res){
+        
+//         if(node == nullptr) return;
+        
+//         res++;
+//         get_child(node->left, res);
+//         get_child(node->right, res);
+//     }
+    
+//     int countNodes(TreeNode* root) {
+        
+//         int res = 0;
+//         get_child(root, res);
+        
+//         return res;
+//     }
+// };
+
+// super simple brute force solution!!!!!!!!!!!:
+// class Solution {
+// public:
+    
+//     int countNodes(TreeNode* root) {    
+//         return root ? 1 + countNodes(root->left) + countNodes(root->right) : 0;
+//     }
+// };
+
+
+// Solution 3
+class Solution {
+public:
+    
+    int countNodes(TreeNode* root) {
+        
+        TreeNode* l = root;
+        TreeNode* r = root;
+        
+        int h_l = 0, h_r = 0;
+    
+        while(l)
+        {
+            h_l++;
+            l = l->left;
+        }
+        while(r)
+        {
+            h_r++;
+            r = r->right;
+        }
+        
+        if(h_l == h_r) return pow(2, h_l) - 1;
+        
+        return root ? 1 + countNodes(root->left) + countNodes(root->right) : 0;
+    }
+};
