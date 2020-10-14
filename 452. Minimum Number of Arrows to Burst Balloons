@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        
+        if(points.size() == 0) return 0;
+        
+        sort(points.begin(), points.end()); // 如果是pair的話sort排列方式 第一個數比較，如果一樣在比較第二個數，依此類推
+        int shot = 1; // 箭數
+        int end = points[0][1];
+        
+        for(int i = 1; i < points.size(); i++)
+        {
+            if(end >= points[i][0]) // 如果上一個球的end >= 這顆球的start，表示有重疊，shot不用++
+                end = min(end, points[i][1]); // 但要把end換成兩顆球的最小的end以確保球一直都可以被射到
+            else // 如果超過上一顆的end，表示要追加一箭
+            {
+                end = points[i][1]; // 更新新的end
+                shot++; // 箭數+1
+            }
+        }
+        
+        return shot;
+    }
+};
