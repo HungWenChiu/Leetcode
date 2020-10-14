@@ -1,0 +1,28 @@
+// 尋找規律:
+// 從最後一個digit[i]開始往前看是否符合rule
+// 如果前一個digit[i - 1]比digit[i]小，continue往前找
+// 如果前一個digit[i - 1]比digit[i]大，不合rule，則digit[i - 1]-- 然後把i這個數記起來
+// 最後，把i - n的位數都換成'9'
+// return stoi(result) ==> 如果前面有"0"開頭，剛好可以去掉
+
+class Solution {
+public:
+    int monotoneIncreasingDigits(int N) {
+        
+        string str = to_string(N);
+        int j = str.size();
+        
+        for(int i = str.size() - 1; i >= 0; i--)
+        {
+            if(str[i] >= str[i - 1]) continue;
+            
+            str[i - 1]--;
+            j = i;
+        }
+        
+        for(int i = str.size() - 1; i >= j; i--)
+            str[i] = '9';
+        
+        return stoi(str);
+    }
+};
