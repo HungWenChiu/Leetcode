@@ -1,0 +1,24 @@
+// 使用單調stack的概念來做，概念為越高位數越小
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        
+        string res;
+        int keep = num.size() - k;
+        
+        for(int i = 0; i < num.size(); i++)
+        {
+            while(res.size() && k && num[i] < res.back()) // 每次新的數字進來的時候，都要把res中前面比他大的數字都移除，這樣能確保最高位一定是越小的數字
+            {
+                res.pop_back();
+                k--;
+            }
+            res.push_back(num[i]);
+        }
+        
+        res.resize(keep); // 最後要resize 以防有種 "9" k = 1 的像這種case
+        while(res.size() && res[0] == '0') res.erase(res.begin()); // 把"0200"這種case前面的0都剔除
+        return res.empty() ? "0" : res; // 有最後res = ""的case，需要回傳"0"
+    }
+};
