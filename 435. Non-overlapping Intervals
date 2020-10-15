@@ -1,0 +1,31 @@
+// 遇到這種overlap的題目就是要先sort，
+// 然後這題比較tricky的一點就是萬一遇到有ovl的interval
+// 要把end指向哪一個interval的end較可以刪除較少的intervals
+// 答案就是要盡量指向end較小的那個inverval，如此一來可以最大程度確保intervals之間不會ovl 
+// 也保證可以刪除最少的intervals
+
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        
+        if(intervals.size() == 0) return 0;
+        
+        sort(intervals.begin(), intervals.end());
+        int end = intervals[0][1];
+        int rm_cnt = 0;
+        
+        for(int i = 1; i < intervals.size(); i++)
+        {
+            if(end > intervals[i][0])
+            {
+                rm_cnt++;
+                end = min(end, intervals[i][1]); // 指向interval較小的
+            }
+            else
+                end = intervals[i][1];
+        }
+        
+        
+        return rm_cnt;
+    }
+};
