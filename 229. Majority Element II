@@ -25,14 +25,16 @@ public:
             else
             {
                 cnt_a--; // 遇到不同的數的話，這兩個數的cnt各減掉一次，表示一次拿掉兩個數
-                cnt_b--;
+                cnt_b--; // 到最後 a, b 一定會被最多跟第二多的數字取代
             }
         }
         
         cnt_a = 0;
         cnt_b = 0;
         
-        for(int i = 0; i < nums.size(); i++)
+        
+        // 再來驗證a, b 是不是都會大於 n / 3(因為不超過兩個，所以有可能出現一個而已)
+        for(int i = 0; i < nums.size(); i++)  
         {
             if(nums[i] == a) cnt_a++;
             else if(nums[i] == b) cnt_b++;
