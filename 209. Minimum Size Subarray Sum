@@ -1,0 +1,67 @@
+// 注意!! 是要subarray!!，所以不可以排序在做!
+
+// O(n) solution
+// class Solution {
+// public:
+//     int minSubArrayLen(int s, vector<int>& nums) {
+        
+//         if(nums.size() == 0) return 0;        
+        
+//         int start = 0;
+//         int end = 0;
+//         int total = nums[0];
+//         int min_len = INT_MAX;
+                
+//         while(start <= end && end < nums.size())
+//         {
+            
+//             if(total >= s)
+//             {
+//                 min_len = min(min_len, end - start + 1);
+//                 total -= nums[start++];
+//             }
+//             else
+//             {
+//                 end++;
+//                 total += (end < nums.size()) ? nums[end] : 0;
+//             }
+//         }
+        
+//         return (min_len == INT_MAX) ? 0 : min_len;
+        
+//     }
+// };
+
+// O(nlogn)
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        
+        int n = nums.size();
+        int res = n + 1;
+        vector<int> sum(nums.size() + 1, 0); // 創造一個sum[n + 1] 為 0~n的sum
+        
+        for(int i = 1; i < n + 1; i++) sum[i] = sum[i - 1] + nums[i - 1];
+        
+        for(int i = 0; i < n + 1; i++)
+        {
+            int right = b_search(i, n, sum[i] + s, sum);
+            if(right == n + 1) break; // 如果right的值為n + 1，已經超過sum上限，表示從sum[0]~sum[n] 都 < sum[i] + n，之後的數列總和一定也會 < s，所以不用繼續做下去， break
+            else res = min(res, right - i);
+        }
+        
+        return (res == n + 1) ? 0 : res;
+    }
+    
+    int b_search(int left, int right, int key, vector<int>& sum){
+        
+        while(left <= right)
+        {
+            int mid = (left + right) / 2;
+            if(sum[mid] >= key) right = mid - 1; // 如果符合需求 繼續往前面更小的值找
+            else left = mid + 1;
+        }
+        
+        return left;
+    }
+};
