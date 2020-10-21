@@ -1,0 +1,75 @@
+// class Solution {
+// public:
+//     string getHint(string secret, string guess) {
+        
+//         int a_num = 0, b_num = 0;
+//         map<int, int> m; // 紀錄secret裡面除了剛好跟guess相同位置有相同字元的其他字元
+        
+//         for(int i = 0; i < guess.size(); i++) // 第一個loop先把相同位置相同字元的字挑出來，剩下的把它存到map裡面
+//         {
+//             if(guess[i] == secret[i])
+//             {
+//                 a_num++;
+//                 guess[i] = 'x'; // 已經檢查過的字元改成'x'
+//             }
+//             else
+//                 m[secret[i]]++;
+//         }
+        
+//         for(int i = 0; i < guess.size(); i++) // 把剩下不同位置相同字元的個數挑出來
+//         {
+//             if(guess[i] != 'x')
+//             {
+//                 if(m.count(guess[i]) && m[guess[i]] > 0) // 如果存在而且字元數目>0
+//                 {
+//                     b_num++; // B的個數++
+//                     m[guess[i]]--; // 原本的table - 1
+//                 }
+//             }
+//         }    
+        
+//         return to_string(a_num) + 'A' + to_string(b_num) + 'B';
+//     }
+// };
+
+// one loop's solution
+// class Solution {
+// public:
+//     string getHint(string secret, string guess) {
+        
+//         int a_num = 0, b_num = 0;
+//         map<int, int> m; // 紀錄secret裡面除了剛好跟guess相同位置有相同字元的其他字元
+        
+//         for(int i = 0; i < secret.size(); i++) // 第一個loop先把相同位置相同字元的字挑出來，剩下的把它存到map裡面
+//         {
+//             if(guess[i] == secret[i])
+//                 a_num++;
+//             else
+//             {   // 每個迴圈都個檢查secret跟guess各出現幾次
+//                 if(m[secret[i]]++ < 0) b_num++; // 運算方式，secret有的話就在table++，正數代表secret[i]字母出現幾次
+//                 if(m[guess[i]]-- > 0) b_num++;  // guess有的話就在table++，負數代表guess[i]字母出現幾次
+//             }
+                
+//         }
+        
+//         return to_string(a_num) + 'A' + to_string(b_num) + 'B';
+//     }
+// };
+
+// 更簡化版:
+class Solution {
+public:
+    string getHint(string secret, string guess) {
+        
+        int a_num = 0, b_num = 0;
+        map<int, int> m; // 紀錄secret裡面除了剛好跟guess相同位置有相同字元的其他字元
+        
+        for(int i = 0; i < secret.size(); i++) // 第一個loop先把相同位置相同字元的字挑出來，剩下的把它存到map裡面
+        {
+            a_num += (secret[i] == guess[i]);
+            b_num += (m[secret[i]]++ < 0) + (m[guess[i]]-- > 0);
+        }
+        
+        return to_string(a_num) + 'A' + to_string(b_num - a_num) + 'B'; // b_num - a_num是因為上面算b的時候，a也會再算一次
+    }
+};
