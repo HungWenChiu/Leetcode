@@ -1,0 +1,31 @@
+// 方法: 每個數都對K取餘數a，
+// 然後去計算a 跟 k - a 的出現的次數有沒有一樣，
+// 有的話就是成對，沒有表示不成對。
+
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        
+        map<int, int> m; // 前面存餘數，後面存他出現的個數
+        
+        for(int i = 0; i < arr.size(); i++)
+        {
+            if(arr[i] < 0) arr[i] = (arr[i] % k) + k; // %k有可能餘數是負數，所以要在+k轉成正數
+            m[arr[i] % k]++;
+        }
+        for(auto& e : m)
+        {
+            if(e.first == 0)
+            {
+                if(e.second % 2 != 0) // 如果餘數是0的數字一定要是偶數(成對)
+                    return false;   
+            }
+            else
+            {
+                if(m[k - e.first] != e.second) // 不然就是 k - e.first 跟  vlaue 出現數目要一樣
+                    return false;
+            }
+        }
+        return true;
+    }
+};
