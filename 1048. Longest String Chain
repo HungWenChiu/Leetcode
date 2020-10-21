@@ -1,0 +1,69 @@
+// 典型的动态规划的场景。设dp[i]为word[i]的单词链最长距离，如果word[i]是word[j]的predecessor，那么有dp[i] = max(dp[i], dp[j] + 1)。至于如何判断word[i]是否是word[j]的predecessor？对两个单词进行逐位比较，只允许有某一个的字符不一样。
+
+//(动态规划) O(n2m)O(n2m)
+// 首先将单词按长度从小到大排序。
+// 和最长上升子序列类似，定义 f(i)f(i) 表示以第 i 个单词结尾所能得到的最长的词链。
+// 初始时，f(i)=1f(i)=1，对于所有的 i 都成立。
+// 如果 j<i 且 word[j] 是 word[i] 的前身，则 f(i)=max(f(i),f(j)+1)。
+// 判断前身的算法：两个串 a 和 b 的长度只能相差 1，假设 a 串的长度较小。定义两个指针分别指向 a 和 b 字符串，如果当前位置字符相等，则指针同时后移，否则，只移动 b 的指针。最后如果 a 的指针到达了末尾，则说明可以完成匹配。
+// 最终答案为 max(f(i))max(f(i))。
+// 时间复杂度
+// 排序的时间复杂度为 O(nlogn)O(nlog⁡n)。
+// 动态规划状态数为 O(n)O(n)，转移枚举的个数为 O(n)O(n)，检查前身的时间复杂度为 O(m)O(m)，其中 mm 为字符串的长度。
+// 总时间复杂度为 O(n2m)O(n2m)
+
+// 作者：wzc1995
+// 链接：https://www.acwing.com/solution/LeetCode/content/2391/
+// 来源：AcWing
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+class Solution {
+public:
+    
+    static bool s_by_len(string& w1, string& w2){ // 排序方式
+        return w1.size() < w2.size();
+    } // sort by string length
+    
+    bool check_pred(string& w1, string& w2){
+        
+        if(w1.size() + 1 != w2.size()) return false;
+        
+        int p_w1 = 0;
+        int p_w2 = 0;
+        
+        while(p_w1 < w1.size() && p_w2 < w2.size())
+        {
+            if(w1[p_w1] == w2[p_w2])
+            {
+                p_w1++;
+                p_w2++;
+            }
+            else
+                p_w2++;
+        }
+        
+        return p_w1 == w1.size();
+    } // check whether w2 is predecessor of w1 
+    
+    int longestStrChain(vector<string>& words) {
+        
+        sort(words.begin(), words.end(), s_by_len);
+        vector<int> dp(words.size(), 1); // initial: dp[0] = 1
+        
+        for(int i = 1; i < words.size(); i++)
+        {
+            for(int j = i - 1; j >= 0; j--) // 美找一個word就像前確認dp
+                if(check_pred(words[j], words[i])) 
+                    dp[i] = max(dp[i], dp[j] + 1);
+        }
+        
+        int res = 0;
+        for(int i = 0; i < dp.size(); i++) // 找出所有dp中最長的length
+            res = max(res, dp[i]);
+        
+        return res;
+        
+        
+    }
+};
