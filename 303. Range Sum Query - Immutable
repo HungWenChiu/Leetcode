@@ -1,0 +1,22 @@
+class NumArray {
+private:
+    vector<int> nums;
+public:
+    NumArray(vector<int>& nums){
+        this->nums = nums;
+        
+        for(int i = 0; i < nums.size(); i++)
+            this->nums[i] = (i != 0) ? (this->nums[i] + this->nums[i - 1]) : this->nums[i];
+    }
+    
+    int sumRange(int i, int j) {
+        
+        return (i != 0) ? (this->nums[j] - this->nums[i - 1]) : this->nums[j];
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * int param_1 = obj->sumRange(i,j);
+ */
