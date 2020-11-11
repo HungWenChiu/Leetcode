@@ -1,0 +1,50 @@
+//O(n)
+// class Solution {
+// public:
+//     int maxSubArray(vector<int>& nums) {
+        
+//         int currentsum = 0;
+//         int result = INT_MIN;
+        
+//         for(vector<int>::iterator itr = nums.begin(); itr != nums.end(); itr++)
+//         {
+//             currentsum = max(currentsum + *itr, *itr);
+//             result = max(result, currentsum);
+//         }    
+        
+//         return result;
+        
+//     }
+// };
+
+//O(nlogn) divide and conquer, 先計算由mid 向左右展開的算出來的最大值，然後在跟右邊最大值&左邊最大值比較
+class Solution {
+public:
+    
+    int get_subarray(vector<int>& nums, int left, int right){
+        
+        if(left >= right) return nums[left];
+        
+        int mid = (left + right) / 2;
+        int lmax = get_subarray(nums, left, mid - 1);
+        int rmax = get_subarray(nums, mid + 1, right);
+        int sum = nums[mid], max_num = nums[mid];
+        for(int i = mid - 1; i >= left; i--)
+        {
+            sum += nums[i];
+            max_num = max(sum, max_num);
+        }
+        sum = max_num;
+        for(int i = mid + 1; i <= right; i++)
+        {
+            sum += nums[i];
+            max_num = max(sum, max_num);
+        }
+        
+        return max(max_num, max(lmax, rmax));
+    }
+    
+    int maxSubArray(vector<int>& nums) {
+        return get_subarray(nums, 0, nums.size() - 1);
+    }
+};
