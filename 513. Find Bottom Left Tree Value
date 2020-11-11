@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution{
+
+    public:
+        void get_leftmost(TreeNode* node, int& res, int lv, int& max_lv){
+
+            if(!node)
+                return;
+
+            get_leftmost(node->left, res, lv + 1, max_lv);
+            if(lv > max_lv)
+            {
+                res = node->val;
+                max_lv = lv;
+            }
+            get_leftmost(node->right, res, lv + 1, max_lv);
+
+            return;
+        }
+
+        int findBottomLeftValue(TreeNode* root) {
+
+            int max_lv = -1, res = root->val;
+            get_leftmost(root, res, -1, max_lv);
+
+            return res;
+
+        }
+};
