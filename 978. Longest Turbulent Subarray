@@ -2,115 +2,84 @@
 // class Solution {
 // public:
     
-//     void get_turb(vector<int>& arr, int idx, int& start, int& res, string op){
-        
-//         if(idx == arr.size()-1)
-//         {
-//             res = max(res, idx - start + 1);
-//             return;
-//         }
-//         if(op == "ini")
-//         {
-//             start = idx;
-//             if(arr[idx] > arr[idx + 1])
-//                 get_turb(arr, idx + 1, start, res, "less");
-//             else if(arr[idx] < arr[idx + 1])
-//                 get_turb(arr, idx + 1, start, res, "more");
-//             else
-//                 get_turb(arr, idx + 1, ++start, res, "ini");
-//         }
-//         else if(op == "more")
-//         {
-//             if(arr[idx] > arr[idx + 1])
-//                 get_turb(arr, idx + 1, start, res, "less");
-//             else
-//             {
-//                 res = max(res, idx - start + 1);
-//                 get_turb(arr, idx, start, res, "ini");
-//             }
-                
-//         }
-//         else if(op == "less")
-//         {
-//             if(arr[idx] < arr[idx + 1])
-//                 get_turb(arr, idx + 1, start, res, "more");
-//             else
-//             {
-//                 res = max(res, idx - start + 1);
-//                 get_turb(arr, idx, start, res, "ini");
-//             }
-//         }
-//     }
-    
 //     int maxTurbulenceSize(vector<int>& arr) {
         
-//         int res = 1, start = 0;
-//         get_turb(arr, 0, start, res, "ini");
+//         int res = 1, start = 0, end = 0, idx = 0;
+//         string op = "init";
+        
+//         while(idx < arr.size())
+//         {
+//             if(idx == arr.size() - 1)
+//             {
+//                 res = max(res, end - start + 1);
+//                 break;
+//             }
+//             if(op == "init")
+//             {
+//                 start = idx;
+//                 end = idx;
+//                 if(arr[idx] < arr[idx + 1])
+//                 {
+//                     op = "more";
+//                     end = idx + 1;
+//                 }
+//                 else if(arr[idx] > arr[idx + 1])
+//                 {
+//                     op = "less";
+//                     end = idx + 1;
+//                 }
+//                 idx++;
+//             }
+//             else if(op == "more")
+//             {
+//                 if(arr[idx] > arr[idx + 1])
+//                 {
+//                     op = "less";
+//                     end = ++idx;
+//                 }
+//                 else
+//                 {
+//                     res = max(res, end - start + 1);
+//                     op = "init";
+//                 }
+//             }
+//             else if(op == "less")
+//             {
+//                 if(arr[idx] < arr[idx + 1])
+//                 {
+//                     op = "more";
+//                     end = ++idx;
+//                 }
+//                 else
+//                 {
+//                     res = max(res, end - start + 1);
+//                     op = "init";
+//                 }
+//             }
+//         }
         
 //         return res;
             
 //     }
 // };
+
+// solution2, DP 神解： https://zxi.mytechroad.com/blog/dynamic-programming/leetcode-978-longest-turbulent-subarray/
 class Solution {
 public:
     
     int maxTurbulenceSize(vector<int>& arr) {
         
-        int res = 1, start = 0, end = 0, idx = 0;
-        string op = "init";
+        int res = 1;
+        vector<int> up(arr.size(), 1); // 設定第i個符合rule且arr[i] > arr[i - 1]的長度
+        vector<int> down(arr.size(), 1); // 設定第i個符合rule且arr[i] < arr[i - 1]的長度
         
-        while(idx < arr.size())
+        for(int i = 1; i < arr.size(); i++)
         {
-            if(idx == arr.size() - 1)
-            {
-                res = max(res, end - start + 1);
-                break;
-            }
-            if(op == "init")
-            {
-                start = idx;
-                end = idx;
-                if(arr[idx] < arr[idx + 1])
-                {
-                    op = "more";
-                    end = idx + 1;
-                }
-                else if(arr[idx] > arr[idx + 1])
-                {
-                    op = "less";
-                    end = idx + 1;
-                }
-                idx++;
-            }
-            else if(op == "more")
-            {
-                if(arr[idx] > arr[idx + 1])
-                {
-                    op = "less";
-                    end = ++idx;
-                }
-                else
-                {
-                    res = max(res, end - start + 1);
-                    op = "init";
-                }
-            }
-            else if(op == "less")
-            {
-                if(arr[idx] < arr[idx + 1])
-                {
-                    op = "more";
-                    end = ++idx;
-                }
-                else
-                {
-                    res = max(res, end - start + 1);
-                    op = "init";
-                }
-            }
+            if(arr[i] > arr[i - 1]) up[i] = down[i - 1] + 1;
+            else if(arr[i] < arr[i - 1]) down[i] = up[i - 1] + 1;
+            res = max(res, max(up[i], down[i]));
         }
         
         return res;
-            
     }
 };
