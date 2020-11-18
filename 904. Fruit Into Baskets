@@ -1,0 +1,24 @@
+// 使用slide window概念 + hashmap
+class Solution {
+public:
+    int totalFruit(vector<int>& tree) {
+        
+        map<int, int> m; // 記錄每種type水果出現的次數
+        int start = 0, res = 0;
+        
+        for(int i = 0; i < tree.size(); i++)
+        {
+            m[tree[i]]++; // 水果+１
+            while(m.size() > 2) // 如果出現3種以上的水果
+            {
+                m[tree[start]]--; // 把最前面的水果--;
+                if(m[tree[start]] == 0)
+                    m.erase(tree[start]); // 如果減到0直接把這項水果刪掉
+                start++;
+            }
+            res = max(res, i - start + 1);
+        }
+        
+        return res;
+    }
+};
