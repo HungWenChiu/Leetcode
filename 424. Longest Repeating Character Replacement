@@ -1,0 +1,23 @@
+// slide window + hashmap
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        
+        map<char, int> m;
+        int res = 0, start = 0, max_count = 0; // max_count會紀錄window裡面最多的那個字數
+        
+        for(int i = 0; i < s.size(); i++)
+        {
+            m[s[i]]++;
+            max_count = max(max_count, m[s[i]]);
+            
+            if(i - start + 1 - max_count <= k) // i - start + 1 - max_count <= k 表示子字串減掉最多字元的個數之後的其它字元數=k 為題目所求
+                res = max(res, i - start + 1);
+            
+            while(i - start + 1 - max_count > k)
+                m[s[start++]]--;
+        }
+        
+        return res;
+    }
+};
