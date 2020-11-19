@@ -1,0 +1,21 @@
+// slide window + hashmap
+class Solution {
+public:
+    int longestOnes(vector<int>& A, int K) {
+        
+        map<int, int> m;
+        int start = 0;
+        int res = 0;
+        
+        for(int i = 0; i < A.size(); i++)
+        {
+            m[A[i]]++;
+            while(i - start + 1 - m[1] > K) // 個數 - 1出現的次數一錠要 <= k 表示0一定要出現 <= k次, 否則start向右移一位
+                m[A[start++]]--;
+            
+            res = max(res, i - start + 1);
+            
+        }
+        return res;
+    }
+};
