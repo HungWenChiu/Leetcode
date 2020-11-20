@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// iteration
+// class Solution {
+// public:
+    
+//     bool findTarget(TreeNode* root, int k) {
+        
+//         unordered_set<int> s;
+//         queue<TreeNode*> q;
+//         q.push(root);
+        
+//         while(!q.empty())
+//         {
+//             auto node = q.front(); q.pop();
+//             if(s.count(k - node->val)) return true;
+//             s.insert(node->val);
+//             if(node->left) q.push(node->left);
+//             if(node->right) q.push(node->right);
+//         }
+        
+//         return false;
+//     }
+// };
+
+
+// recursion
+class Solution {
+public:
+    
+    bool get_mapping(TreeNode* node, int k, unordered_set<int>& s){
+        
+        if(!node) return false;
+        if(s.count(k - node->val)) return true;
+        s.insert(node->val);
+        return get_mapping(node->left, k, s) || get_mapping(node->right, k, s);
+    }
+    
+    bool findTarget(TreeNode* root, int k) {
+        
+        unordered_set<int> s;
+        return get_mapping(root, k, s);
+        
+    }
+};
