@@ -1,0 +1,26 @@
+class Solution {
+public:
+    
+    vector<int> sortedSquares(vector<int>& A) {
+        
+        int start = 0, end = A.size() - 1;
+        vector<int> res;
+        
+        while(start <= end)
+        {
+            if(abs(A[start]) < abs(A[end]))
+            {
+                res.insert(res.begin(), A[end] * A[end]);
+                end--;
+            }
+            else
+            {
+                res.insert(res.begin(), A[start] * A[start]);
+                start++;
+            }
+        }
+        
+        return res;
+        
+    }
+};
