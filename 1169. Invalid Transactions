@@ -1,0 +1,61 @@
+// 主要考的是string split把他拆解成4個array，且用brute force 解
+// O(N^2)
+
+class Solution {
+public:
+    
+    vector<string> invalidTransactions(vector<string>& transactions) {
+        
+        vector<string> name;
+        vector<int> time;
+        vector<int> money;
+        vector<string> city;
+        vector<string> res;
+        
+        for(auto e : transactions)
+        {
+            vector<string> tmp = split(e, ",");
+            name.push_back(tmp[0]);
+            time.push_back(stoi(tmp[1]));
+            money.push_back(stoi(tmp[2]));
+            city.push_back(tmp[3]);
+        }
+        
+        for(int i = 0; i < name.size(); i++)
+        {
+            if(money[i] > 1000) 
+            {
+                res.push_back(transactions[i]);
+                continue;
+            }
+            
+            for(int j = 0; j < name.size(); j++)
+            {
+                if(i != j && name[i] == name[j] && abs(time[i] - time[j]) <= 60 && city[i] != city[j])
+                {
+                    res.push_back(transactions[i]);
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+    
+    vector<string> split(string str, string pattern){
+        
+        vector<string> res;
+        str += pattern;
+        
+        for(int i = 0; i < str.size(); i++)
+        {
+            int pos = (int)str.find(pattern, i);
+            
+            if(pos != string::npos)
+            {
+                res.push_back(str.substr(i, pos - i));
+                i = pos + pattern.size() - 1;
+            }
+        }
+        return res;
+    }
+};
