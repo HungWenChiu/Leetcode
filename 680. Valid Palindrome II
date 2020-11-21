@@ -1,0 +1,32 @@
+// 使用雙指針，且因為最多只能刪除一個char，所以必須使用子函數去判斷substr是不是valid
+
+class Solution {
+public:
+    
+    bool is_valid(string& s, int start, int end){
+        
+        while(start < end)
+            if(s[start++] != s[end--]) return false;
+        
+        return true;
+    }
+    
+    bool validPalindrome(string s) {
+        
+        int start = 0, end = s.size() - 1;
+        
+        while(start < end)
+        {
+            if(s[start] != s[end]) // 如果兩數不同，既然不知道要刪掉哪一個數，則兩種情況都判斷
+                return is_valid(s, start, end - 1) || is_valid(s, start + 1, end);
+            else
+            {
+                start++;
+                end--;
+            }
+        }
+        
+        return true;
+        
+    }
+};
