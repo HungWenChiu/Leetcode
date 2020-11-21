@@ -1,0 +1,38 @@
+// 使用雙指針，麻煩的地方在於要怎麼判斷 alphanumeric
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        
+        if(s == "") return true;
+        int start = 0, end = s.size() - 1;
+        
+        while(start < end)
+        {
+            char start_c;
+            char end_c;
+            
+            if(s[start] <= '9' && s[start] >= '0' || s[start] <= 'Z' && s[start] >= 'A' || s[start] <= 'z' && s[start] >= 'a')
+                start_c = (s[start] <= 'Z' && s[start] >= 'A') ? s[start] - 'A' + 'a' : s[start];   
+            else
+            {
+                start++;
+                continue;
+            }
+            
+            if(s[end] <= '9' && s[end] >= '0' || s[end] <= 'Z' && s[end] >= 'A' || s[end] <= 'z' && s[end] >= 'a')
+                end_c = (s[end] <= 'Z' && s[end] >= 'A') ? s[end] - 'A' + 'a' : s[end];
+            else
+            {
+                end--;
+                continue;
+            }
+            
+            if(start_c != end_c) return false;
+            else
+            {
+                start++; end--;
+            }
+        }   
+        return true;
+    }
+};
