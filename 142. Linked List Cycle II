@@ -10,25 +10,27 @@ class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
         
-        unordered_set<ListNode*> s;
-        ListNode* curptr = head;
-        // ListNode* front = head;
+        if(head == nullptr || head->next == nullptr) return nullptr;
         
-        if(head == nullptr)
-            return nullptr;
+        ListNode *slow = head, *fast = head;
         
-        while(curptr != nullptr)
+        while(fast != nullptr && fast->next != nullptr)
         {
-            if(!s.count(curptr))
-                s.insert(curptr);
-            else
-                return curptr;
-            
-            // front = curptr;
-            curptr = curptr->next;
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast) break;
         }
         
-        return nullptr;
+        if(fast == nullptr || fast->next == nullptr) return nullptr;
+        
+        fast = head;
+        while(slow != fast)
+        {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        return slow;
         
         
     }
