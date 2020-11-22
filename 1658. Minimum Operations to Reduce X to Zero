@@ -1,0 +1,38 @@
+// 需要做presum + postsum = x
+// 先把presum都放到hashmap，再從postsum去找x - presum
+class Solution {
+public:
+    
+    int minOperations(vector<int>& nums, int x) {
+        
+        map<int, int> m; // <pre_sum, presum的index>
+        int res = nums.size() + 1;
+        m[0] = -1; // 要考慮到都不需要presum的情況
+        
+        // 先記錄presum，越靠左越好
+        int presum = 0;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            presum += nums[i];
+            if(!m.count(presum)) m[presum] = i; // 存入presum現在指到第幾個idx
+        }
+        
+        // 如果光拿掉pre num就可以 = x，不需要postsum的情形
+        if(m.count(x)) res = min(res, m[x] + 1); 
+        
+        // 開始找對應的postsum
+        int postsum = 0;
+        for(int i = nums.size() - 1; i >= 0; i--)
+        {
+            postsum += nums[i];
+            // 符合條件除了presum hashtable有x - postsum的idx之外還需要presum_idx < postsum_idx
+            if(m.count(x - postsum)) 
+            {
+                if(m[x - postsum] < i)  // presum idx 一定要 < postsum
+                    res = min(res, m[x - postsum] + 1 + (int)nums.size() - i);
+            }
+                
+        }
+        return (res == nums.size() + 1) ? -1 : res;
+    }
+};
