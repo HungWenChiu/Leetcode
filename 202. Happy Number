@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+        
+        unordered_set<int> s;
+        
+        while(!s.count(n))
+        {
+            if(n == 1) return true;
+            s.insert(n);
+            int new_n = 0;
+            while(n != 0)
+            {
+                int tmp = n % 10;
+                new_n += pow(tmp, 2);
+                n /= 10;
+            }
+            n = new_n;
+        }
+        
+        return false;
+    }
+};
