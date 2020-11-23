@@ -1,31 +1,22 @@
-// 1. 必須確保每個vector都是照start 順序排下來的，所以要先sort(O(nlogn))
-// 2. sort完之後，開一個res 2D vector，intervals[0]放進去
-// 3. for loop 一個一個找，如果找到res.back()[1] >= intervals[i][0] 則合併成一個新的vector再放進去
-// 4. Time complexity => O(nlogn) + O(n) = O(nlogn)
 class Solution {
 public:
+    static bool sort_1st(vector<int>& a, vector<int>& b){
+        return a[0] < b[0];
+    }
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         
-        if(intervals.size() == 0)
-            return {};
-        
-        vector<vector<int>> res;
-        sort(intervals.begin(), intervals.end());
-        res.push_back(intervals[0]);
-        
+        sort(intervals.begin(), intervals.end(), sort_1st);
+        vector<vector<int>> res = {intervals[0]};
+            
         for(int i = 1; i < intervals.size(); i++)
         {
             if(res.back()[1] >= intervals[i][0])
-            {
-                vector<int> tmp;
-                tmp.push_back(min(res.back()[0], intervals[i][0]));
-                tmp.push_back(max(res.back()[1], intervals[i][1]));
-                res.pop_back();
-                res.push_back(tmp);
-            }
+                res.back()[1] = max(res.back()[1], intervals[i][1]);
             else
                 res.push_back(intervals[i]);
         }
+        
         return res;
+        
     }
 };
