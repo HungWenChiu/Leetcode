@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        
+        int cur = 0; // 指標負責指說最後new interval該插在哪個位置上
+        vector<vector<int>> res;
+        
+        for(int i = 0; i < intervals.size(); i++)
+        {
+            if(intervals[i][1] < newInterval[0]) // 表示沒重疊，且a < newint
+            {
+                res.push_back(intervals[i]);
+                cur++;
+            }
+            else if(intervals[i][0] > newInterval[1]) // 沒重疊，且a > new_int
+            {
+                res.push_back(intervals[i]);
+            }
+            else //有重疊 把intervals 和 newinterval取最大範圍加到new_interval裡面去
+            {
+                newInterval[0] = min(intervals[i][0], newInterval[0]);
+                newInterval[1] = max(intervals[i][1], newInterval[1]);
+            }
+        }
+        
+        res.insert(res.begin() + cur, newInterval); // 最後把newInterval插到對應的位置
+        return res;
+    }
+};
