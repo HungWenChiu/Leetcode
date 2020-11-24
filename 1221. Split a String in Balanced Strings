@@ -1,0 +1,20 @@
+// 用一個counter紀錄R&L數量，遇到R，count++，遇到L，count--
+// 如果count = 0，就res++，表示可以多split一個string
+class Solution {
+public:
+    int balancedStringSplit(string s) {
+        
+        if(s.size() <= 1) return 0;
+        int lr_count = (s[0] == 'R') ? 1 : -1;
+        int res = 0;
+        
+        for(int i = 1; i < s.size(); i++)
+        {
+            if(s[i] == 'R') lr_count++;
+            else lr_count--;
+            if(lr_count == 0) res++;
+        }
+        
+        return res;
+    }
+};
