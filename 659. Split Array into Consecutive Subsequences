@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isPossible(vector<int>& nums) {
+        
+        map<int, int> freq; // 紀錄每個數字出現幾次
+        map<int, int> need_mapping; // 紀錄說某個數字應該要被皆在哪一個數開頭的最後面，例如說現在已經有(1,2,3) 則會產生一個maaping: 後面需要接4的數列有幾個
+        
+        for(int i = 0; i < nums.size(); i++)
+            freq[nums[i]]++; //先算出每個數字出現的頻率
+        
+        for(auto num : nums)
+        {
+            if(freq[num] == 0) continue;
+            
+            if(need_mapping[num] > 0) // 看看此數有沒有可以接的數列 > 0 代表至少有一個
+            {
+                need_mapping[num]--;
+                need_mapping[num + 1 ]++;
+            }
+            else if(freq[num + 1] > 0 && freq[num + 2] > 0) // 如果沒有找到mapping的list，則要看看是不是有一個3連數字可以用，就可以創一個新的list
+            {
+                freq[num + 1]--;
+                freq[num + 2]--;
+                need_mapping[num + 3]++; // 創一個新的mapping list
+            }
+            else return false; //沒有連數
+            freq[num]--;
+        }
+        return true;
+        
+    }
+};
