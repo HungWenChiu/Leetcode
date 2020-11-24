@@ -1,0 +1,24 @@
+// 使用輪詢的方式，每次都計算兩個interval的最小區間看看有沒有重疊
+
+class Solution {
+public:
+    vector<vector<int>> intervalIntersection(vector<vector<int>>& A, vector<vector<int>>& B) {
+        
+        vector<vector<int>> res;
+        size_t idx_A = 0, idx_B = 0;
+        
+        while(idx_A < A.size() && idx_B < B.size())
+        {
+            vector<int> tmp(2);
+            tmp[0] = max(A[idx_A][0], B[idx_B][0]);
+            tmp[1] = min(A[idx_A][1], B[idx_B][1]);
+            if(tmp[0] <= tmp[1]) // 表示有overlap
+                res.push_back(tmp);
+            if(A[idx_A][1] > B[idx_B][1])
+                idx_B++;
+            else
+                idx_A++;
+        }
+        return res;
+    }
+};
