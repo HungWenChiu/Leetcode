@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        
+        int count = k;
+        // sort(nums.begin(), nums.end())
+        map<int, int> freq;
+        // map<int, int> seq;
+        
+        sort(nums.begin(), nums.end()); // 原數列不是排序的，所以要sort
+        
+        for(auto num : nums)
+            freq[num]++;
+        
+        for(auto num : nums)
+        {   
+            if(freq[num] == 0)
+                continue;
+            else // 如果沒有可以接的，看看自己能不能當頭
+            {
+                for(int i = 1; i < k; i++) // 需要尋找後面k-1個數有沒有
+                {
+                    if(freq[num + i] == 0) return false;
+                    freq[num + i]--;
+                }       
+                    
+            }
+            freq[num]--;
+        }
+        return true;
+    }
+};
