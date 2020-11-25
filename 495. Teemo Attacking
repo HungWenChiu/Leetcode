@@ -1,0 +1,21 @@
+// 遍歷算出每個i會影響的duration範圍，再減掉有重疊的部分
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        
+        int res = duration;
+        if(timeSeries.size() < 2) return (timeSeries.size() == 0) ? 0 : duration; 
+        
+        for(int i = 1; i < timeSeries.size(); i++)
+        {
+            if(timeSeries[i] <= timeSeries[i - 1] + duration - 1) // 有重疊時間
+                res += timeSeries[i] + duration - 1 - (timeSeries[i - 1] + duration - 1); 
+            // timeSeries[i] + duration - 1: i點影響的時間點，
+            // timeSeries[i - 1] + duration - 1 有重疊的時間點(需要扣掉)
+            else
+                res += duration;
+        }
+        
+        return res;
+    }
+};
