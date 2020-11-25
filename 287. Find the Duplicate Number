@@ -1,36 +1,24 @@
-// 使用binary search 的方式
-// 1. 找出mid的值
-// 2. 遍歷 nums
-// 3. 如果 <= mid的值的個數>mid，表示重複出現在[0, mid](因為mid的值最多只會有mid個)
-// 4. 如果 <= mid的個數 < mid，表示重複出現在[mid + 1, n]
-// 5. 重新給定start end 還有新的mid值重複1~4.
-// 6. 最後start的位置就是多出來的那個數
-
+// cyclic number
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
         
-        int n = nums.size() - 1;
-        // int mid = n / 2;
+        int du_num;
         
-        int start = 0;
-        int end = n;
-        
-        while(start < end)
+        for(int i = 0; i < nums.size(); i++)
         {
-            int ls_eq_mid = 0;
-            int mid = (end + start) / 2;
-            for(int i = 0; i < nums.size(); i++)
-                if(nums[i] <= mid)
-                    ls_eq_mid++;
-            
-            if(ls_eq_mid > mid)
-                end = mid;
-            else
-                start = mid + 1;
-            
+            if(nums[i] != i + 1)
+            {
+                if(nums[i] == nums[nums[i] - 1])
+                {
+                    du_num = nums[i];
+                    break;
+                }
+                swap(nums[i], nums[nums[i] - 1]);
+                i--;
+            }
         }
-        
-        return start;
+       
+        return du_num;
     }
 };
