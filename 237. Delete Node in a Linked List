@@ -1,0 +1,25 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+// 不需要刪掉，而是用複製的
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        
+        ListNode* cur = node->next;
+        while(cur->next)
+        {
+            node->val = cur->val;
+            node = cur;
+            cur = node->next;
+        }
+        node->val = cur->val;
+        node->next = nullptr;
+    }
+};
