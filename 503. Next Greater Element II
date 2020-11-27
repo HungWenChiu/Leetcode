@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        
+        int n = nums.size();
+        vector<int> res(nums.size(), -1);
+        stack<int> s;
+        s.push(0);
+        
+        for(int i = 1; i < n * 2; i++) // 總共需要繞兩次
+        {
+            while(s.size() > 0 && nums[i % n] > nums[s.top()]) // 遇到n個就一個循環開始
+            {
+                res[s.top()] = nums[i % n];
+                s.pop();
+            }
+            s.push(i % n);
+        }
+        return res;
+    }
+};
