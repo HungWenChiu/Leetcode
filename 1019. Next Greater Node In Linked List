@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+// brute force
+// class Solution {
+// public:
+//     vector<int> nextLargerNodes(ListNode* head) {
+        
+        
+//         vector<int> res;
+//         for(; head != nullptr; head = head->next)
+//         {
+//             ListNode* tmp = head->next;
+//             for(; tmp != nullptr; tmp = tmp->next)
+//             {
+//                 if(tmp->val > head->val)
+//                     break;
+//             }
+                
+//             if(tmp)
+//                 res.push_back(tmp->val);
+//             else
+//                 res.push_back(0);
+//         }
+        
+//         return res;
+//     }
+// };
+
+// monotone decreasing stack
+// 方法：stack 裡面存的是數字的index，要保證對應的index的數字一定是單調遞減。
+// 如果下次進來的數字n比stack裡面index對應的數字大，則要把stack裡面index對應比她小的所有index ouput，並在m[index] = n，表示每個數字都遇到next large node。
+// 然後把目前對大的n數字input到stack
+// loop完之後如果stack還有index則把對應的m[index] = 0，表示後面沒有他的next large node。
+// 範例：
+// input: Input: [2,7,4,3,5]
+// output: Output: [7,0,5,5,0]
+// 输入	栈(放的是index)	  结果
+// 2	 [0]	          [0,0,0,0,0]
+// 7	 [1]	          [7,0,0,0,0]
+// 4	 [1,2]	          [7,0,0,0,0]
+// 3	 [1,2,3]	      [7,0,0,0,0]
+// 5	 [1,5]	          [7,0,5,5,0]
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        
+        vector<int> nums;
+        for(ListNode* cur = head; cur != nullptr; cur = cur->next)
+            nums.push_back(cur->val);   // transform linkedlist to array
+        
+        vector<int> res(nums.size(), 0);
+        stack<int> s;
+        s.push(0); // push index 0
+        for(int i = 1; i < nums.size(); i++)
+        {
+            while(s.size() > 0 && nums[i] > nums[s.top()])
+            {
+                res[s.top()] = nums[i];
+                s.pop();
+            }
+            s.push(i);
+        }        
+        
+        return res;
+    }
+};
