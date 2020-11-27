@@ -1,0 +1,39 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+// 照著原樣去塞，去指 需要兩個變數，avg = node_num / k (平均每個array要有幾個數字)
+//                             ext = node_num % k(前ext個array需要多一個數字)
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* root, int k) {
+        
+        vector<ListNode*> res(k, nullptr);
+        int node_num = 0;
+        
+        for(ListNode* tmp = root; tmp != nullptr; tmp = tmp->next) 
+            node_num++; // count the total number of the elements
+        
+        int avg = node_num / k, ext = node_num % k;
+        
+        for(int i = 0; i < k && root; i++) // array index
+        {
+            res[i] = root; // point to the start number of each array
+            for(int j = 1; j < avg + (i < ext); j++) // avg + (i < ext)) means the first ext idx has avg + 1 elements
+                root = root->next;
+            
+            ListNode* tmp = root->next;
+            root->next = nullptr;
+            root = tmp;
+        }
+        
+        return res;
+    }
+};
