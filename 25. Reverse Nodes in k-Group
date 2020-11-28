@@ -1,0 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        ListNode* dummy = new ListNode(-1);
+        dummy->next = head;
+        int num = 0;
+        
+        for(ListNode* tmp = head; tmp; tmp = tmp->next) // 先算出有多少個數
+            num++;
+        
+        int count = num / k; // 在算出有幾組需要reverse，剩下的就不需要
+        ListNode *cur_start = dummy;
+        
+        while(count-- > 0) // 每一組開始reverse
+        {
+            for(int i = 1; i < k; i++) // 幾個數字，從一開始是因為每組的head不需要reverse by itself
+            {
+                ListNode* tmp = head->next;
+                head->next = tmp->next;
+                tmp->next = cur_start->next;
+                cur_start->next = tmp;
+            }
+            cur_start = head;
+            head = head->next;
+        }
+        
+        return dummy->next;
+        
+    }
+};
