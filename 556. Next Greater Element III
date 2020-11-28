@@ -1,0 +1,30 @@
+// 從後面往前找到第一個右邊的數字比她大的數，就是要換的數
+// 再來從右邊開始往前找，找到第一個比digits[swap_idx]還要大的數字，互換
+// 而他後面的數字升序排序
+class Solution {
+public:
+    int nextGreaterElement(int n) {
+        
+        long long int res = 0;
+        int swap_idx;
+        string s = to_string(n);
+        
+        for(swap_idx = s.size() - 2; swap_idx >= 0; swap_idx--)
+            if(s[swap_idx] < s[swap_idx + 1]) break; // 從後面往前找到第一個右邊的數字比她大的數，就是要換的數
+        
+        if(swap_idx == -1) return -1; // 如果找不到表示是降續EX 54321, return -1
+        
+        for(int i = s.size() - 1; i > swap_idx; i--) //再來從右邊開始往前找，找到第一個比digits[swap_idx]還要大的數字，互換
+            if(s[i] > s[swap_idx])
+            {
+                swap(s[i], s[swap_idx]);
+                break;
+            }
+        
+        sort(s.begin() + swap_idx + 1, s.end()); // 後面的要升序排序
+        
+        res = stoll(s);
+        return (res > INT_MAX) ? -1 : res;
+        
+    }
+};
