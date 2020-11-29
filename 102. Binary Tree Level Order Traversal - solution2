@@ -1,6 +1,3 @@
-// use BFS Algorithm and queue
-
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -12,44 +9,30 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+// use BFS & queue
 class Solution {
 public:
-    
-    void BFS_find(vector<vector<int>> &res, queue<TreeNode*> &q){
-        
-        if(q.front() == nullptr) // 如果pointer是空值，return
-            return;
-        
-        while(!q.empty()) // BFS algorithm
-        {
-            vector<int> tmp;
-            int level_num = q.size(); // 先把同level的node個數存起來 ex: level 2有9個數
-            
-            for(int i = 0; i < level_num; i++) // iterate 同level的每個數
-            {
-                tmp.push_back(q.front()->val); // 把同level數字push到tmp
-            
-                if(q.front()->left != nullptr) // 如果有左右節點，放到queue後面當作下一個level
-                    q.push(q.front()->left);
-                if(q.front()->right != nullptr)    
-                    q.push(q.front()->right);
-                
-                q.pop(); // 把已push的node pop out
-                
-            }
-            
-            if(!tmp.empty()) // 把串好的vector push 到array裡面
-                res.push_back(tmp);
-        }
-    }
-    
     vector<vector<int>> levelOrder(TreeNode* root) {
         
-        vector<vector<int>> res = {}; // initial null vector，以防有空的tree case
-        queue<TreeNode*> q; // q 用來存每個level的node
-        q.push(root); // 剛開始把root放進去
+        if(!root) return {};
         
-        BFS_find(res, q);
+        queue<TreeNode*> q;
+        vector<vector<int>> res;
+        q.push(root);
+        while(!q.empty())
+        {
+            int n = q.size();
+            vector<int> tmp(n);
+            for(int i = 0; i < n; i++)
+            {
+                TreeNode* node = q.front();
+                q.pop();
+                tmp[i] = node->val;
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+            res.push_back(tmp);
+        }
         
         return res;
     }
