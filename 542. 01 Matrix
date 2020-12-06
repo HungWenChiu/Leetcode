@@ -1,0 +1,35 @@
+// 使用queue 加上 BFS以0作為起點
+
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        
+        queue<pair<int, int>> q; // 放起點的座標
+        vector<vector<int>> dirs = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+        
+        for(int i = 0; i < matrix.size(); i++) // initialization
+            for(int j = 0; j < matrix[0].size(); j++)
+            {
+                if(matrix[i][j] == 0) q.push({i, j});
+                else matrix[i][j] = INT_MAX; // turn 1 to INT_MAX
+            }
+        
+        while(!q.empty()) // start BFS
+        {
+            pair<int, int> t = q.front();
+            q.pop();
+            for(auto dir : dirs) // check 4 position near the start
+            {
+                int x = t.first + dir[0];
+                int y = t.second + dir[1];
+                
+                if(x >= matrix.size() || x < 0 ||  y < 0 || y >= matrix[0].size() || matrix[x][y] <= matrix[t.first][t.second] + 1) continue; // 越界
+                
+                matrix[x][y] = matrix[t.first][t.second] + 1; // 把周圍比start + 1 大的值放到queue做BFS
+                q.push({x, y});
+            }
+        }
+        
+        return matrix;
+    }
+};
