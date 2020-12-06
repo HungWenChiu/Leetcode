@@ -33,30 +33,51 @@ public:
 // };
 
 
-// iterative 寫法
+// queue + iteration 的寫法
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
 class Solution {
 public:
     Node* connect(Node* root) {
         
-        if(root == nullptr) return nullptr;
+        if(!root) return nullptr;
+        queue<Node*> q{{root}};
         
-        Node* curptr = root; // curptr 為目前指到的node
-        root->next = nullptr;
-        Node* head = root; // 指向每一層的第一個node
-        
-        while(curptr != nullptr)
+        while(!q.empty())
         {
-            if(curptr->left) curptr->left->next = curptr->right;
-            if(curptr->right) curptr->right->next = (curptr->next) ? curptr->next->left : nullptr;
-            if(curptr->next) curptr = curptr->next; // 如果next不是nullptr，就往同層的下一個node指
-            else // 如果是nullptr，則指到head->left 下一層
+            int n = q.size();
+            for(int i = 0; i < n; i++)
             {
-                curptr = head->left;
-                head = head->left; // head指到下一層的最左邊
+                Node* t = q.front();
+                q.pop();
+            
+                if(i == n - 1) 
+                    t->next = nullptr; // the last one needs to point to NULL
+                else
+                    t->next = q.front(); // only the No.0 to No.n - 2 nodes need to point to the next sibling
+                
+                if(t->left) q.push(t->left); // push its children
+                if(t->right) q.push(t->right);
             }
         }
         
         return root;
-        
     }
 };
+
