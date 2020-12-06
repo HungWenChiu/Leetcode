@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    
+    static bool sort_method(pair<int, int>& a, pair<int, int>& b){
+        return (a.second == b.second) ? a.first < b.first : a.second < b.second; // X軸相同情況下，表示重疊，則小的數字要排前面，如果X軸不相同，則照X軸小到大去排
+    }
+    
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        
+        vector<vector<int>> res;
+        map<int, vector<int>> m;
+        queue<pair<TreeNode*, int>> q;
+        q.push({root, 0}); // store node and coordination
+        
+        while(!q.empty())
+        {
+            int n = q.size();
+            vector<pair<int, int>> same_lv; // 第一個數字存值, 第二個存x軸，來判斷如果相同level之下，x軸又相同，表示重疊，則小的數要在前面 
+            
+            for(int i = 0; i < n; i++)
+            {
+                auto t = q.front();
+                same_lv.push_back({t.first->val, t.second});
+                if(t.first->left) q.push({t.first->left, t.second - 1});
+                if(t.first->right) q.push({t.first->right, t.second + 1});
+                q.pop();
+            }
+            
+            sort(same_lv.begin(), same_lv.end(), sort_method);
+            
+            for(int i = 0; i < same_lv.size(); i++) // 把這一層的所有數字依序push到相對應x座標的vector裡面去
+                m[same_lv[i].second].push_back(same_lv[i].first);
+        }
+        
+        for(auto e : m)
+            res.push_back(e.second);
+        
+        return res;
+    }
+};
