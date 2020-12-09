@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findMaximizedCapital(int k, int W, vector<int>& Profits, vector<int>& Capital) {
+            
+        // 從資本<=W中先選擇利潤最大的
+        priority_queue<int> pf; // 所有候選的capital裡面，利潤最大的queue
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> cp; // 資本最小->利潤 queue        
+            
+        for(int i = 0; i < Capital.size(); i++)
+            cp.push({Capital[i], Profits[i]}); // 把capital -> profits以最小queue放進去
+        
+        for(int i = 0; i < k; i++)
+        {
+            while(!cp.empty() && cp.top().first <= W)
+            {
+                pf.push(cp.top().second); // 把所有 <= W的profits放到最大queue
+                cp.pop();
+            }
+            
+            if(!pf.empty()) // 接下來把所有候選的profits抓最大的出來
+            {
+                W += pf.top();
+                pf.pop();
+            }
+        }
+        
+        return W;
+        
+    }
+};
