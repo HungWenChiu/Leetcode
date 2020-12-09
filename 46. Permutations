@@ -1,36 +1,30 @@
 class Solution {
 public:
     
-    void get_sequence(vector<vector<int>> &res, vector<int> sub_array, vector<int> nums)
-    {
-        if(nums.empty())
+    void get_perm(vector<int>& nums, vector<vector<int>>& res, vector<int>& per){
+        
+        if(nums.size() == 0) // 表示數都被抽完了
         {
-            res.push_back(sub_array);
+            res.push_back(per);
             return;
         }
-        else
+         
+        for(int i = 0; i < nums.size(); i++)
         {
-            
-            for(int i = 0; i < nums.size(); i++)
-            {
-                vector<int> tmp = sub_array;
-                vector<int> tmp2 = nums;
-                tmp.push_back(nums[i]);
-                tmp2.erase(tmp2.begin() + i);
-                get_sequence(res, tmp, tmp2);
-            }
+            int tmp = nums[i];
+            per.push_back(tmp); // 放一個數
+            nums.erase(nums.begin() + i); // 把這數在nums抽掉
+            get_perm(nums, res, per); // 剩餘的數字在做排列
+            nums.insert(nums.begin() + i, tmp); // 把原本的數字加回來
+            per.pop_back(); // 換下一個數排列,原本數字pop out
         }
     }
     
     vector<vector<int>> permute(vector<int>& nums) {
         
         vector<vector<int>> res;
-        
-        if(nums.size() == 0 || nums.size() == 1)
-            res.push_back(nums);
-        else
-            get_sequence(res, {}, nums);
-        
+        vector<int> per;
+        get_perm(nums, res, per);
         return res;
     }
 };
