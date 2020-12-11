@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+    void get_per(string& S, vector<string>& res, int idx){
+        
+        if(idx == S.size())
+        {
+            res.push_back(S);
+            return;
+        }
+        
+        get_per(S, res, idx + 1); // 先往下找原本的letter
+        
+        if(S[idx] > '9') // letter 非數字
+        {
+            S[idx] ^= 32; // letter跟32位元互相XOR，可以在大小之間作轉換
+            get_per(S, res, idx + 1); // 再把轉換後的Ｓ做recursion
+        }
+    }
+    
+    vector<string> letterCasePermutation(string S) {
+        
+        vector<string> res;
+        get_per(S, res, 0);
+        
+        return res;
+        
+    }
+};
