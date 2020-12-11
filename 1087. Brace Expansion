@@ -1,0 +1,48 @@
+class Solution {
+public:
+    
+    void get_per(string& S, vector<string>& res, string& subset, int idx){
+        
+        if(idx == S.size())
+        {
+            res.push_back(subset);
+            return;
+        }
+        
+        if(S[idx] == '{')
+        {
+            int new_idx = idx + 1;
+            string tmp = "";
+            
+            while(S[new_idx] != '}')
+            {
+                if(S[new_idx] != ',')
+                    tmp += (S[new_idx]);
+                new_idx++;
+            }
+               
+    
+            for(int i = 0; i < tmp.size(); i++)
+            {
+                subset.push_back(tmp[i]);
+                get_per(S, res, subset, new_idx + 1);
+                subset.pop_back();
+            }
+        }
+        else
+        {
+            subset.push_back(S[idx]);
+            get_per(S, res, subset, idx + 1);
+            subset.pop_back();
+        }
+        
+    }
+    vector<string> expand(string S) {
+        
+        vector<string> res;
+        string subset;
+        get_per(S, res, subset, 0);
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
