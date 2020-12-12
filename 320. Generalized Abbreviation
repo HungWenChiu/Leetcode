@@ -1,0 +1,29 @@
+// DFS
+class Solution {
+public:
+    
+    void DFS(string& word, vector<string>& res, int idx, int num, string cur){ // num 為目前累加的數字，idx為目前走到的地方，cur為目前處理到的子字串
+        if(idx == word.size())
+        {
+            if(num != 0)
+                cur = cur + to_string(num); // 目前算出來的num + 加目前已經處理的子字串(EX: wo+2)
+            res.push_back(cur);
+            return;
+        }
+        
+        // 接下去有兩種情形
+        // 1. 這個word[idx]不打算算成一個字元，把它加到前面的abbreviation
+        // 2. 這個word[idx]算成一個字元，所以cur + 目前累積num + word[idx] 
+        DFS(word, res, idx + 1, num + 1, cur); //case 1.
+        DFS(word, res, idx + 1, 0, cur + ((num == 0) ? "" : to_string(num)) + word[idx]); // case 2
+
+    }
+    
+    vector<string> generateAbbreviations(string word) {
+        
+        vector<string> res;
+        DFS(word, res, 0, 0, "");
+        
+        return res;
+    }
+};
