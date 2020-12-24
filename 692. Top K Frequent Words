@@ -1,0 +1,35 @@
+class Solution {
+public:
+    struct Cmp{
+        
+        bool operator() (pair<int, string>& a, pair<int, string>& b){
+            return (a.first < b.first) || (a.first == b.first && a.second > b.second);
+        }
+    };
+
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        
+        priority_queue<pair<int, string>, vector<pair<int, string>>, Cmp> pq;
+        map<string, int> m;
+        vector<string> res;
+        
+        for(auto w : words)
+            m[w]++;
+        
+        for(auto e : m)
+            pq.push({e.second, e.first});
+            
+        for(int i = 0; i < k; i++)
+        {
+            res.push_back(pq.top().second);
+            pq.pop();
+        }
+        
+        return res;
+    }
+};
+
+// "i" = 2
+// "love" = 2
+// "leetcode" = 1
+// "coding" = 1
