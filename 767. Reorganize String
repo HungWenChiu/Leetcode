@@ -1,0 +1,38 @@
+// 字母最多的先ouput出來排，後面的插中間
+class Solution {
+public:
+    string reorganizeString(string S) {
+        
+        priority_queue<pair<int, char>> pq;
+        map<char, int> m;
+        string res = "";
+        int total_count = S.size();
+        
+        for(auto c : S )
+            m[c]++;
+        
+        for(auto e : m)
+        {
+            if(e.second > (S.size() + 1) / 2) return ""; // 字母超過總字串一半表示一定有字母會連續
+            pq.push({e.second, e.first});
+        }
+            
+        while(pq.size() >= 2) // 一次從top取兩個排列確保不會有連續字母
+        {
+            auto a = pq.top();
+            pq.pop();
+            auto b = pq.top();
+            pq.pop();
+            
+            res.push_back(a.second);
+            res.push_back(b.second);
+            
+            if(--a.first) pq.push(a);
+            if(--b.first) pq.push(b);
+        }
+        
+        if(!pq.empty()) res.push_back(pq.top().second);
+      
+        return res;
+    }
+};
