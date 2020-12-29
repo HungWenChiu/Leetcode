@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+    int findLeastNumOfUniqueInts(vector<int>& arr, int k) {
+        
+        map<int, int> m; // 紀錄數字跟出現次數
+        vector<int> freq; // 紀錄出現頻率
+        
+        for(int i = 0; i < arr.size(); i++)
+            m[arr[i]]++;
+        
+        for(auto e : m)
+            freq.push_back(e.second);
+        
+        sort(freq.begin(), freq.end());
+        int i = 0, res = freq.size();
+        
+        while(k-- > 0)
+        {
+            if(--freq[i] == 0)
+            {
+                i++;
+                res--;
+            }
+        }
+    
+        return res;
+    }
+};
