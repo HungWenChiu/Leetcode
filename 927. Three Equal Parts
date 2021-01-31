@@ -1,0 +1,60 @@
+// 先從後面計算3rd的part有多少個1，以及排列
+// 在找第一part的1跟第3part的有沒有一樣
+// 在找第二part的1跟第3part的有沒有一樣
+class Solution {
+public:
+    
+    int Cmp(vector<int>& arr, int left, int right){
+        
+        while(arr[left] == 0) // find the first 1
+            left++;
+            
+        while(right < arr.size())
+        {
+            if(arr[right] != arr[left]) return -1; // the position of 1 does not match
+            right++;
+            left++;
+        }
+        
+        return left - 1; // return end index
+    }
+    
+    vector<int> threeEqualParts(vector<int>& arr) {
+        
+        int n = arr.size();
+        int cntOne = 0;
+        
+        // count the # of 1 first
+        for(int i = 0; i < n; i++)
+            if(arr[i] == 1)
+                cntOne++;
+        
+        if(cntOne == 0) return {0, n - 1}; // there is no 1 in the arr
+        if(cntOne % 3 != 0) return {-1, -1}; // cannot split it into 3 parts
+        
+        int idx3rd; // find the 3rd part index
+        int cntOne3rd = 0;
+        
+        // get the 3rd part start index
+        for(int i = n - 1; i >= 0; i--) 
+        {
+            cntOne3rd += arr[i];
+            if(cntOne3rd == (cntOne / 3))
+            {
+                idx3rd = i;
+                break;
+            }
+                
+        }
+        
+        // match the 3rd part and 1st part
+        int oneEndIdx = Cmp(arr, 0, idx3rd);
+        if(oneEndIdx == -1) return {-1, -1}; // cannot match
+        
+        // match the 2nd part and 3rd part
+        int secEndIdx = Cmp(arr, oneEndIdx + 1, idx3rd);
+        if(secEndIdx == -1) return {-1, -1}; // cannot match
+        
+        return {oneEndIdx, secEndIdx + 1};
+    }
+};
